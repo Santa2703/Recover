@@ -1,0 +1,155 @@
+[
+  {
+    "id": "RT-1006",
+    "predicted": 1560,
+    "actual": 1730,
+    "evidenceDoc": "Certified recycler weight slip",
+    "erpRef": "SAP-FI-1508",
+    "reportedAt": "2026-11-20",
+    "status": "pending_invoice"
+  },
+  {
+    "id": "RT-1012",
+    "predicted": 160,
+    "actual": 180,
+    "evidenceDoc": "Sales invoice INV-88400",
+    "erpRef": "SAP-FI-8826",
+    "reportedAt": "2026-11-11",
+    "status": "pending_invoice"
+  },
+  {
+    "id": "RT-1019",
+    "predicted": 40,
+    "actual": 40,
+    "evidenceDoc": "Certified recycler weight slip",
+    "erpRef": "SAP-FI-1267",
+    "reportedAt": "2026-11-16",
+    "status": "confirmed"
+  },
+  {
+    "id": "RT-1020",
+    "predicted": 6920,
+    "actual": 5970,
+    "evidenceDoc": "Sales invoice INV-88401",
+    "erpRef": "SAP-FI-3907",
+    "reportedAt": "2026-11-16",
+    "status": "pending_invoice"
+  },
+  {
+    "id": "RT-1030",
+    "predicted": 100,
+    "actual": 80,
+    "evidenceDoc": "Parts depot certified manifest",
+    "erpRef": "SAP-FI-1399",
+    "reportedAt": "2026-11-20",
+    "status": "confirmed"
+  },
+  {
+    "id": "RT-1031",
+    "predicted": 110,
+    "actual": 110,
+    "evidenceDoc": "Parts depot certified manifest",
+    "erpRef": "SAP-FI-8272",
+    "reportedAt": "2026-11-13",
+    "status": "confirmed"
+  },
+  {
+    "id": "RT-1045",
+    "predicted": 120,
+    "actual": 120,
+    "evidenceDoc": "Certified recycler weight slip",
+    "erpRef": "SAP-FI-4491",
+    "reportedAt": "2026-11-14",
+    "status": "confirmed"
+  },
+  {
+    "id": "RT-1046",
+    "predicted": 1230,
+    "actual": 1290,
+    "evidenceDoc": "Site intake transfer receipt",
+    "erpRef": "SAP-FI-9657",
+    "reportedAt": "2026-11-13",
+    "status": "confirmed"
+  },
+  {
+    "id": "RT-1052",
+    "predicted": 1180,
+    "actual": 1250,
+    "evidenceDoc": "Sales invoice INV-88402",
+    "erpRef": "SAP-FI-2540",
+    "reportedAt": "2026-11-20",
+    "status": "confirmed"
+  },
+  {
+    "id": "RT-1054",
+    "predicted": 750,
+    "actual": 760,
+    "evidenceDoc": "Certified recycler weight slip",
+    "erpRef": "SAP-FI-4880",
+    "reportedAt": "2026-11-15",
+    "status": "pending_invoice"
+  },
+  {
+    "id": "RT-1062",
+    "predicted": 450,
+    "actual": 440,
+    "evidenceDoc": "Site intake transfer receipt",
+    "erpRef": "SAP-FI-2097",
+    "reportedAt": "2026-11-20",
+    "status": "pending_invoice"
+  },
+  {
+    "id": "RT-1068",
+    "predicted": 3730,
+    "actual": 3450,
+    "evidenceDoc": "Parts depot certified manifest",
+    "erpRef": "SAP-FI-4101",
+    "reportedAt": "2026-11-18",
+    "status": "confirmed"
+  },
+  {
+    "id": "RT-1069",
+    "predicted": 130,
+    "actual": 110,
+    "evidenceDoc": "Sales invoice INV-88403",
+    "erpRef": "SAP-FI-1469",
+    "reportedAt": "2026-11-20",
+    "status": "confirmed"
+  },
+  {
+    "id": "RT-1077",
+    "predicted": 40,
+    "actual": 40,
+    "evidenceDoc": "Sales invoice INV-88404",
+    "erpRef": "SAP-FI-1399",
+    "reportedAt": "2026-11-13",
+    "status": "pending_invoice"
+  },
+  {
+    "id": "RT-1083",
+    "predicted": 260,
+    "actual": 240,
+    "evidenceDoc": "Site intake transfer receipt",
+    "erpRef": "SAP-FI-9172",
+    "reportedAt": "2026-11-13",
+    "status": "pending_invoice"
+  },
+  {
+    "id": "RT-1087",
+    "predicted": 40,
+    "actual": 40,
+    "evidenceDoc": "Parts depot certified manifest",
+    "erpRef": "SAP-FI-2849",
+    "reportedAt": "2026-11-14",
+    "status": "pending_invoice"
+  },
+  {
+    "id": "RT-1092",
+    "predicted": 270,
+    "actual": 220,
+    "evidenceDoc": "Sales invoice INV-88405",
+    "erpRef": "SAP-FI-2554",
+    "reportedAt": "2026-11-13",
+    "status": "confirmed"
+  }
+]

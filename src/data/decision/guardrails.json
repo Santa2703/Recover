@@ -1,0 +1,44 @@
+[
+  {
+    "id": "GR-01",
+    "title": "Grade C/D never re-leased without refurbishment",
+    "description": "Secondary Re-lease always includes a full refurbishment; grade D and scrap are never re-leased.",
+    "owner": "Repair center lead",
+    "locked": true
+  },
+  {
+    "id": "GR-02",
+    "title": "Refurbishment always ends in a named lease or sales order",
+    "description": "A refurbishment slot is only used against a named lease order or renewal.",
+    "owner": "Finance",
+    "locked": true
+  },
+  {
+    "id": "GR-03",
+    "title": "Parts certified only at or above the fit-for-use threshold",
+    "description": "Harvested parts count only when their remaining life is at least the fit-for-use threshold (50 %).",
+    "owner": "Service parts planner",
+    "locked": true
+  },
+  {
+    "id": "GR-04",
+    "title": "Holding cost rate set by Finance",
+    "description": "The holding cost per day is a Finance policy rate and cannot be changed by a business rule.",
+    "owner": "Finance",
+    "locked": true
+  },
+  {
+    "id": "GR-05",
+    "title": "Every decision approved by a named owner",
+    "description": "No route is executed until a named owner approves it.",
+    "owner": "Head of asset recovery",
+    "locked": true
+  },
+  {
+    "id": "GR-06",
+    "title": "Exit and material only through a certified provider",
+    "description": "Material Recovery and Responsible Exit use certified providers with a certificate on file.",
+    "owner": "Sustainability lead",
+    "locked": true
+  }
+]

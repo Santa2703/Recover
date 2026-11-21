@@ -1,0 +1,91 @@
+[
+  {
+    "id": "srv-salesforce",
+    "name": "Salesforce MCP",
+    "vendor": "Salesforce",
+    "status": "connected",
+    "endpoint": "https://northfield.my.salesforce.com/services/mcp/v1",
+    "transport": "Streamable HTTP",
+    "authType": "OAuth 2.0",
+    "health": 99.6,
+    "latencyMs": 210,
+    "lastActivity": "2026-11-20T08:58:00Z",
+    "connectedAt": "2026-06-02T10:00:00Z",
+    "tools": [
+      { "name": "soql_query", "description": "Run a read-only SOQL query against permitted objects", "scope": "read_only" },
+      { "name": "get_account", "description": "Fetch account, contacts and open opportunities", "scope": "read_only" },
+      { "name": "update_case", "description": "Update a service case status and comments", "scope": "write_gated" },
+      { "name": "create_task", "description": "Create a follow-up task for an account owner", "scope": "write_gated" }
+    ]
+  },
+  {
+    "id": "srv-servicenow",
+    "name": "ServiceNow MCP",
+    "vendor": "ServiceNow",
+    "status": "connected",
+    "endpoint": "https://northfield.service-now.com/api/now/mcp",
+    "transport": "Streamable HTTP",
+    "authType": "OAuth 2.0",
+    "health": 98.9,
+    "latencyMs": 340,
+    "lastActivity": "2026-11-20T08:41:00Z",
+    "connectedAt": "2026-07-14T09:30:00Z",
+    "tools": [
+      { "name": "incident_lookup", "description": "Read incidents linked to an asset tag", "scope": "read_only" },
+      { "name": "cmdb_ci_get", "description": "Read configuration item attributes from the CMDB", "scope": "read_only" },
+      { "name": "change_request_create", "description": "Raise a change request for decommissioning", "scope": "write_gated" }
+    ]
+  },
+  {
+    "id": "srv-sapbtp",
+    "name": "SAP BTP MCP",
+    "vendor": "SAP",
+    "status": "degraded",
+    "endpoint": "https://mcp.cfapps.eu10.hana.ondemand.com/northfield",
+    "transport": "SSE",
+    "authType": "mTLS",
+    "health": 94.2,
+    "latencyMs": 1180,
+    "lastActivity": "2026-11-20T08:12:00Z",
+    "connectedAt": "2026-05-20T08:00:00Z",
+    "tools": [
+      { "name": "fi_aa_asset_get", "description": "Read fixed-asset master data", "scope": "read_only" },
+      { "name": "fi_aa_retire", "description": "Post asset retirement", "scope": "write_gated" },
+      { "name": "mm_material_get", "description": "Read material master and valuation", "scope": "read_only" }
+    ]
+  },
+  {
+    "id": "srv-snowflake",
+    "name": "Snowflake MCP",
+    "vendor": "Snowflake",
+    "status": "connected",
+    "endpoint": "https://nf-analytics.snowflakecomputing.com/mcp",
+    "transport": "Streamable HTTP",
+    "authType": "Key pair",
+    "health": 99.9,
+    "latencyMs": 460,
+    "lastActivity": "2026-11-20T07:55:00Z",
+    "connectedAt": "2026-08-01T12:00:00Z",
+    "tools": [
+      { "name": "run_sql", "description": "Run a read-only query on the RETURNS_MART schema", "scope": "read_only" },
+      { "name": "describe_table", "description": "List columns and row counts for a table", "scope": "read_only" }
+    ]
+  },
+  {
+    "id": "srv-jira",
+    "name": "Atlassian Jira MCP",
+    "vendor": "Atlassian",
+    "status": "disconnected",
+    "endpoint": "https://mcp.atlassian.com/v1/sse",
+    "transport": "SSE",
+    "authType": "API key",
+    "health": 0,
+    "latencyMs": 0,
+    "lastActivity": "2026-11-12T15:20:00Z",
+    "connectedAt": null,
+    "tools": [
+      { "name": "search_issues", "description": "JQL search across permitted projects", "scope": "read_only" },
+      { "name": "create_issue", "description": "Create an issue in the RETURNS project", "scope": "write_gated" }
+    ]
+  }
+]

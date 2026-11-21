@@ -1,0 +1,272 @@
+[
+  {
+    "id": "RT-1003",
+    "submittedAt": "2026-11-14T10:00:00Z",
+    "confidence": 75,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1009",
+    "submittedAt": "2026-11-15T12:00:00Z",
+    "confidence": 81,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1011",
+    "submittedAt": "2026-11-15T14:00:00Z",
+    "confidence": 89,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1017",
+    "submittedAt": "2026-11-16T13:00:00Z",
+    "confidence": 83,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1018",
+    "submittedAt": "2026-11-19T11:00:00Z",
+    "confidence": 82,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1022",
+    "submittedAt": "2026-11-16T08:00:00Z",
+    "confidence": 85,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1024",
+    "submittedAt": "2026-11-17T16:00:00Z",
+    "confidence": 87,
+    "trigger": "Low-value route: write-down needs approver sign-off"
+  },
+  {
+    "id": "RT-1025",
+    "submittedAt": "2026-11-20T04:00:00Z",
+    "confidence": 86,
+    "trigger": "Low-value route: write-down needs approver sign-off"
+  },
+  {
+    "id": "RT-1028",
+    "submittedAt": "2026-11-16T13:00:00Z",
+    "confidence": 85,
+    "trigger": "Low-value route: write-down needs approver sign-off"
+  },
+  {
+    "id": "RT-1029",
+    "submittedAt": "2026-11-14T16:00:00Z",
+    "confidence": 86,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1033",
+    "submittedAt": "2026-11-18T15:00:00Z",
+    "confidence": 75,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1037",
+    "submittedAt": "2026-11-19T10:00:00Z",
+    "confidence": 82,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1040",
+    "submittedAt": "2026-11-18T16:00:00Z",
+    "confidence": 83,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1048",
+    "submittedAt": "2026-11-15T15:00:00Z",
+    "confidence": 80,
+    "trigger": "Net recovery above the $5k autonomous sign-off limit"
+  },
+  {
+    "id": "RT-1051",
+    "submittedAt": "2026-11-19T13:00:00Z",
+    "confidence": 77,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1055",
+    "submittedAt": "2026-11-18T09:00:00Z",
+    "confidence": 81,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1060",
+    "submittedAt": "2026-11-20T03:00:00Z",
+    "confidence": 86,
+    "trigger": "Low-value route: write-down needs approver sign-off"
+  },
+  {
+    "id": "RT-1061",
+    "submittedAt": "2026-11-16T16:00:00Z",
+    "confidence": 80,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1063",
+    "submittedAt": "2026-11-19T11:00:00Z",
+    "confidence": 89,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1064",
+    "submittedAt": "2026-11-18T11:00:00Z",
+    "confidence": 87,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1066",
+    "submittedAt": "2026-11-17T13:00:00Z",
+    "confidence": 82,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1070",
+    "submittedAt": "2026-11-14T12:00:00Z",
+    "confidence": 83,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1072",
+    "submittedAt": "2026-11-16T13:00:00Z",
+    "confidence": 87,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1074",
+    "submittedAt": "2026-11-17T14:00:00Z",
+    "confidence": 84,
+    "trigger": "Net recovery above the $5k autonomous sign-off limit"
+  },
+  {
+    "id": "RT-1076",
+    "submittedAt": "2026-11-18T14:00:00Z",
+    "confidence": 88,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1078",
+    "submittedAt": "2026-11-16T11:00:00Z",
+    "confidence": 75,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1079",
+    "submittedAt": "2026-11-18T15:00:00Z",
+    "confidence": 76,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1080",
+    "submittedAt": "2026-11-20T07:00:00Z",
+    "confidence": 87,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1081",
+    "submittedAt": "2026-11-18T09:00:00Z",
+    "confidence": 81,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1084",
+    "submittedAt": "2026-11-14T09:00:00Z",
+    "confidence": 78,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1086",
+    "submittedAt": "2026-11-19T12:00:00Z",
+    "confidence": 83,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1095",
+    "submittedAt": "2026-11-20T08:00:00Z",
+    "confidence": 85,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1097",
+    "submittedAt": "2026-11-14T15:00:00Z",
+    "confidence": 88,
+    "trigger": "Net recovery above the $5k autonomous sign-off limit"
+  },
+  {
+    "id": "RT-1098",
+    "submittedAt": "2026-11-15T10:00:00Z",
+    "confidence": 86,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1101",
+    "submittedAt": "2026-11-19T08:00:00Z",
+    "confidence": 83,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1103",
+    "submittedAt": "2026-11-16T10:00:00Z",
+    "confidence": 78,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1104",
+    "submittedAt": "2026-11-17T14:00:00Z",
+    "confidence": 77,
+    "trigger": "Low-value route: write-down needs approver sign-off"
+  },
+  {
+    "id": "RT-1105",
+    "submittedAt": "2026-11-14T10:00:00Z",
+    "confidence": 77,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1109",
+    "submittedAt": "2026-11-14T09:00:00Z",
+    "confidence": 85,
+    "trigger": "Tenant policy: every disposition needs human sign-off"
+  },
+  {
+    "id": "RT-1110",
+    "submittedAt": "2026-11-20T08:00:00Z",
+    "confidence": 84,
+    "trigger": "Low-value route: write-down needs approver sign-off"
+  },
+  {
+    "id": "RT-1111",
+    "submittedAt": "2026-11-14T08:00:00Z",
+    "confidence": 88,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1118",
+    "submittedAt": "2026-11-19T16:00:00Z",
+    "confidence": 80,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1125",
+    "submittedAt": "2026-11-16T10:00:00Z",
+    "confidence": 87,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1126",
+    "submittedAt": "2026-11-19T13:00:00Z",
+    "confidence": 72,
+    "trigger": "Approval overdue: value decaying while it waits"
+  },
+  {
+    "id": "RT-1128",
+    "submittedAt": "2026-11-15T14:00:00Z",
+    "confidence": 81,
+    "trigger": "Approval overdue: value decaying while it waits"
+  }
+]

@@ -1,0 +1,230 @@
+[
+  {
+    "month": "Nov 25",
+    "predictedRecovery": 150000,
+    "actualRecovery": 134000,
+    "recoveryYield": 0.893,
+    "decisionsClosed": 101,
+    "avoidedSpend": 95000,
+    "co2AvoidedT": 14.4,
+    "cycleTimeDays": 26.5,
+    "routeMix": {
+      "redeploy": 28,
+      "resale": 20,
+      "intparts": 17,
+      "relase": 8,
+      "material": 12,
+      "extparts": 10,
+      "exit": 3
+    }
+  },
+  {
+    "month": "Dec 25",
+    "predictedRecovery": 178000,
+    "actualRecovery": 162000,
+    "recoveryYield": 0.91,
+    "decisionsClosed": 110,
+    "avoidedSpend": 115000,
+    "co2AvoidedT": 17.4,
+    "cycleTimeDays": 25.3,
+    "routeMix": {
+      "redeploy": 30,
+      "resale": 28,
+      "intparts": 15,
+      "relase": 10,
+      "material": 8,
+      "extparts": 8,
+      "exit": 3
+    }
+  },
+  {
+    "month": "Jan 26",
+    "predictedRecovery": 199000,
+    "actualRecovery": 182000,
+    "recoveryYield": 0.913,
+    "decisionsClosed": 103,
+    "avoidedSpend": 129000,
+    "co2AvoidedT": 19.6,
+    "cycleTimeDays": 25.1,
+    "routeMix": {
+      "redeploy": 28,
+      "resale": 26,
+      "intparts": 14,
+      "relase": 10,
+      "material": 8,
+      "extparts": 6,
+      "exit": 4
+    }
+  },
+  {
+    "month": "Feb 26",
+    "predictedRecovery": 207000,
+    "actualRecovery": 193000,
+    "recoveryYield": 0.932,
+    "decisionsClosed": 132,
+    "avoidedSpend": 137000,
+    "co2AvoidedT": 20.8,
+    "cycleTimeDays": 25.5,
+    "routeMix": {
+      "redeploy": 26,
+      "resale": 26,
+      "intparts": 18,
+      "relase": 10,
+      "material": 12,
+      "extparts": 7,
+      "exit": 3
+    }
+  },
+  {
+    "month": "Mar 26",
+    "predictedRecovery": 202000,
+    "actualRecovery": 186000,
+    "recoveryYield": 0.919,
+    "decisionsClosed": 125,
+    "avoidedSpend": 132000,
+    "co2AvoidedT": 20,
+    "cycleTimeDays": 23.7,
+    "routeMix": {
+      "redeploy": 27,
+      "resale": 27,
+      "intparts": 14,
+      "relase": 11,
+      "material": 12,
+      "extparts": 7,
+      "exit": 5
+    }
+  },
+  {
+    "month": "Apr 26",
+    "predictedRecovery": 188000,
+    "actualRecovery": 176000,
+    "recoveryYield": 0.937,
+    "decisionsClosed": 95,
+    "avoidedSpend": 125000,
+    "co2AvoidedT": 18.9,
+    "cycleTimeDays": 24.3,
+    "routeMix": {
+      "redeploy": 22,
+      "resale": 27,
+      "intparts": 15,
+      "relase": 8,
+      "material": 11,
+      "extparts": 10,
+      "exit": 3
+    }
+  },
+  {
+    "month": "May 26",
+    "predictedRecovery": 171000,
+    "actualRecovery": 162000,
+    "recoveryYield": 0.945,
+    "decisionsClosed": 110,
+    "avoidedSpend": 115000,
+    "co2AvoidedT": 17.4,
+    "cycleTimeDays": 22.4,
+    "routeMix": {
+      "redeploy": 22,
+      "resale": 26,
+      "intparts": 18,
+      "relase": 12,
+      "material": 12,
+      "extparts": 10,
+      "exit": 3
+    }
+  },
+  {
+    "month": "Jun 26",
+    "predictedRecovery": 159000,
+    "actualRecovery": 152000,
+    "recoveryYield": 0.956,
+    "decisionsClosed": 130,
+    "avoidedSpend": 108000,
+    "co2AvoidedT": 16.3,
+    "cycleTimeDays": 23.3,
+    "routeMix": {
+      "redeploy": 28,
+      "resale": 24,
+      "intparts": 13,
+      "relase": 12,
+      "material": 9,
+      "extparts": 9,
+      "exit": 5
+    }
+  },
+  {
+    "month": "Jul 26",
+    "predictedRecovery": 158000,
+    "actualRecovery": 147000,
+    "recoveryYield": 0.933,
+    "decisionsClosed": 106,
+    "avoidedSpend": 104000,
+    "co2AvoidedT": 15.8,
+    "cycleTimeDays": 21.7,
+    "routeMix": {
+      "redeploy": 23,
+      "resale": 28,
+      "intparts": 14,
+      "relase": 9,
+      "material": 12,
+      "extparts": 6,
+      "exit": 6
+    }
+  },
+  {
+    "month": "Aug 26",
+    "predictedRecovery": 171000,
+    "actualRecovery": 161000,
+    "recoveryYield": 0.94,
+    "decisionsClosed": 134,
+    "avoidedSpend": 114000,
+    "co2AvoidedT": 17.3,
+    "cycleTimeDays": 22.7,
+    "routeMix": {
+      "redeploy": 30,
+      "resale": 25,
+      "intparts": 12,
+      "relase": 12,
+      "material": 9,
+      "extparts": 9,
+      "exit": 4
+    }
+  },
+  {
+    "month": "Sep 26",
+    "predictedRecovery": 194000,
+    "actualRecovery": 187000,
+    "recoveryYield": 0.963,
+    "decisionsClosed": 122,
+    "avoidedSpend": 133000,
+    "co2AvoidedT": 20.1,
+    "cycleTimeDays": 22.5,
+    "routeMix": {
+      "redeploy": 30,
+      "resale": 21,
+      "intparts": 12,
+      "relase": 10,
+      "material": 9,
+      "extparts": 8,
+      "exit": 4
+    }
+  },
+  {
+    "month": "Oct 26",
+    "predictedRecovery": 223000,
+    "actualRecovery": 213000,
+    "recoveryYield": 0.957,
+    "decisionsClosed": 116,
+    "avoidedSpend": 151000,
+    "co2AvoidedT": 22.9,
+    "cycleTimeDays": 21.2,
+    "routeMix": {
+      "redeploy": 23,
+      "resale": 20,
+      "intparts": 18,
+      "relase": 11,
+      "material": 9,
+      "extparts": 7,
+      "exit": 6
+    }
+  }
+]

@@ -1,0 +1,395 @@
+[
+  {
+    "id": "sap_asset_lookup",
+    "name": "sap_asset_lookup",
+    "server": "SAP ERP",
+    "description": "Fetch original purchase price, capitalisation date and depreciation schedule for a returned asset from SAP FI-AA.",
+    "scope": "read_only",
+    "risk": "low",
+    "approvalRequired": false,
+    "enabled": true,
+    "authorizedRoles": ["Planner", "Approver", "Finance"],
+    "lastUsed": "2026-11-20T08:48:00Z",
+    "avgLatencyMs": 420,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId", "companyCode"],
+      "properties": {
+        "caseId": { "type": "string", "pattern": "^RT-\\d{4}$" },
+        "companyCode": { "type": "string", "description": "SAP company code, e.g. 1000" },
+        "includeSchedule": { "type": "boolean", "default": true }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "assetNumber": { "type": "string" },
+        "acquisitionValue": { "type": "number" },
+        "netBookValue": { "type": "number" },
+        "currency": { "type": "string" },
+        "usefulLifeMonths": { "type": "integer" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1065", "companyCode": "1000", "includeSchedule": true },
+    "sampleOutput": { "assetNumber": "100004512-0", "acquisitionValue": 48200, "netBookValue": 11650, "currency": "USD", "usefulLifeMonths": 84 }
+  },
+  {
+    "id": "sap_post_writeoff",
+    "name": "sap_post_writeoff",
+    "server": "SAP ERP",
+    "description": "Post an asset retirement and write-off journal entry (transaction ABAVN) once a disposition is approved.",
+    "scope": "write_gated",
+    "risk": "high",
+    "approvalRequired": true,
+    "enabled": true,
+    "authorizedRoles": ["Finance", "Approver"],
+    "lastUsed": "2026-11-20T07:12:00Z",
+    "avgLatencyMs": 1150,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId", "assetNumber", "retirementValue", "reason"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "assetNumber": { "type": "string" },
+        "retirementValue": { "type": "number", "minimum": 0 },
+        "reason": { "type": "string", "enum": ["scrap", "sale", "transfer"] },
+        "postingDate": { "type": "string", "format": "date" }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "documentNumber": { "type": "string" },
+        "fiscalYear": { "type": "integer" },
+        "status": { "type": "string" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1040", "assetNumber": "100003877-0", "retirementValue": 2400, "reason": "sale" },
+    "sampleOutput": { "documentNumber": "4900018832", "fiscalYear": 2026, "status": "posted" }
+  },
+  {
+    "id": "wms_bin_transfer",
+    "name": "wms_bin_transfer",
+    "server": "Manhattan WMS",
+    "description": "Emit a move task order to Manhattan WMS to transfer an asset to a staging or quarantine bay.",
+    "scope": "write_gated",
+    "risk": "medium",
+    "approvalRequired": true,
+    "enabled": true,
+    "authorizedRoles": ["Approver", "Warehouse Manager"],
+    "lastUsed": "2026-11-20T08:02:00Z",
+    "avgLatencyMs": 780,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId", "fromBin", "toBin"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "fromBin": { "type": "string" },
+        "toBin": { "type": "string" },
+        "priority": { "type": "string", "enum": ["normal", "urgent"] }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "taskId": { "type": "string" },
+        "status": { "type": "string" },
+        "eta": { "type": "string", "format": "date-time" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1077", "fromBin": "W1-A-04-2", "toBin": "W1-STG-01", "priority": "normal" },
+    "sampleOutput": { "taskId": "MT-552871", "status": "released", "eta": "2026-11-20T11:30:00Z" }
+  },
+  {
+    "id": "wms_inventory_status",
+    "name": "wms_inventory_status",
+    "server": "Manhattan WMS",
+    "description": "Read current bin location, LPN, hold codes and dwell time for an asset held in a warehouse.",
+    "scope": "read_only",
+    "risk": "low",
+    "approvalRequired": false,
+    "enabled": true,
+    "authorizedRoles": ["Planner", "Warehouse Manager", "Auditor"],
+    "lastUsed": "2026-11-20T08:55:00Z",
+    "avgLatencyMs": 310,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "site": { "type": "string", "enum": ["Warehouse 1", "Warehouse 2", "Repair centre"] }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "bin": { "type": "string" },
+        "lpn": { "type": "string" },
+        "holdCodes": { "type": "array", "items": { "type": "string" } },
+        "dwellDays": { "type": "integer" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1002", "site": "Warehouse 1" },
+    "sampleOutput": { "bin": "W1-B-11-3", "lpn": "LPN00881234", "holdCodes": ["QA"], "dwellDays": 9 }
+  },
+  {
+    "id": "maximo_work_order_create",
+    "name": "maximo_work_order_create",
+    "server": "Maximo EAM",
+    "description": "Create a refurbishment or teardown work order in IBM Maximo with job plan and estimated labour hours.",
+    "scope": "write_gated",
+    "risk": "medium",
+    "approvalRequired": true,
+    "enabled": true,
+    "authorizedRoles": ["Engineer", "Approver"],
+    "lastUsed": "2026-11-20T06:40:00Z",
+    "avgLatencyMs": 960,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId", "jobPlan", "site"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "jobPlan": { "type": "string", "description": "Maximo job plan, e.g. JP-REFURB-MOTOR" },
+        "site": { "type": "string" },
+        "estHours": { "type": "number" }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "workOrder": { "type": "string" },
+        "status": { "type": "string" },
+        "scheduledStart": { "type": "string", "format": "date" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1052", "jobPlan": "JP-REFURB-PUMP", "site": "Repair centre", "estHours": 6 },
+    "sampleOutput": { "workOrder": "WO-2026-118204", "status": "WAPPR", "scheduledStart": "2026-11-23" }
+  },
+  {
+    "id": "maximo_asset_history",
+    "name": "maximo_asset_history",
+    "server": "Maximo EAM",
+    "description": "Read maintenance history, failure codes and meter readings for an asset from IBM Maximo.",
+    "scope": "read_only",
+    "risk": "low",
+    "approvalRequired": false,
+    "enabled": true,
+    "authorizedRoles": ["Planner", "Engineer", "Auditor"],
+    "lastUsed": "2026-11-20T08:31:00Z",
+    "avgLatencyMs": 540,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "sinceMonths": { "type": "integer", "default": 24 }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "workOrders": { "type": "integer" },
+        "lastFailureCode": { "type": "string" },
+        "runHours": { "type": "number" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1065", "sinceMonths": 24 },
+    "sampleOutput": { "workOrders": 7, "lastFailureCode": "BRG-WEAR", "runHours": 18420 }
+  },
+  {
+    "id": "sfdc_account_contract",
+    "name": "sfdc_account_contract",
+    "server": "Salesforce",
+    "description": "Read lease contract terms, return clauses and customer obligations for the account that returned the asset.",
+    "scope": "read_only",
+    "risk": "low",
+    "approvalRequired": false,
+    "enabled": true,
+    "authorizedRoles": ["Planner", "Approver", "Auditor"],
+    "lastUsed": "2026-11-20T08:20:00Z",
+    "avgLatencyMs": 650,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId", "tenant"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "tenant": { "type": "string" }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "contractId": { "type": "string" },
+        "returnCondition": { "type": "string" },
+        "damageLiability": { "type": "string" },
+        "endDate": { "type": "string", "format": "date" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1070", "tenant": "Customer A" },
+    "sampleOutput": { "contractId": "LC-00042177", "returnCondition": "Fair wear and tear", "damageLiability": "Customer", "endDate": "2026-09-30" }
+  },
+  {
+    "id": "sfdc_case_update",
+    "name": "sfdc_case_update",
+    "server": "Salesforce",
+    "description": "Update the customer service case with the approved disposition, recovery value and closure note.",
+    "scope": "write_gated",
+    "risk": "medium",
+    "approvalRequired": true,
+    "enabled": true,
+    "authorizedRoles": ["Approver", "Planner"],
+    "lastUsed": "2026-11-20T05:58:00Z",
+    "avgLatencyMs": 720,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId", "disposition", "note"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "disposition": { "type": "string", "enum": ["redeploy", "resale", "intparts", "relase", "material", "extparts", "exit"] },
+        "recoveryValue": { "type": "number" },
+        "note": { "type": "string", "maxLength": 500 }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "sfdcCaseNumber": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1049", "disposition": "resale", "recoveryValue": 5200, "note": "Approved for resale via Machinio listing." },
+    "sampleOutput": { "sfdcCaseNumber": "00318842", "status": "Closed - Dispositioned" }
+  },
+  {
+    "id": "machinio_price_comps",
+    "name": "machinio_price_comps",
+    "server": "Machinio market",
+    "description": "Search secondary-market listings for comparable equipment and return a price band and days-to-sell estimate.",
+    "scope": "read_only",
+    "risk": "low",
+    "approvalRequired": false,
+    "enabled": true,
+    "authorizedRoles": ["Planner", "Finance", "Analyst"],
+    "lastUsed": "2026-11-20T08:44:00Z",
+    "avgLatencyMs": 1380,
+    "inputSchema": {
+      "type": "object",
+      "required": ["model", "condition"],
+      "properties": {
+        "model": { "type": "string" },
+        "condition": { "type": "string", "enum": ["new", "used", "refurbished", "for_parts"] },
+        "region": { "type": "string", "default": "NA" }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "comparables": { "type": "integer" },
+        "p25": { "type": "number" },
+        "median": { "type": "number" },
+        "p75": { "type": "number" },
+        "daysToSell": { "type": "integer" }
+      }
+    },
+    "sampleInput": { "model": "Voltara V4 motor", "condition": "used", "region": "NA" },
+    "sampleOutput": { "comparables": 23, "p25": 3100, "median": 3950, "p75": 4600, "daysToSell": 34 }
+  },
+  {
+    "id": "machinio_listing_publish",
+    "name": "machinio_listing_publish",
+    "server": "Machinio market",
+    "description": "Publish a certified asset as a resale listing on Machinio with photos, condition grade and ask price.",
+    "scope": "write_gated",
+    "risk": "high",
+    "approvalRequired": true,
+    "enabled": false,
+    "authorizedRoles": ["Approver"],
+    "lastUsed": "2026-11-18T14:05:00Z",
+    "avgLatencyMs": 1620,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId", "askPrice", "conditionGrade"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "askPrice": { "type": "number", "minimum": 0 },
+        "conditionGrade": { "type": "string", "enum": ["A", "B", "C"] },
+        "photos": { "type": "array", "items": { "type": "string", "format": "uri" } }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "listingId": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "status": { "type": "string" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1084", "askPrice": 4200, "conditionGrade": "B" },
+    "sampleOutput": { "listingId": "MCH-9921045", "url": "https://www.machinio.com/listings/9921045", "status": "pending_review" }
+  },
+  {
+    "id": "solve_pool_allocations",
+    "name": "solve_pool_allocations",
+    "server": "Internal solvers",
+    "description": "Run the integer programming solver on multi-unit batch returns against the order backlog and site capacity.",
+    "scope": "compute",
+    "risk": "medium",
+    "approvalRequired": false,
+    "enabled": true,
+    "authorizedRoles": ["Planner", "Admin"],
+    "lastUsed": "2026-11-20T08:26:00Z",
+    "avgLatencyMs": 2450,
+    "inputSchema": {
+      "type": "object",
+      "required": ["poolId", "objective"],
+      "properties": {
+        "poolId": { "type": "string" },
+        "objective": { "type": "string", "enum": ["max_recovery", "min_carbon", "balanced"] },
+        "timeLimitSec": { "type": "integer", "default": 30 }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" },
+        "objectiveValue": { "type": "number" },
+        "assignments": { "type": "integer" },
+        "gapPct": { "type": "number" }
+      }
+    },
+    "sampleInput": { "poolId": "POOL-2026-47", "objective": "balanced", "timeLimitSec": 30 },
+    "sampleOutput": { "status": "optimal", "objectiveValue": 182340, "assignments": 41, "gapPct": 0.0 }
+  },
+  {
+    "id": "predict_recovery_value",
+    "name": "predict_recovery_value",
+    "server": "Internal solvers",
+    "description": "Predict net recovery value and confidence interval for each disposition route of a single case.",
+    "scope": "compute",
+    "risk": "low",
+    "approvalRequired": false,
+    "enabled": true,
+    "authorizedRoles": ["Planner", "Approver", "Analyst"],
+    "lastUsed": "2026-11-20T08:52:00Z",
+    "avgLatencyMs": 880,
+    "inputSchema": {
+      "type": "object",
+      "required": ["caseId"],
+      "properties": {
+        "caseId": { "type": "string" },
+        "routes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "bestRoute": { "type": "string" },
+        "netValue": { "type": "number" },
+        "ci90": { "type": "array", "items": { "type": "number" } },
+        "modelVersion": { "type": "string" }
+      }
+    },
+    "sampleInput": { "caseId": "RT-1065", "routes": ["resale", "relase", "intparts"] },
+    "sampleOutput": { "bestRoute": "relase", "netValue": 6120, "ci90": [5200, 7050], "modelVersion": "rv-2026.10.2" }
+  }
+]

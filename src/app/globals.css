@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f9fa;
+  --foreground: #242424;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  /* Numbers and IDs use the regular UI font (minimal), not a monospace face. `font-mono` is kept as the
+     class name across the app; it now means "UI font with even-width digits" (see .font-mono below). */
+  --font-mono: var(--font-geist-sans);
+}
+
+/* Tables: minimal vertical column separators (header and body). antd's own short header dividers are
+   replaced so there is one consistent line style. Inset shadows keep column widths unchanged. */
+.ant-table-wrapper .ant-table-thead > tr > th::before { display: none !important; }
+.ant-table-wrapper .ant-table-thead > tr > th + th { box-shadow: inset 1px 0 0 #E8EDF3; }
+.ant-table-wrapper .ant-table-tbody > tr > td + td { box-shadow: inset 1px 0 0 #F1F5F9; }
+
+/* Even-width digits so amounts and IDs still line up in columns, without the monospace look. */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hide y-axis scrollbars completely while maintaining full scroll capability */
+::-webkit-scrollbar {
+  width: 0px !important;
+  height: 6px;
+}
+
+::-webkit-scrollbar:vertical {
+  display: none !important;
+  width: 0px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+
+/* Utility to completely hide scrollbars across all browsers */
+.no-scrollbar,
+.ant-layout-sider .overflow-y-auto,
+.ant-layout-content {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.ant-layout-sider .overflow-y-auto::-webkit-scrollbar,
+.ant-layout-content::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+
+/* Ensure Ant Design resets do not override sidebar text colors */
+.ant-layout-sider a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.ant-layout-sider a:hover {
+  text-decoration: none !important;
+}
+
+/* Ant Design Sider Flexbox and Independent Scrolling */
+.ant-layout-sider {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.ant-layout-sider .ant-layout-sider-children {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+/* =========================================================================
+   Additive tokens for shared components (src/components/ui, charts).
+   Values mirror the palette already used across the local pages; nothing
+   above this line is changed.
+   ========================================================================= */
+:root {
+  --brand: #FFD600;
+  --brand-hover: #FACC15;
+  --brand-soft: #FFFBEB;
+  --canvas: #F8F9FA;
+  --surface: #FFFFFF;
+  --surface-2: #F8FAFC;
+  --ink: #141416;
+  --ink-2: #64748B;
+  --ink-3: #94A3B8;
+  --line: #E2E8F0;
+  --line-soft: #F1F5F9;
+  --success: #059669;
+  --success-soft: #ECFDF5;
+  --warning: #D97706;
+  --warning-soft: #FEF3C7;
+  --danger: #DC2626;
+  --danger-soft: #FEE2E2;
+  --info: #0284C7;
+  --info-soft: #E0F2FE;
+}
+
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+.skeleton {
+  background: linear-gradient(90deg, #F1F5F9 0%, #E2E8F0 40%, #F1F5F9 80%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.3s ease-in-out infinite;
+  border-radius: 8px;
+}
+@keyframes skeleton-shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+.progress-fill { transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  .progress-fill { transition: none; }
+}
+
+/* React Flow attribution stays visible (hiding it is reserved for React Flow Pro subscribers);
+   keep it small and quiet so it does not compete with the canvas. */
+.react-flow__attribution { font-size: 9px; opacity: 0.6; background: transparent !important; }
+
+/* antd's link reset is unlayered, so it beats Tailwind's layered bg-* utilities on <a>/<Link>.
+   For links that carry a bg-* class, roll the background back to the layered (Tailwind) value. */
+a[class*="bg-"] { background-color: revert-layer; }

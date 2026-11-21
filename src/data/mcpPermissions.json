@@ -1,0 +1,534 @@
+[
+  {
+    "id": "Customer A|ag-evidence|sap_asset_lookup",
+    "tenant": "Customer A",
+    "agentId": "ag-evidence",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-evidence|maximo_asset_history",
+    "tenant": "Customer A",
+    "agentId": "ag-evidence",
+    "toolId": "maximo_asset_history",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-evidence|sfdc_account_contract",
+    "tenant": "Customer A",
+    "agentId": "ag-evidence",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-evidence|wms_inventory_status",
+    "tenant": "Customer A",
+    "agentId": "ag-evidence",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-opportunity|machinio_price_comps",
+    "tenant": "Customer A",
+    "agentId": "ag-opportunity",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-opportunity|predict_recovery_value",
+    "tenant": "Customer A",
+    "agentId": "ag-opportunity",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-opportunity|sap_asset_lookup",
+    "tenant": "Customer A",
+    "agentId": "ag-opportunity",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-briefing|predict_recovery_value",
+    "tenant": "Customer A",
+    "agentId": "ag-briefing",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-briefing|solve_pool_allocations",
+    "tenant": "Customer A",
+    "agentId": "ag-briefing",
+    "toolId": "solve_pool_allocations",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-briefing|machinio_price_comps",
+    "tenant": "Customer A",
+    "agentId": "ag-briefing",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-briefing|sfdc_account_contract",
+    "tenant": "Customer A",
+    "agentId": "ag-briefing",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-handoff|wms_bin_transfer",
+    "tenant": "Customer A",
+    "agentId": "ag-handoff",
+    "toolId": "wms_bin_transfer",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer A|ag-handoff|maximo_work_order_create",
+    "tenant": "Customer A",
+    "agentId": "ag-handoff",
+    "toolId": "maximo_work_order_create",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer A|ag-handoff|sfdc_case_update",
+    "tenant": "Customer A",
+    "agentId": "ag-handoff",
+    "toolId": "sfdc_case_update",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer A|ag-handoff|machinio_listing_publish",
+    "tenant": "Customer A",
+    "agentId": "ag-handoff",
+    "toolId": "machinio_listing_publish",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer A|ag-handoff|wms_inventory_status",
+    "tenant": "Customer A",
+    "agentId": "ag-handoff",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-reconciler|sap_post_writeoff",
+    "tenant": "Customer A",
+    "agentId": "ag-reconciler",
+    "toolId": "sap_post_writeoff",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer A|ag-reconciler|sap_asset_lookup",
+    "tenant": "Customer A",
+    "agentId": "ag-reconciler",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-reconciler|wms_inventory_status",
+    "tenant": "Customer A",
+    "agentId": "ag-reconciler",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-audit|sap_asset_lookup",
+    "tenant": "Customer A",
+    "agentId": "ag-audit",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-audit|maximo_asset_history",
+    "tenant": "Customer A",
+    "agentId": "ag-audit",
+    "toolId": "maximo_asset_history",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-audit|sfdc_account_contract",
+    "tenant": "Customer A",
+    "agentId": "ag-audit",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-audit|wms_inventory_status",
+    "tenant": "Customer A",
+    "agentId": "ag-audit",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-analytics|predict_recovery_value",
+    "tenant": "Customer A",
+    "agentId": "ag-analytics",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-analytics|solve_pool_allocations",
+    "tenant": "Customer A",
+    "agentId": "ag-analytics",
+    "toolId": "solve_pool_allocations",
+    "level": "read"
+  },
+  {
+    "id": "Customer A|ag-analytics|machinio_price_comps",
+    "tenant": "Customer A",
+    "agentId": "ag-analytics",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-evidence|sap_asset_lookup",
+    "tenant": "Customer B",
+    "agentId": "ag-evidence",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-evidence|maximo_asset_history",
+    "tenant": "Customer B",
+    "agentId": "ag-evidence",
+    "toolId": "maximo_asset_history",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-evidence|sfdc_account_contract",
+    "tenant": "Customer B",
+    "agentId": "ag-evidence",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-evidence|wms_inventory_status",
+    "tenant": "Customer B",
+    "agentId": "ag-evidence",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-opportunity|machinio_price_comps",
+    "tenant": "Customer B",
+    "agentId": "ag-opportunity",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-opportunity|predict_recovery_value",
+    "tenant": "Customer B",
+    "agentId": "ag-opportunity",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-opportunity|sap_asset_lookup",
+    "tenant": "Customer B",
+    "agentId": "ag-opportunity",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-briefing|predict_recovery_value",
+    "tenant": "Customer B",
+    "agentId": "ag-briefing",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-briefing|solve_pool_allocations",
+    "tenant": "Customer B",
+    "agentId": "ag-briefing",
+    "toolId": "solve_pool_allocations",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-briefing|machinio_price_comps",
+    "tenant": "Customer B",
+    "agentId": "ag-briefing",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-briefing|sfdc_account_contract",
+    "tenant": "Customer B",
+    "agentId": "ag-briefing",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-handoff|wms_bin_transfer",
+    "tenant": "Customer B",
+    "agentId": "ag-handoff",
+    "toolId": "wms_bin_transfer",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer B|ag-handoff|maximo_work_order_create",
+    "tenant": "Customer B",
+    "agentId": "ag-handoff",
+    "toolId": "maximo_work_order_create",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer B|ag-handoff|sfdc_case_update",
+    "tenant": "Customer B",
+    "agentId": "ag-handoff",
+    "toolId": "sfdc_case_update",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer B|ag-handoff|machinio_listing_publish",
+    "tenant": "Customer B",
+    "agentId": "ag-handoff",
+    "toolId": "machinio_listing_publish",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer B|ag-handoff|wms_inventory_status",
+    "tenant": "Customer B",
+    "agentId": "ag-handoff",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-reconciler|sap_post_writeoff",
+    "tenant": "Customer B",
+    "agentId": "ag-reconciler",
+    "toolId": "sap_post_writeoff",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer B|ag-reconciler|sap_asset_lookup",
+    "tenant": "Customer B",
+    "agentId": "ag-reconciler",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-reconciler|wms_inventory_status",
+    "tenant": "Customer B",
+    "agentId": "ag-reconciler",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-audit|sap_asset_lookup",
+    "tenant": "Customer B",
+    "agentId": "ag-audit",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-audit|maximo_asset_history",
+    "tenant": "Customer B",
+    "agentId": "ag-audit",
+    "toolId": "maximo_asset_history",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-audit|sfdc_account_contract",
+    "tenant": "Customer B",
+    "agentId": "ag-audit",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-audit|wms_inventory_status",
+    "tenant": "Customer B",
+    "agentId": "ag-audit",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-analytics|predict_recovery_value",
+    "tenant": "Customer B",
+    "agentId": "ag-analytics",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer B|ag-analytics|machinio_price_comps",
+    "tenant": "Customer B",
+    "agentId": "ag-analytics",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-evidence|sap_asset_lookup",
+    "tenant": "Customer C",
+    "agentId": "ag-evidence",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-evidence|maximo_asset_history",
+    "tenant": "Customer C",
+    "agentId": "ag-evidence",
+    "toolId": "maximo_asset_history",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-evidence|sfdc_account_contract",
+    "tenant": "Customer C",
+    "agentId": "ag-evidence",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-evidence|wms_inventory_status",
+    "tenant": "Customer C",
+    "agentId": "ag-evidence",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-opportunity|machinio_price_comps",
+    "tenant": "Customer C",
+    "agentId": "ag-opportunity",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-opportunity|predict_recovery_value",
+    "tenant": "Customer C",
+    "agentId": "ag-opportunity",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-opportunity|sap_asset_lookup",
+    "tenant": "Customer C",
+    "agentId": "ag-opportunity",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-briefing|predict_recovery_value",
+    "tenant": "Customer C",
+    "agentId": "ag-briefing",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-briefing|solve_pool_allocations",
+    "tenant": "Customer C",
+    "agentId": "ag-briefing",
+    "toolId": "solve_pool_allocations",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-briefing|machinio_price_comps",
+    "tenant": "Customer C",
+    "agentId": "ag-briefing",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-briefing|sfdc_account_contract",
+    "tenant": "Customer C",
+    "agentId": "ag-briefing",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-handoff|wms_bin_transfer",
+    "tenant": "Customer C",
+    "agentId": "ag-handoff",
+    "toolId": "wms_bin_transfer",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer C|ag-handoff|maximo_work_order_create",
+    "tenant": "Customer C",
+    "agentId": "ag-handoff",
+    "toolId": "maximo_work_order_create",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer C|ag-handoff|sfdc_case_update",
+    "tenant": "Customer C",
+    "agentId": "ag-handoff",
+    "toolId": "sfdc_case_update",
+    "level": "write_gated"
+  },
+  {
+    "id": "Customer C|ag-handoff|wms_inventory_status",
+    "tenant": "Customer C",
+    "agentId": "ag-handoff",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-reconciler|sap_post_writeoff",
+    "tenant": "Customer C",
+    "agentId": "ag-reconciler",
+    "toolId": "sap_post_writeoff",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-reconciler|sap_asset_lookup",
+    "tenant": "Customer C",
+    "agentId": "ag-reconciler",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-reconciler|wms_inventory_status",
+    "tenant": "Customer C",
+    "agentId": "ag-reconciler",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-audit|sap_asset_lookup",
+    "tenant": "Customer C",
+    "agentId": "ag-audit",
+    "toolId": "sap_asset_lookup",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-audit|maximo_asset_history",
+    "tenant": "Customer C",
+    "agentId": "ag-audit",
+    "toolId": "maximo_asset_history",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-audit|sfdc_account_contract",
+    "tenant": "Customer C",
+    "agentId": "ag-audit",
+    "toolId": "sfdc_account_contract",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-audit|wms_inventory_status",
+    "tenant": "Customer C",
+    "agentId": "ag-audit",
+    "toolId": "wms_inventory_status",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-analytics|predict_recovery_value",
+    "tenant": "Customer C",
+    "agentId": "ag-analytics",
+    "toolId": "predict_recovery_value",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-analytics|solve_pool_allocations",
+    "tenant": "Customer C",
+    "agentId": "ag-analytics",
+    "toolId": "solve_pool_allocations",
+    "level": "read"
+  },
+  {
+    "id": "Customer C|ag-analytics|machinio_price_comps",
+    "tenant": "Customer C",
+    "agentId": "ag-analytics",
+    "toolId": "machinio_price_comps",
+    "level": "read"
+  }
+]

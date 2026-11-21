@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "publishedAt": "2026-11-13T10:00:00Z",
+  "publishedBy": "Marcus Vance",
+  "rules": [
+    {
+      "id": "BR-01",
+      "action": "exclude",
+      "route": "material",
+      "scope": {
+        "productClass": [
+          "control"
+        ],
+        "lifeMin": 40
+      },
+      "owner": "Sustainability lead",
+      "description": "Control units with remaining life of at least 40 %: never Material Recovery",
+      "active": true
+    },
+    {
+      "id": "BR-02",
+      "action": "prefer",
+      "route": "redeploy",
+      "scope": {
+        "channel": [
+          "field_return"
+        ],
+        "condition": [
+          "A",
+          "B"
+        ]
+      },
+      "owner": "Asset planner",
+      "description": "Field service returns, grade A or B: prefer Internal Redeploy",
+      "active": true
+    }
+  ]
+}

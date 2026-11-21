@@ -1,0 +1,365 @@
+{
+  "waterfall": {
+    "routeValueWeight": {
+      "redeploy": 1.6,
+      "resale": 1.2,
+      "relase": 1,
+      "intparts": 0.7,
+      "extparts": 0.5,
+      "material": 0.25,
+      "exit": 0.05
+    },
+    "steps": [
+      {
+        "id": "base",
+        "label": "Scrap / base disposal value",
+        "short": "Scrap base",
+        "routes": [
+          "material",
+          "exit"
+        ]
+      },
+      {
+        "id": "parts",
+        "label": "Parts harvesting uplift",
+        "short": "Parts harvest",
+        "routes": [
+          "intparts",
+          "extparts"
+        ]
+      },
+      {
+        "id": "resale",
+        "label": "Whole-asset resale and re-lease net margin",
+        "short": "Resale & re-lease",
+        "routes": [
+          "resale",
+          "relase"
+        ]
+      },
+      {
+        "id": "redeploy",
+        "label": "Internal redeploy avoided spend",
+        "short": "Redeploy",
+        "routes": [
+          "redeploy"
+        ]
+      }
+    ]
+  },
+  "routeMix": {
+    "targets": {
+      "redeploy": 28,
+      "resale": 25,
+      "intparts": 15,
+      "relase": 10,
+      "material": 10,
+      "extparts": 8,
+      "exit": 4
+    },
+    "highValueRoutes": [
+      "redeploy",
+      "resale",
+      "intparts"
+    ]
+  },
+  "predicted": {
+    "tolerance": 0.05
+  },
+  "models": {
+    "releases": [
+      {
+        "version": "v3.9.0",
+        "name": "Legacy route decision tree",
+        "framework": "XGBoost",
+        "from": "Nov 25",
+        "to": "Jan 26"
+      },
+      {
+        "version": "v4.0.0",
+        "name": "RouteOpt multi-class optimiser",
+        "framework": "CatBoost",
+        "from": "Feb 26",
+        "to": "Apr 26"
+      },
+      {
+        "version": "v4.1.0",
+        "name": "RouteOpt multi-class optimiser",
+        "framework": "CatBoost + PyTorch",
+        "from": "May 26",
+        "to": "Jul 26"
+      },
+      {
+        "version": "v4.2.1",
+        "name": "RouteOpt multi-class optimiser",
+        "framework": "CatBoost + PyTorch",
+        "from": "Aug 26",
+        "to": "Oct 26"
+      }
+    ],
+    "driftThreshold": 5,
+    "registry": [
+      {
+        "id": "MOD-RO-42",
+        "name": "RouteOpt Multi-Class Optimizer",
+        "domain": "Route Optimization",
+        "version": "v4.2.1",
+        "status": "production",
+        "trainingCases": 142500,
+        "primaryMetric": "Macro F1",
+        "metricValue": "96.2%",
+        "drift": 1.1,
+        "lastTrained": "2026-10-12",
+        "owner": "AI Engineering Team",
+        "framework": "CatBoost + PyTorch"
+      },
+      {
+        "id": "MOD-RP-31",
+        "name": "Secondary Market Residual Pricing Engine",
+        "domain": "Residual Pricing",
+        "version": "v3.1.0",
+        "status": "production",
+        "trainingCases": 98200,
+        "primaryMetric": "MAPE",
+        "metricValue": "4.8%",
+        "drift": 2.3,
+        "lastTrained": "2026-09-28",
+        "owner": "EconOps ML",
+        "framework": "LightGBM Regression"
+      },
+      {
+        "id": "MOD-CD-24",
+        "name": "Component Degradation & Telemetry Inferrer",
+        "domain": "Condition Assessment",
+        "version": "v2.4.0",
+        "status": "shadow",
+        "trainingCases": 64100,
+        "primaryMetric": "RMSE",
+        "metricValue": "0.042",
+        "drift": 5.4,
+        "lastTrained": "2026-10-18",
+        "owner": "Telemetry Group",
+        "framework": "Temporal LSTM"
+      },
+      {
+        "id": "MOD-LCA-14",
+        "name": "ISO 14044 Carbon Avoidance Estimator",
+        "domain": "Carbon LCA",
+        "version": "v1.4.2",
+        "status": "production",
+        "trainingCases": 41800,
+        "primaryMetric": "R-Squared",
+        "metricValue": "0.978",
+        "drift": 0.6,
+        "lastTrained": "2026-10-02",
+        "owner": "Sustainability Desk",
+        "framework": "Scikit-Learn Ensemble"
+      },
+      {
+        "id": "MOD-VF-12",
+        "name": "Visual Damage & Wear Classifier",
+        "domain": "Condition Assessment",
+        "version": "v1.2.0",
+        "status": "retraining",
+        "trainingCases": 31000,
+        "primaryMetric": "Top-1 Accuracy",
+        "metricValue": "92.4%",
+        "drift": 6.8,
+        "lastTrained": "2026-08-15",
+        "owner": "Computer Vision Lab",
+        "framework": "Vision Transformer (ViT)"
+      },
+      {
+        "id": "MOD-RO-39",
+        "name": "Legacy Route Decision Tree",
+        "domain": "Route Optimization",
+        "version": "v3.9.0",
+        "status": "deprecated",
+        "trainingCases": 105000,
+        "primaryMetric": "Macro F1",
+        "metricValue": "89.4%",
+        "drift": 9.2,
+        "lastTrained": "2026-01-14",
+        "owner": "AI Engineering Team",
+        "framework": "XGBoost"
+      }
+    ]
+  },
+  "overrides": {
+    "reasons": {
+      "contract": "Customer contract clause",
+      "hazmat": "Battery swelling / hazmat flag",
+      "condition": "Condition differs from telemetry",
+      "demand": "Urgent line-down demand",
+      "obsolescence": "Firmware obsolescence in target plant"
+    },
+    "records": [
+      {
+        "id": "OVR-208",
+        "caseId": "RT-1020",
+        "aiRoute": "resale",
+        "aiValue": 4900,
+        "aiConfidence": 89,
+        "plannerRoute": "relase",
+        "plannerValue": 6920,
+        "reason": "contract",
+        "plannerId": "u-planner-b",
+        "at": "2026-11-20T08:24:00Z",
+        "feedback": "incorporated"
+      },
+      {
+        "id": "OVR-207",
+        "caseId": "RT-1006",
+        "aiRoute": "intparts",
+        "aiValue": 2150,
+        "aiConfidence": 84,
+        "plannerRoute": "material",
+        "plannerValue": 1560,
+        "reason": "hazmat",
+        "plannerId": "u-planner-c",
+        "at": "2026-11-20T07:15:00Z",
+        "feedback": "incorporated"
+      },
+      {
+        "id": "OVR-206",
+        "caseId": "RT-1016",
+        "aiRoute": "material",
+        "aiValue": 640,
+        "aiConfidence": 78,
+        "plannerRoute": "redeploy",
+        "plannerValue": 1220,
+        "reason": "condition",
+        "plannerId": "u-planner-a",
+        "at": "2026-11-19T15:40:00Z",
+        "feedback": "pending"
+      },
+      {
+        "id": "OVR-205",
+        "caseId": "RT-1007",
+        "aiRoute": "resale",
+        "aiValue": 1500,
+        "aiConfidence": 94,
+        "plannerRoute": "extparts",
+        "plannerValue": 1910,
+        "reason": "demand",
+        "plannerId": "u-planner-a",
+        "at": "2026-11-19T10:20:00Z",
+        "feedback": "reviewed"
+      },
+      {
+        "id": "OVR-204",
+        "caseId": "RT-1032",
+        "aiRoute": "redeploy",
+        "aiValue": 190,
+        "aiConfidence": 86,
+        "plannerRoute": "extparts",
+        "plannerValue": 120,
+        "reason": "obsolescence",
+        "plannerId": "u-planner-b",
+        "at": "2026-11-18T13:05:00Z",
+        "feedback": "reviewed"
+      },
+      {
+        "id": "OVR-203",
+        "caseId": "RT-1027",
+        "aiRoute": "relase",
+        "aiValue": 5200,
+        "aiConfidence": 81,
+        "plannerRoute": "resale",
+        "plannerValue": 4480,
+        "reason": "contract",
+        "plannerId": "u-planner-c",
+        "at": "2026-11-17T09:50:00Z",
+        "feedback": "pending"
+      },
+      {
+        "id": "OVR-202",
+        "caseId": "RT-1008",
+        "aiRoute": "resale",
+        "aiValue": 3600,
+        "aiConfidence": 77,
+        "plannerRoute": "material",
+        "plannerValue": 3150,
+        "reason": "condition",
+        "plannerId": "u-planner-b",
+        "at": "2026-11-15T14:30:00Z",
+        "feedback": "reviewed"
+      },
+      {
+        "id": "OVR-201",
+        "caseId": "RT-1031",
+        "aiRoute": "material",
+        "aiValue": 60,
+        "aiConfidence": 82,
+        "plannerRoute": "intparts",
+        "plannerValue": 110,
+        "reason": "demand",
+        "plannerId": "u-planner-a",
+        "at": "2026-11-14T11:10:00Z",
+        "feedback": "incorporated"
+      }
+    ]
+  },
+  "economics": {
+    "breakEvenRefurbHours": 14.2,
+    "maxRefurbHours": 28,
+    "pathways": [
+      {
+        "id": "redeploy",
+        "pathway": "Internal Redeploy",
+        "avgDirectCost": 450,
+        "laborHours": 6.5,
+        "grossRecovery": 12800,
+        "paybackDays": 4
+      },
+      {
+        "id": "resale",
+        "pathway": "Whole-Asset Resale",
+        "avgDirectCost": 1200,
+        "laborHours": 14,
+        "grossRecovery": 7400,
+        "paybackDays": 18
+      },
+      {
+        "id": "intparts",
+        "pathway": "Internal Parts Harvest",
+        "avgDirectCost": 380,
+        "laborHours": 8,
+        "grossRecovery": 3100,
+        "paybackDays": 12
+      },
+      {
+        "id": "relase",
+        "pathway": "Secondary Re-lease",
+        "avgDirectCost": 900,
+        "laborHours": 11,
+        "grossRecovery": 6200,
+        "paybackDays": 30
+      },
+      {
+        "id": "material",
+        "pathway": "Material Recovery",
+        "avgDirectCost": 95,
+        "laborHours": 1.5,
+        "grossRecovery": 480,
+        "paybackDays": 2
+      },
+      {
+        "id": "extparts",
+        "pathway": "External Parts Sale",
+        "avgDirectCost": 310,
+        "laborHours": 6,
+        "grossRecovery": 2300,
+        "paybackDays": 21
+      },
+      {
+        "id": "exit",
+        "pathway": "Responsible Exit",
+        "avgDirectCost": 120,
+        "laborHours": 1,
+        "grossRecovery": 0,
+        "paybackDays": null
+      }
+    ]
+  }
+}

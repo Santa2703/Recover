@@ -1,0 +1,3770 @@
+[
+ {
+  "id": "call-4150",
+  "ts": "2026-11-20T08:48:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer A",
+  "caseId": "RT-1106",
+  "result": "held",
+  "gate": "pending",
+  "latencyMs": 628,
+  "input": {
+   "caseId": "RT-1106",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": null,
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4149",
+  "ts": "2026-11-20T08:24:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer A",
+  "caseId": "RT-1112",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 1166,
+  "input": {
+   "caseId": "RT-1112",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": {
+   "taskId": "MT-552871",
+   "status": "released",
+   "eta": "2026-11-20T11:30:00Z"
+  },
+  "error": null,
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-20T08:51:00.000Z"
+ },
+ {
+  "id": "call-4148",
+  "ts": "2026-11-20T07:49:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer A",
+  "caseId": "RT-1040",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 788,
+  "input": {
+   "caseId": "RT-1040",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4147",
+  "ts": "2026-11-20T07:49:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "error",
+  "gate": "not_required",
+  "latencyMs": 3614,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": null,
+  "error": "Solver time limit hit before feasible solution",
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4146",
+  "ts": "2026-11-20T07:33:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1024",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 253,
+  "input": {
+   "caseId": "RT-1024",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4145",
+  "ts": "2026-11-20T07:31:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer B",
+  "caseId": "RT-1125",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1095,
+  "input": {
+   "caseId": "RT-1125",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4144",
+  "ts": "2026-11-20T07:09:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer A",
+  "caseId": "RT-1103",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 233,
+  "input": {
+   "caseId": "RT-1103",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4143",
+  "ts": "2026-11-20T06:57:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer B",
+  "caseId": "RT-1113",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 359,
+  "input": {
+   "caseId": "RT-1113",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4142",
+  "ts": "2026-11-20T06:49:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer A",
+  "caseId": "RT-1034",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 742,
+  "input": {
+   "caseId": "RT-1034",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4141",
+  "ts": "2026-11-20T06:49:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1126",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 297,
+  "input": {
+   "caseId": "RT-1126",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4140",
+  "ts": "2026-11-20T06:03:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer A",
+  "caseId": "RT-1034",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 311,
+  "input": {
+   "caseId": "RT-1034",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4139",
+  "ts": "2026-11-20T05:58:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer A",
+  "caseId": "RT-1049",
+  "result": "held",
+  "gate": "pending",
+  "latencyMs": 827,
+  "input": {
+   "caseId": "RT-1049",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": null,
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4138",
+  "ts": "2026-11-20T05:30:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer A",
+  "caseId": "RT-1043",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1115,
+  "input": {
+   "caseId": "RT-1043",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4137",
+  "ts": "2026-11-20T05:17:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer B",
+  "caseId": "RT-1008",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 335,
+  "input": {
+   "caseId": "RT-1008",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4136",
+  "ts": "2026-11-20T04:45:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer B",
+  "caseId": "RT-1098",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 649,
+  "input": {
+   "caseId": "RT-1098",
+   "tenant": "Customer B"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4135",
+  "ts": "2026-11-20T03:59:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "maximo_work_order_create",
+  "tenant": "Customer B",
+  "caseId": "RT-1089",
+  "result": "held",
+  "gate": "pending",
+  "latencyMs": 1338,
+  "input": {
+   "caseId": "RT-1089",
+   "jobPlan": "JP-REFURB-PUMP",
+   "site": "Repair centre",
+   "estHours": 6
+  },
+  "output": null,
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4134",
+  "ts": "2026-11-20T03:44:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer B",
+  "caseId": "RT-1098",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 386,
+  "input": {
+   "caseId": "RT-1098",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4133",
+  "ts": "2026-11-20T03:38:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer A",
+  "caseId": "RT-1022",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 378,
+  "input": {
+   "caseId": "RT-1022",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4132",
+  "ts": "2026-11-20T03:23:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer C",
+  "caseId": "RT-1075",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 549,
+  "input": {
+   "caseId": "RT-1075",
+   "tenant": "Customer C"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4131",
+  "ts": "2026-11-20T03:12:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer A",
+  "caseId": "RT-1001",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 366,
+  "input": {
+   "caseId": "RT-1001",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4130",
+  "ts": "2026-11-20T02:57:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer B",
+  "caseId": "RT-1074",
+  "result": "held",
+  "gate": "pending",
+  "latencyMs": 624,
+  "input": {
+   "caseId": "RT-1074",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": null,
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4129",
+  "ts": "2026-11-20T02:27:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1102",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 432,
+  "input": {
+   "caseId": "RT-1102",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4128",
+  "ts": "2026-11-20T02:20:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer C",
+  "caseId": "RT-1123",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 503,
+  "input": {
+   "caseId": "RT-1123",
+   "tenant": "Customer C"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4127",
+  "ts": "2026-11-20T02:16:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer A",
+  "caseId": "RT-1076",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 521,
+  "input": {
+   "caseId": "RT-1076",
+   "tenant": "Customer A"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4126",
+  "ts": "2026-11-20T02:13:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1117",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 241,
+  "input": {
+   "caseId": "RT-1117",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4125",
+  "ts": "2026-11-20T01:38:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1045",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 221,
+  "input": {
+   "caseId": "RT-1045",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4124",
+  "ts": "2026-11-20T00:59:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer A",
+  "caseId": "RT-1037",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 853,
+  "input": {
+   "caseId": "RT-1037",
+   "tenant": "Customer A"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4123",
+  "ts": "2026-11-20T00:57:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer A",
+  "caseId": "RT-1100",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 395,
+  "input": {
+   "caseId": "RT-1100",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4122",
+  "ts": "2026-11-20T00:46:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 3589,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4121",
+  "ts": "2026-11-20T00:16:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer C",
+  "caseId": "RT-1030",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 791,
+  "input": {
+   "caseId": "RT-1030",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4120",
+  "ts": "2026-11-19T23:56:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "maximo_work_order_create",
+  "tenant": "Customer B",
+  "caseId": "RT-1023",
+  "result": "held",
+  "gate": "pending",
+  "latencyMs": 1318,
+  "input": {
+   "caseId": "RT-1023",
+   "jobPlan": "JP-REFURB-PUMP",
+   "site": "Repair centre",
+   "estHours": 6
+  },
+  "output": null,
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4119",
+  "ts": "2026-11-19T23:21:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer A",
+  "caseId": "RT-1109",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 789,
+  "input": {
+   "caseId": "RT-1109",
+   "tenant": "Customer A"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4118",
+  "ts": "2026-11-19T22:50:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer A",
+  "caseId": "RT-1088",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 249,
+  "input": {
+   "caseId": "RT-1088",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4117",
+  "ts": "2026-11-19T22:47:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1764,
+  "input": {
+   "model": "Orbis Control TL-9",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4116",
+  "ts": "2026-11-19T22:25:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer A",
+  "caseId": "RT-1106",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 561,
+  "input": {
+   "caseId": "RT-1106",
+   "tenant": "Customer A"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4115",
+  "ts": "2026-11-19T22:23:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer A",
+  "caseId": "RT-1070",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 749,
+  "input": {
+   "caseId": "RT-1070",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4114",
+  "ts": "2026-11-19T22:15:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 866,
+  "input": {
+   "model": "Halden Electric HX-90",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4113",
+  "ts": "2026-11-19T22:03:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1756,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4112",
+  "ts": "2026-11-19T21:37:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "maximo_work_order_create",
+  "tenant": "Customer A",
+  "caseId": "RT-1076",
+  "result": "held",
+  "gate": "pending",
+  "latencyMs": 1181,
+  "input": {
+   "caseId": "RT-1076",
+   "jobPlan": "JP-REFURB-PUMP",
+   "site": "Repair centre",
+   "estHours": 6
+  },
+  "output": null,
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4111",
+  "ts": "2026-11-19T21:15:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1039",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 629,
+  "input": {
+   "caseId": "RT-1039",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4110",
+  "ts": "2026-11-19T20:47:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1078",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 516,
+  "input": {
+   "caseId": "RT-1078",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4109",
+  "ts": "2026-11-19T20:41:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1450,
+  "input": {
+   "model": "Brava BR-X2",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4108",
+  "ts": "2026-11-19T20:17:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer B",
+  "caseId": "RT-1002",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1041,
+  "input": {
+   "caseId": "RT-1002",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4107",
+  "ts": "2026-11-19T20:07:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "error",
+  "gate": "not_required",
+  "latencyMs": 1803,
+  "input": {
+   "model": "Kestrel Drives V4 75kW",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": null,
+  "error": "Upstream 503 from Machinio search",
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4106",
+  "ts": "2026-11-19T20:01:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1126",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 383,
+  "input": {
+   "caseId": "RT-1126",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4105",
+  "ts": "2026-11-19T19:58:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1096",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 261,
+  "input": {
+   "caseId": "RT-1096",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4104",
+  "ts": "2026-11-19T19:48:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer A",
+  "caseId": "RT-1034",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1275,
+  "input": {
+   "caseId": "RT-1034",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4103",
+  "ts": "2026-11-19T19:33:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer B",
+  "caseId": "RT-1086",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 353,
+  "input": {
+   "caseId": "RT-1086",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4102",
+  "ts": "2026-11-19T19:12:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1409,
+  "input": {
+   "model": "Nimbus LD Pro 13",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4101",
+  "ts": "2026-11-19T19:02:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 3631,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4100",
+  "ts": "2026-11-19T18:52:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 956,
+  "input": {
+   "model": "Tessen Tools TT-18V",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4099",
+  "ts": "2026-11-19T18:52:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer B",
+  "caseId": "RT-1014",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 349,
+  "input": {
+   "caseId": "RT-1014",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4098",
+  "ts": "2026-11-19T18:46:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer A",
+  "caseId": "RT-1028",
+  "result": "error",
+  "gate": "not_required",
+  "latencyMs": 456,
+  "input": {
+   "caseId": "RT-1028",
+   "sinceMonths": 24
+  },
+  "output": null,
+  "error": "Asset tag not registered in Maximo site",
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4097",
+  "ts": "2026-11-19T18:42:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer B",
+  "caseId": "RT-1122",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 601,
+  "input": {
+   "caseId": "RT-1122",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4096",
+  "ts": "2026-11-19T18:40:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer C",
+  "caseId": "RT-1027",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 904,
+  "input": {
+   "caseId": "RT-1027",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4095",
+  "ts": "2026-11-19T18:39:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1102",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 301,
+  "input": {
+   "caseId": "RT-1102",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4094",
+  "ts": "2026-11-19T18:31:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer C",
+  "caseId": "RT-1054",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1269,
+  "input": {
+   "caseId": "RT-1054",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4093",
+  "ts": "2026-11-19T18:29:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer A",
+  "caseId": "RT-1064",
+  "result": "rejected",
+  "gate": "rejected",
+  "latencyMs": 869,
+  "input": {
+   "caseId": "RT-1064",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": null,
+  "error": "Rejected at write gate",
+  "decidedBy": "Marcus Vance",
+  "decidedAt": "2026-11-19T18:52:00.000Z"
+ },
+ {
+  "id": "call-4092",
+  "ts": "2026-11-19T18:21:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1761,
+  "input": {
+   "model": "Aquaterra NF-40",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4091",
+  "ts": "2026-11-19T18:20:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1746,
+  "input": {
+   "model": "Kestrel Automation OC-7 PLC",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4090",
+  "ts": "2026-11-19T18:05:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer B",
+  "caseId": "RT-1098",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 397,
+  "input": {
+   "caseId": "RT-1098",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4089",
+  "ts": "2026-11-19T17:22:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "error",
+  "gate": "not_required",
+  "latencyMs": 2419,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": null,
+  "error": "Solver time limit hit before feasible solution",
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4088",
+  "ts": "2026-11-19T17:12:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer C",
+  "caseId": "RT-1006",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1225,
+  "input": {
+   "caseId": "RT-1006",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4087",
+  "ts": "2026-11-19T16:30:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "maximo_work_order_create",
+  "tenant": "Customer A",
+  "caseId": "RT-1079",
+  "result": "rejected",
+  "gate": "rejected",
+  "latencyMs": 1081,
+  "input": {
+   "caseId": "RT-1079",
+   "jobPlan": "JP-REFURB-PUMP",
+   "site": "Repair centre",
+   "estHours": 6
+  },
+  "output": null,
+  "error": "Rejected at write gate",
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-19T17:08:00.000Z"
+ },
+ {
+  "id": "call-4086",
+  "ts": "2026-11-19T16:17:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer B",
+  "caseId": "RT-1020",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 385,
+  "input": {
+   "caseId": "RT-1020",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4085",
+  "ts": "2026-11-19T16:12:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "maximo_work_order_create",
+  "tenant": "Customer A",
+  "caseId": "RT-1118",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 1338,
+  "input": {
+   "caseId": "RT-1118",
+   "jobPlan": "JP-REFURB-PUMP",
+   "site": "Repair centre",
+   "estHours": 6
+  },
+  "output": {
+   "workOrder": "WO-2026-118204",
+   "status": "WAPPR",
+   "scheduledStart": "2026-11-23"
+  },
+  "error": null,
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-19T17:29:00.000Z"
+ },
+ {
+  "id": "call-4084",
+  "ts": "2026-11-19T16:01:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1072",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 528,
+  "input": {
+   "caseId": "RT-1072",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4083",
+  "ts": "2026-11-19T15:51:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1649,
+  "input": {
+   "model": "Aquaterra NF-40",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4082",
+  "ts": "2026-11-19T15:42:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer B",
+  "caseId": "RT-1005",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 979,
+  "input": {
+   "caseId": "RT-1005",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-19T16:58:00.000Z"
+ },
+ {
+  "id": "call-4081",
+  "ts": "2026-11-19T15:38:00.000Z",
+  "agentId": "ag-reconciler",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer B",
+  "caseId": "RT-1032",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 273,
+  "input": {
+   "caseId": "RT-1032",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4080",
+  "ts": "2026-11-19T15:32:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer B",
+  "caseId": "RT-1089",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 1116,
+  "input": {
+   "caseId": "RT-1089",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": {
+   "taskId": "MT-552871",
+   "status": "released",
+   "eta": "2026-11-20T11:30:00Z"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-19T16:03:00.000Z"
+ },
+ {
+  "id": "call-4079",
+  "ts": "2026-11-19T14:34:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer A",
+  "caseId": "RT-1010",
+  "result": "rejected",
+  "gate": "rejected",
+  "latencyMs": 965,
+  "input": {
+   "caseId": "RT-1010",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": null,
+  "error": "Rejected at write gate",
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-19T15:53:00.000Z"
+ },
+ {
+  "id": "call-4078",
+  "ts": "2026-11-19T14:25:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer B",
+  "caseId": "RT-1017",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 968,
+  "input": {
+   "caseId": "RT-1017",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4077",
+  "ts": "2026-11-19T14:20:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer A",
+  "caseId": "RT-1022",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 478,
+  "input": {
+   "caseId": "RT-1022",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-19T15:00:00.000Z"
+ },
+ {
+  "id": "call-4076",
+  "ts": "2026-11-19T14:12:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer B",
+  "caseId": "RT-1077",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 719,
+  "input": {
+   "caseId": "RT-1077",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4075",
+  "ts": "2026-11-19T13:53:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1857,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4074",
+  "ts": "2026-11-19T13:42:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer B",
+  "caseId": "RT-1101",
+  "result": "rejected",
+  "gate": "rejected",
+  "latencyMs": 775,
+  "input": {
+   "caseId": "RT-1101",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": null,
+  "error": "Rejected at write gate",
+  "decidedBy": "Marcus Vance",
+  "decidedAt": "2026-11-19T14:54:00.000Z"
+ },
+ {
+  "id": "call-4073",
+  "ts": "2026-11-19T13:25:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1106,
+  "input": {
+   "model": "Halden Hydraulics NF-40",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4072",
+  "ts": "2026-11-19T13:05:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer A",
+  "caseId": "RT-1049",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 733,
+  "input": {
+   "caseId": "RT-1049",
+   "tenant": "Customer A"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4071",
+  "ts": "2026-11-19T12:56:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1096",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 212,
+  "input": {
+   "caseId": "RT-1096",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4070",
+  "ts": "2026-11-19T12:09:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1672,
+  "input": {
+   "model": "Brava NP-Drive",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4069",
+  "ts": "2026-11-19T11:13:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1400,
+  "input": {
+   "model": "Tessen Tools NP-Drive",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4068",
+  "ts": "2026-11-19T10:55:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1526,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4067",
+  "ts": "2026-11-19T10:54:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer A",
+  "caseId": "RT-1091",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 473,
+  "input": {
+   "caseId": "RT-1091",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4066",
+  "ts": "2026-11-19T10:46:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "maximo_work_order_create",
+  "tenant": "Customer B",
+  "caseId": "RT-1041",
+  "result": "rejected",
+  "gate": "rejected",
+  "latencyMs": 824,
+  "input": {
+   "caseId": "RT-1041",
+   "jobPlan": "JP-REFURB-PUMP",
+   "site": "Repair centre",
+   "estHours": 6
+  },
+  "output": null,
+  "error": "Rejected at write gate",
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-19T11:22:00.000Z"
+ },
+ {
+  "id": "call-4065",
+  "ts": "2026-11-19T10:12:00.000Z",
+  "agentId": "ag-reconciler",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer B",
+  "caseId": "RT-1128",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 383,
+  "input": {
+   "caseId": "RT-1128",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4064",
+  "ts": "2026-11-19T09:44:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1389,
+  "input": {
+   "model": "Norvik Fluid PMP-200",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4063",
+  "ts": "2026-11-19T09:14:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer A",
+  "caseId": "RT-1013",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 556,
+  "input": {
+   "caseId": "RT-1013",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Marcus Vance",
+  "decidedAt": "2026-11-19T10:33:00.000Z"
+ },
+ {
+  "id": "call-4062",
+  "ts": "2026-11-19T09:10:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer B",
+  "caseId": "RT-1128",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 719,
+  "input": {
+   "caseId": "RT-1128",
+   "tenant": "Customer B"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4061",
+  "ts": "2026-11-19T09:06:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer B",
+  "caseId": "RT-1071",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 750,
+  "input": {
+   "caseId": "RT-1071",
+   "tenant": "Customer B"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4060",
+  "ts": "2026-11-19T07:36:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1033",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 360,
+  "input": {
+   "caseId": "RT-1033",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4059",
+  "ts": "2026-11-19T06:58:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1096",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 463,
+  "input": {
+   "caseId": "RT-1096",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4058",
+  "ts": "2026-11-19T05:30:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 2034,
+  "input": {
+   "model": "Tessen Logic OC-7 PLC",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4057",
+  "ts": "2026-11-19T03:37:00.000Z",
+  "agentId": "ag-reconciler",
+  "toolId": "sap_post_writeoff",
+  "tenant": "Customer B",
+  "caseId": "RT-1065",
+  "result": "rejected",
+  "gate": "rejected",
+  "latencyMs": 1309,
+  "input": {
+   "caseId": "RT-1065",
+   "assetNumber": "100003877-0",
+   "retirementValue": 2400,
+   "reason": "sale"
+  },
+  "output": null,
+  "error": "Rejected at write gate",
+  "decidedBy": "Elena Rostova",
+  "decidedAt": "2026-11-19T04:39:00.000Z"
+ },
+ {
+  "id": "call-4056",
+  "ts": "2026-11-19T03:15:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer A",
+  "caseId": "RT-1010",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1272,
+  "input": {
+   "caseId": "RT-1010",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4055",
+  "ts": "2026-11-19T03:11:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer A",
+  "caseId": "RT-1091",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 193,
+  "input": {
+   "caseId": "RT-1091",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4054",
+  "ts": "2026-11-19T03:07:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1209,
+  "input": {
+   "model": "Orbis Control KA-300",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4053",
+  "ts": "2026-11-19T02:55:00.000Z",
+  "agentId": "ag-reconciler",
+  "toolId": "sap_post_writeoff",
+  "tenant": "Customer C",
+  "caseId": "RT-1078",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 1260,
+  "input": {
+   "caseId": "RT-1078",
+   "assetNumber": "100003877-0",
+   "retirementValue": 2400,
+   "reason": "sale"
+  },
+  "output": {
+   "documentNumber": "4900018832",
+   "fiscalYear": 2026,
+   "status": "posted"
+  },
+  "error": null,
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-19T03:31:00.000Z"
+ },
+ {
+  "id": "call-4052",
+  "ts": "2026-11-19T02:15:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer B",
+  "caseId": "RT-1107",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 359,
+  "input": {
+   "caseId": "RT-1107",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4051",
+  "ts": "2026-11-19T02:13:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer B",
+  "caseId": "RT-1110",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 880,
+  "input": {
+   "caseId": "RT-1110",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-19T02:27:00.000Z"
+ },
+ {
+  "id": "call-4050",
+  "ts": "2026-11-19T02:06:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer B",
+  "caseId": "RT-1116",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 572,
+  "input": {
+   "caseId": "RT-1116",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": {
+   "taskId": "MT-552871",
+   "status": "released",
+   "eta": "2026-11-20T11:30:00Z"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-19T03:31:00.000Z"
+ },
+ {
+  "id": "call-4049",
+  "ts": "2026-11-19T00:59:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1491,
+  "input": {
+   "model": "Tessen Tools NP-Drive",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4048",
+  "ts": "2026-11-18T22:13:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1506,
+  "input": {
+   "model": "Norvik Power BR-X2",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4047",
+  "ts": "2026-11-18T21:31:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer B",
+  "caseId": "RT-1122",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 525,
+  "input": {
+   "caseId": "RT-1122",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": {
+   "taskId": "MT-552871",
+   "status": "released",
+   "eta": "2026-11-20T11:30:00Z"
+  },
+  "error": null,
+  "decidedBy": "Marcus Vance",
+  "decidedAt": "2026-11-18T22:14:00.000Z"
+ },
+ {
+  "id": "call-4046",
+  "ts": "2026-11-18T20:55:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1027",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 249,
+  "input": {
+   "caseId": "RT-1027",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4045",
+  "ts": "2026-11-18T20:17:00.000Z",
+  "agentId": "ag-reconciler",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1069",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 570,
+  "input": {
+   "caseId": "RT-1069",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4044",
+  "ts": "2026-11-18T19:15:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer A",
+  "caseId": "RT-1037",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 516,
+  "input": {
+   "caseId": "RT-1037",
+   "tenant": "Customer A"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4043",
+  "ts": "2026-11-18T17:50:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer A",
+  "caseId": "RT-1043",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 416,
+  "input": {
+   "caseId": "RT-1043",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4042",
+  "ts": "2026-11-18T16:59:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer A",
+  "caseId": "RT-1073",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 925,
+  "input": {
+   "caseId": "RT-1073",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4041",
+  "ts": "2026-11-18T16:35:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer B",
+  "caseId": "RT-1128",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1283,
+  "input": {
+   "caseId": "RT-1128",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4040",
+  "ts": "2026-11-18T16:34:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer A",
+  "caseId": "RT-1055",
+  "result": "rejected",
+  "gate": "rejected",
+  "latencyMs": 1009,
+  "input": {
+   "caseId": "RT-1055",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": null,
+  "error": "Rejected at write gate",
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-18T17:31:00.000Z"
+ },
+ {
+  "id": "call-4039",
+  "ts": "2026-11-18T15:01:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "machinio_listing_publish",
+  "tenant": "Customer B",
+  "caseId": "RT-1041",
+  "result": "rejected",
+  "gate": "rejected",
+  "latencyMs": 1637,
+  "input": {
+   "caseId": "RT-1041",
+   "askPrice": 4200,
+   "conditionGrade": "B"
+  },
+  "output": null,
+  "error": "Rejected at write gate",
+  "decidedBy": "Elena Rostova",
+  "decidedAt": "2026-11-18T16:07:00.000Z"
+ },
+ {
+  "id": "call-4038",
+  "ts": "2026-11-18T13:53:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer B",
+  "caseId": "RT-1038",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 466,
+  "input": {
+   "caseId": "RT-1038",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4037",
+  "ts": "2026-11-18T12:52:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer A",
+  "caseId": "RT-1091",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 344,
+  "input": {
+   "caseId": "RT-1091",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4036",
+  "ts": "2026-11-18T11:23:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer B",
+  "caseId": "RT-1125",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 763,
+  "input": {
+   "caseId": "RT-1125",
+   "tenant": "Customer B"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4035",
+  "ts": "2026-11-18T09:39:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1270,
+  "input": {
+   "model": "Orbis Control KA-300",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4034",
+  "ts": "2026-11-18T09:34:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer C",
+  "caseId": "RT-1051",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 910,
+  "input": {
+   "caseId": "RT-1051",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-18T10:24:00.000Z"
+ },
+ {
+  "id": "call-4033",
+  "ts": "2026-11-18T08:56:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "maximo_work_order_create",
+  "tenant": "Customer B",
+  "caseId": "RT-1101",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 804,
+  "input": {
+   "caseId": "RT-1101",
+   "jobPlan": "JP-REFURB-PUMP",
+   "site": "Repair centre",
+   "estHours": 6
+  },
+  "output": {
+   "workOrder": "WO-2026-118204",
+   "status": "WAPPR",
+   "scheduledStart": "2026-11-23"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-18T09:20:00.000Z"
+ },
+ {
+  "id": "call-4032",
+  "ts": "2026-11-18T08:52:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer C",
+  "caseId": "RT-1114",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 440,
+  "input": {
+   "caseId": "RT-1114",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4031",
+  "ts": "2026-11-18T08:43:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1573,
+  "input": {
+   "model": "Aquaterra AQ-12",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4030",
+  "ts": "2026-11-18T07:24:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer B",
+  "caseId": "RT-1116",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 811,
+  "input": {
+   "caseId": "RT-1116",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-18T07:34:00.000Z"
+ },
+ {
+  "id": "call-4029",
+  "ts": "2026-11-18T06:40:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer B",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1461,
+  "input": {
+   "model": "Kestrel Drives V4 75kW",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4028",
+  "ts": "2026-11-18T06:09:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer C",
+  "caseId": "RT-1063",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 747,
+  "input": {
+   "caseId": "RT-1063",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Marcus Vance",
+  "decidedAt": "2026-11-18T06:55:00.000Z"
+ },
+ {
+  "id": "call-4027",
+  "ts": "2026-11-18T05:58:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer A",
+  "caseId": "RT-1094",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 608,
+  "input": {
+   "caseId": "RT-1094",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4026",
+  "ts": "2026-11-18T05:00:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 2475,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4025",
+  "ts": "2026-11-18T03:40:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_bin_transfer",
+  "tenant": "Customer A",
+  "caseId": "RT-1022",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 687,
+  "input": {
+   "caseId": "RT-1022",
+   "fromBin": "W1-A-04-2",
+   "toBin": "W1-STG-01",
+   "priority": "normal"
+  },
+  "output": {
+   "taskId": "MT-552871",
+   "status": "released",
+   "eta": "2026-11-20T11:30:00Z"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-18T03:52:00.000Z"
+ },
+ {
+  "id": "call-4024",
+  "ts": "2026-11-18T03:30:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer B",
+  "caseId": "RT-1038",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 429,
+  "input": {
+   "caseId": "RT-1038",
+   "site": "Warehouse 1"
+  },
+  "output": {
+   "bin": "W1-B-11-3",
+   "lpn": "LPN00881234",
+   "holdCodes": [
+    "QA"
+   ],
+   "dwellDays": 9
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4023",
+  "ts": "2026-11-18T03:26:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer C",
+  "caseId": "RT-1072",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1250,
+  "input": {
+   "caseId": "RT-1072",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4022",
+  "ts": "2026-11-18T01:04:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "wms_inventory_status",
+  "tenant": "Customer B",
+  "caseId": "RT-1023",
+  "result": "error",
+  "gate": "not_required",
+  "latencyMs": 411,
+  "input": {
+   "caseId": "RT-1023",
+   "site": "Warehouse 1"
+  },
+  "output": null,
+  "error": "LPN not found in Manhattan WMS",
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4021",
+  "ts": "2026-11-18T00:09:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 2786,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4020",
+  "ts": "2026-11-17T23:51:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 2734,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4019",
+  "ts": "2026-11-17T23:29:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer C",
+  "caseId": "RT-1033",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 850,
+  "input": {
+   "caseId": "RT-1033",
+   "tenant": "Customer C"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4018",
+  "ts": "2026-11-17T23:09:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer B",
+  "caseId": "RT-1101",
+  "result": "error",
+  "gate": "not_required",
+  "latencyMs": 1102,
+  "input": {
+   "caseId": "RT-1101",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": null,
+  "error": "Feature vector incomplete: missing condition grade",
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4017",
+  "ts": "2026-11-17T23:03:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer C",
+  "caseId": "RT-1039",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 455,
+  "input": {
+   "caseId": "RT-1039",
+   "tenant": "Customer C"
+  },
+  "output": {
+   "contractId": "LC-00042177",
+   "returnCondition": "Fair wear and tear",
+   "damageLiability": "Customer",
+   "endDate": "2026-09-30"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4016",
+  "ts": "2026-11-17T21:24:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer C",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1088,
+  "input": {
+   "model": "Brava BR-X2",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4015",
+  "ts": "2026-11-17T21:10:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "machinio_listing_publish",
+  "tenant": "Customer A",
+  "caseId": "RT-1124",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 1106,
+  "input": {
+   "caseId": "RT-1124",
+   "askPrice": 4200,
+   "conditionGrade": "B"
+  },
+  "output": {
+   "listingId": "MCH-9921045",
+   "url": "https://www.machinio.com/listings/9921045",
+   "status": "pending_review"
+  },
+  "error": null,
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-17T21:47:00.000Z"
+ },
+ {
+  "id": "call-4014",
+  "ts": "2026-11-17T20:56:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "solve_pool_allocations",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 2873,
+  "input": {
+   "poolId": "POOL-2026-47",
+   "objective": "balanced",
+   "timeLimitSec": 30
+  },
+  "output": {
+   "status": "optimal",
+   "objectiveValue": 182340,
+   "assignments": 41,
+   "gapPct": 0
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4013",
+  "ts": "2026-11-17T18:38:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "sap_asset_lookup",
+  "tenant": "Customer C",
+  "caseId": "RT-1120",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 591,
+  "input": {
+   "caseId": "RT-1120",
+   "companyCode": "1000",
+   "includeSchedule": true
+  },
+  "output": {
+   "assetNumber": "100004512-0",
+   "acquisitionValue": 48200,
+   "netBookValue": 11650,
+   "currency": "USD",
+   "usefulLifeMonths": 84
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4012",
+  "ts": "2026-11-17T16:53:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer C",
+  "caseId": "RT-1105",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 728,
+  "input": {
+   "caseId": "RT-1105",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Luis Ortega",
+  "decidedAt": "2026-11-17T17:23:00.000Z"
+ },
+ {
+  "id": "call-4011",
+  "ts": "2026-11-17T16:48:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer C",
+  "caseId": "RT-1063",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1098,
+  "input": {
+   "caseId": "RT-1063",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4010",
+  "ts": "2026-11-17T15:21:00.000Z",
+  "agentId": "ag-evidence",
+  "toolId": "sfdc_account_contract",
+  "tenant": "Customer B",
+  "caseId": "RT-1053",
+  "result": "error",
+  "gate": "not_required",
+  "latencyMs": 918,
+  "input": {
+   "caseId": "RT-1053",
+   "tenant": "Customer B"
+  },
+  "output": null,
+  "error": "Salesforce API limit reached (REQUEST_LIMIT_EXCEEDED)",
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4009",
+  "ts": "2026-11-17T13:22:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "machinio_listing_publish",
+  "tenant": "Customer B",
+  "caseId": "RT-1014",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 2246,
+  "input": {
+   "caseId": "RT-1014",
+   "askPrice": 4200,
+   "conditionGrade": "B"
+  },
+  "output": {
+   "listingId": "MCH-9921045",
+   "url": "https://www.machinio.com/listings/9921045",
+   "status": "pending_review"
+  },
+  "error": null,
+  "decidedBy": "Elena Rostova",
+  "decidedAt": "2026-11-17T13:38:00.000Z"
+ },
+ {
+  "id": "call-4008",
+  "ts": "2026-11-17T13:19:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer C",
+  "caseId": "RT-1081",
+  "result": "error",
+  "gate": "not_required",
+  "latencyMs": 394,
+  "input": {
+   "caseId": "RT-1081",
+   "sinceMonths": 24
+  },
+  "output": null,
+  "error": "Asset tag not registered in Maximo site",
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4007",
+  "ts": "2026-11-17T12:38:00.000Z",
+  "agentId": "ag-audit",
+  "toolId": "maximo_asset_history",
+  "tenant": "Customer C",
+  "caseId": "RT-1111",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 691,
+  "input": {
+   "caseId": "RT-1111",
+   "sinceMonths": 24
+  },
+  "output": {
+   "workOrders": 7,
+   "lastFailureCode": "BRG-WEAR",
+   "runHours": 18420
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4006",
+  "ts": "2026-11-17T12:18:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer C",
+  "caseId": "RT-1078",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 655,
+  "input": {
+   "caseId": "RT-1078",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Elena Rostova",
+  "decidedAt": "2026-11-17T13:06:00.000Z"
+ },
+ {
+  "id": "call-4005",
+  "ts": "2026-11-17T10:54:00.000Z",
+  "agentId": "ag-opportunity",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1334,
+  "input": {
+   "model": "Halden Hydraulics NF-40",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4004",
+  "ts": "2026-11-17T10:50:00.000Z",
+  "agentId": "ag-reconciler",
+  "toolId": "sap_post_writeoff",
+  "tenant": "Customer A",
+  "caseId": "RT-1073",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 862,
+  "input": {
+   "caseId": "RT-1073",
+   "assetNumber": "100003877-0",
+   "retirementValue": 2400,
+   "reason": "sale"
+  },
+  "output": {
+   "documentNumber": "4900018832",
+   "fiscalYear": 2026,
+   "status": "posted"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-17T12:24:00.000Z"
+ },
+ {
+  "id": "call-4003",
+  "ts": "2026-11-17T10:45:00.000Z",
+  "agentId": "ag-analytics",
+  "toolId": "machinio_price_comps",
+  "tenant": "Customer A",
+  "caseId": null,
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1172,
+  "input": {
+   "model": "Voltara HX-90",
+   "condition": "used",
+   "region": "NA"
+  },
+  "output": {
+   "comparables": 23,
+   "p25": 3100,
+   "median": 3950,
+   "p75": 4600,
+   "daysToSell": 34
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4002",
+  "ts": "2026-11-17T10:17:00.000Z",
+  "agentId": "ag-briefing",
+  "toolId": "predict_recovery_value",
+  "tenant": "Customer A",
+  "caseId": "RT-1031",
+  "result": "success",
+  "gate": "not_required",
+  "latencyMs": 1218,
+  "input": {
+   "caseId": "RT-1031",
+   "routes": [
+    "resale",
+    "relase",
+    "intparts"
+   ]
+  },
+  "output": {
+   "bestRoute": "relase",
+   "netValue": 6120,
+   "ci90": [
+    5200,
+    7050
+   ],
+   "modelVersion": "rv-2026.10.2"
+  },
+  "error": null,
+  "decidedBy": null,
+  "decidedAt": null
+ },
+ {
+  "id": "call-4001",
+  "ts": "2026-11-17T09:47:00.000Z",
+  "agentId": "ag-handoff",
+  "toolId": "sfdc_case_update",
+  "tenant": "Customer C",
+  "caseId": "RT-1021",
+  "result": "success",
+  "gate": "approved",
+  "latencyMs": 945,
+  "input": {
+   "caseId": "RT-1021",
+   "disposition": "resale",
+   "recoveryValue": 5200,
+   "note": "Approved for resale via Machinio listing."
+  },
+  "output": {
+   "sfdcCaseNumber": "00318842",
+   "status": "Closed - Dispositioned"
+  },
+  "error": null,
+  "decidedBy": "Grace Mensah",
+  "decidedAt": "2026-11-17T10:59:00.000Z"
+ }
+]

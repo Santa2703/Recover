@@ -1,0 +1,3329 @@
+{
+  "RT-1001": {
+    "intakeChannel": "excess",
+    "lifePct": 60,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 69
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 52
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 67
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 55
+      }
+    ]
+  },
+  "RT-1002": {
+    "intakeChannel": "lease_end",
+    "lifePct": 79,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 74
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 69
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 64
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 61
+      }
+    ]
+  },
+  "RT-1003": {
+    "intakeChannel": "trade_in",
+    "lifePct": 16,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 19
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 3
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 2
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 30
+      }
+    ]
+  },
+  "RT-1004": {
+    "intakeChannel": "lease_end",
+    "lifePct": 72,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 76
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 59
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 82
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 72
+      }
+    ]
+  },
+  "RT-1005": {
+    "intakeChannel": "lease_end",
+    "lifePct": 15,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 3
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 2
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 8
+      }
+    ]
+  },
+  "RT-1006": {
+    "intakeChannel": "trade_in",
+    "lifePct": 58,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 46
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 46
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 53
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 68
+      }
+    ]
+  },
+  "RT-1007": {
+    "intakeChannel": "lease_end",
+    "lifePct": 71,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 80
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 66
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 60
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 72
+      }
+    ]
+  },
+  "RT-1008": {
+    "intakeChannel": "excess",
+    "lifePct": 80,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 88
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 94
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 76
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 66
+      }
+    ]
+  },
+  "RT-1009": {
+    "intakeChannel": "lease_end",
+    "lifePct": 59,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 52
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 42
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 52
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 54
+      }
+    ]
+  },
+  "RT-1010": {
+    "intakeChannel": "lease_end",
+    "lifePct": 75,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 73
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 84
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 74
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 84
+      }
+    ]
+  },
+  "RT-1011": {
+    "intakeChannel": "lease_end",
+    "lifePct": 93,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 98
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 100
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 78
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 99
+      }
+    ]
+  },
+  "RT-1012": {
+    "intakeChannel": "lease_end",
+    "lifePct": 82,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 98
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 100
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 66
+      }
+    ]
+  },
+  "RT-1013": {
+    "intakeChannel": "lease_end",
+    "lifePct": 54,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 65
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 67
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 45
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 59
+      }
+    ]
+  },
+  "RT-1014": {
+    "intakeChannel": "field_return",
+    "lifePct": 65,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 60
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 49
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 56
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 63
+      }
+    ]
+  },
+  "RT-1015": {
+    "intakeChannel": "field_return",
+    "lifePct": 66,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 62
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 68
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 47
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 75
+      }
+    ]
+  },
+  "RT-1016": {
+    "intakeChannel": "lease_end",
+    "lifePct": 59,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 73
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 72
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 42
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 52
+      }
+    ]
+  },
+  "RT-1017": {
+    "intakeChannel": "field_return",
+    "lifePct": 81,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 86
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 62
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 61
+      }
+    ]
+  },
+  "RT-1018": {
+    "intakeChannel": "lease_end",
+    "lifePct": 63,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 68
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 72
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 70
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 60
+      }
+    ]
+  },
+  "RT-1019": {
+    "intakeChannel": "trade_in",
+    "lifePct": 26,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 2390,
+        "lifePct": 34
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1600,
+        "lifePct": 30
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 800,
+        "lifePct": 8
+      }
+    ]
+  },
+  "RT-1020": {
+    "intakeChannel": "field_return",
+    "lifePct": 73,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 87
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 73
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 56
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 79
+      }
+    ]
+  },
+  "RT-1021": {
+    "intakeChannel": "lease_end",
+    "lifePct": 55,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 72
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 56
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 36
+      }
+    ]
+  },
+  "RT-1022": {
+    "intakeChannel": "field_return",
+    "lifePct": 57,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 39
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 58
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 41
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 56
+      }
+    ]
+  },
+  "RT-1023": {
+    "intakeChannel": "field_return",
+    "lifePct": 45,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1510,
+        "lifePct": 53
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1010,
+        "lifePct": 30
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 500,
+        "lifePct": 58
+      }
+    ]
+  },
+  "RT-1024": {
+    "intakeChannel": "trade_in",
+    "lifePct": 67,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 67
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 78
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 74
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 77
+      }
+    ]
+  },
+  "RT-1025": {
+    "intakeChannel": "lease_end",
+    "lifePct": 57,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1450,
+        "lifePct": 58
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 970,
+        "lifePct": 43
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 480,
+        "lifePct": 61
+      }
+    ]
+  },
+  "RT-1026": {
+    "intakeChannel": "field_return",
+    "lifePct": 70,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 72
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 61
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 68
+      }
+    ]
+  },
+  "RT-1027": {
+    "intakeChannel": "trade_in",
+    "lifePct": 56,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 49
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 41
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 69
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 56
+      }
+    ]
+  },
+  "RT-1028": {
+    "intakeChannel": "excess",
+    "lifePct": 48,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 33
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 29
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 31
+      }
+    ]
+  },
+  "RT-1029": {
+    "intakeChannel": "field_return",
+    "lifePct": 69,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 85
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 52
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 59
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 62
+      }
+    ]
+  },
+  "RT-1030": {
+    "intakeChannel": "excess",
+    "lifePct": 73,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 86
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 88
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 69
+      }
+    ]
+  },
+  "RT-1031": {
+    "intakeChannel": "trade_in",
+    "lifePct": 64,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 76
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 61
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 49
+      }
+    ]
+  },
+  "RT-1032": {
+    "intakeChannel": "lease_end",
+    "lifePct": 51,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 43
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 38
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 56
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 62
+      }
+    ]
+  },
+  "RT-1033": {
+    "intakeChannel": "field_return",
+    "lifePct": 33,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 49
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 31
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 37
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 31
+      }
+    ]
+  },
+  "RT-1034": {
+    "intakeChannel": "excess",
+    "lifePct": 52,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 61
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 64
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 34
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 58
+      }
+    ]
+  },
+  "RT-1035": {
+    "intakeChannel": "field_return",
+    "lifePct": 63,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 76
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 60
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 77
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 65
+      }
+    ]
+  },
+  "RT-1036": {
+    "intakeChannel": "field_return",
+    "lifePct": 43,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1580,
+        "lifePct": 30
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1050,
+        "lifePct": 58
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 530,
+        "lifePct": 36
+      }
+    ]
+  },
+  "RT-1037": {
+    "intakeChannel": "excess",
+    "lifePct": 51,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 50
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 43
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 34
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 39
+      }
+    ]
+  },
+  "RT-1038": {
+    "intakeChannel": "lease_end",
+    "lifePct": 56,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 53
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 58
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 41
+      }
+    ]
+  },
+  "RT-1039": {
+    "intakeChannel": "excess",
+    "lifePct": 49,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 68
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 61
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 57
+      }
+    ]
+  },
+  "RT-1040": {
+    "intakeChannel": "excess",
+    "lifePct": 72,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 72
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 74
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 60
+      }
+    ]
+  },
+  "RT-1041": {
+    "intakeChannel": "lease_end",
+    "lifePct": 17,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 15
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 20
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 16
+      }
+    ]
+  },
+  "RT-1042": {
+    "intakeChannel": "lease_end",
+    "lifePct": 25,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 14
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 21
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 42
+      }
+    ]
+  },
+  "RT-1043": {
+    "intakeChannel": "field_return",
+    "lifePct": 68,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 52
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 74
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 79
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 56
+      }
+    ]
+  },
+  "RT-1044": {
+    "intakeChannel": "trade_in",
+    "lifePct": 80,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 97
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 78
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 60
+      }
+    ]
+  },
+  "RT-1045": {
+    "intakeChannel": "lease_end",
+    "lifePct": 61,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 56
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 51
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 57
+      }
+    ]
+  },
+  "RT-1046": {
+    "intakeChannel": "field_return",
+    "lifePct": 61,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 80
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 75
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 48
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 64
+      }
+    ]
+  },
+  "RT-1047": {
+    "intakeChannel": "trade_in",
+    "lifePct": 27,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 43
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 23
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 18
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 33
+      }
+    ]
+  },
+  "RT-1048": {
+    "intakeChannel": "lease_end",
+    "lifePct": 68,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 50
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 68
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 72
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 69
+      }
+    ]
+  },
+  "RT-1049": {
+    "intakeChannel": "trade_in",
+    "lifePct": 71,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 91
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 73
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 72
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 67
+      }
+    ]
+  },
+  "RT-1050": {
+    "intakeChannel": "excess",
+    "lifePct": 38,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 19
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 43
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 25
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 27
+      }
+    ]
+  },
+  "RT-1051": {
+    "intakeChannel": "excess",
+    "lifePct": 47,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 36
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 46
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 52
+      }
+    ]
+  },
+  "RT-1052": {
+    "intakeChannel": "field_return",
+    "lifePct": 45,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 43
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 40
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 33
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 63
+      }
+    ]
+  },
+  "RT-1053": {
+    "intakeChannel": "lease_end",
+    "lifePct": 16,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 6
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 2
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 23
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 29
+      }
+    ]
+  },
+  "RT-1054": {
+    "intakeChannel": "excess",
+    "lifePct": 55,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 45
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 39
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 67
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 74
+      }
+    ]
+  },
+  "RT-1055": {
+    "intakeChannel": "field_return",
+    "lifePct": 59,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 44
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 68
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 56
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 59
+      }
+    ]
+  },
+  "RT-1056": {
+    "intakeChannel": "excess",
+    "lifePct": 42,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 51
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 36
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 41
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 60
+      }
+    ]
+  },
+  "RT-1057": {
+    "intakeChannel": "excess",
+    "lifePct": 73,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 70
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 72
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 85
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 58
+      }
+    ]
+  },
+  "RT-1058": {
+    "intakeChannel": "lease_end",
+    "lifePct": 60,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 51
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 53
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 49
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 70
+      }
+    ]
+  },
+  "RT-1059": {
+    "intakeChannel": "lease_end",
+    "lifePct": 70,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 76
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 65
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 84
+      }
+    ]
+  },
+  "RT-1060": {
+    "intakeChannel": "trade_in",
+    "lifePct": 70,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 86
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 73
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 60
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 61
+      }
+    ]
+  },
+  "RT-1061": {
+    "intakeChannel": "excess",
+    "lifePct": 52,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 67
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 33
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 33
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 60
+      }
+    ]
+  },
+  "RT-1062": {
+    "intakeChannel": "field_return",
+    "lifePct": 93,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 100
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 84
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 77
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 81
+      }
+    ]
+  },
+  "RT-1063": {
+    "intakeChannel": "excess",
+    "lifePct": 90,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 100
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 83
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 97
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 100
+      }
+    ]
+  },
+  "RT-1064": {
+    "intakeChannel": "lease_end",
+    "lifePct": 61,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 41
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 72
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 44
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 48
+      }
+    ]
+  },
+  "RT-1065": {
+    "intakeChannel": "excess",
+    "lifePct": 21,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 2
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 12
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 5
+      }
+    ]
+  },
+  "RT-1066": {
+    "intakeChannel": "field_return",
+    "lifePct": 48,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 40
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 48
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 34
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 50
+      }
+    ]
+  },
+  "RT-1067": {
+    "intakeChannel": "trade_in",
+    "lifePct": 23,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 41
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 22
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 28
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 37
+      }
+    ]
+  },
+  "RT-1068": {
+    "intakeChannel": "lease_end",
+    "lifePct": 73,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 53
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 60
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 58
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 59
+      }
+    ]
+  },
+  "RT-1069": {
+    "intakeChannel": "field_return",
+    "lifePct": 63,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 44
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 66
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 81
+      }
+    ]
+  },
+  "RT-1070": {
+    "intakeChannel": "trade_in",
+    "lifePct": 59,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 51
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 42
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 67
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 73
+      }
+    ]
+  },
+  "RT-1071": {
+    "intakeChannel": "lease_end",
+    "lifePct": 79,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 73
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 80
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 62
+      }
+    ]
+  },
+  "RT-1072": {
+    "intakeChannel": "trade_in",
+    "lifePct": 63,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 55
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 73
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 74
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 51
+      }
+    ]
+  },
+  "RT-1073": {
+    "intakeChannel": "excess",
+    "lifePct": 32,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 29
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 15
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 51
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 14
+      }
+    ]
+  },
+  "RT-1074": {
+    "intakeChannel": "lease_end",
+    "lifePct": 65,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 66
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 57
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 50
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 68
+      }
+    ]
+  },
+  "RT-1075": {
+    "intakeChannel": "excess",
+    "lifePct": 66,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 77
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 53
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 59
+      }
+    ]
+  },
+  "RT-1076": {
+    "intakeChannel": "excess",
+    "lifePct": 77,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 83
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 72
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 67
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 81
+      }
+    ]
+  },
+  "RT-1077": {
+    "intakeChannel": "lease_end",
+    "lifePct": 26,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1700,
+        "lifePct": 11
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1130,
+        "lifePct": 18
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 570,
+        "lifePct": 10
+      }
+    ]
+  },
+  "RT-1078": {
+    "intakeChannel": "excess",
+    "lifePct": 30,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 19
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 45
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 43
+      }
+    ]
+  },
+  "RT-1079": {
+    "intakeChannel": "lease_end",
+    "lifePct": 43,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 33
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 47
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 29
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 30
+      }
+    ]
+  },
+  "RT-1080": {
+    "intakeChannel": "field_return",
+    "lifePct": 49,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 61
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 29
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 61
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 52
+      }
+    ]
+  },
+  "RT-1081": {
+    "intakeChannel": "field_return",
+    "lifePct": 85,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 80
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 69
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 100
+      }
+    ]
+  },
+  "RT-1082": {
+    "intakeChannel": "trade_in",
+    "lifePct": 58,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 42
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 46
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 76
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 51
+      }
+    ]
+  },
+  "RT-1083": {
+    "intakeChannel": "lease_end",
+    "lifePct": 61,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 71
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 54
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 68
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 71
+      }
+    ]
+  },
+  "RT-1084": {
+    "intakeChannel": "field_return",
+    "lifePct": 73,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1450,
+        "lifePct": 56
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 970,
+        "lifePct": 93
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 480,
+        "lifePct": 88
+      }
+    ]
+  },
+  "RT-1085": {
+    "intakeChannel": "field_return",
+    "lifePct": 41,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 51
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 38
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 37
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 22
+      }
+    ]
+  },
+  "RT-1086": {
+    "intakeChannel": "trade_in",
+    "lifePct": 55,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 56
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 37
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 70
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 47
+      }
+    ]
+  },
+  "RT-1087": {
+    "intakeChannel": "field_return",
+    "lifePct": 15,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 2
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 32
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 18
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 2
+      }
+    ]
+  },
+  "RT-1088": {
+    "intakeChannel": "lease_end",
+    "lifePct": 65,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 79
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 72
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 75
+      }
+    ]
+  },
+  "RT-1089": {
+    "intakeChannel": "excess",
+    "lifePct": 44,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 46
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 28
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 59
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 31
+      }
+    ]
+  },
+  "RT-1090": {
+    "intakeChannel": "field_return",
+    "lifePct": 10,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 25
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 20
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 25
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 2
+      }
+    ]
+  },
+  "RT-1091": {
+    "intakeChannel": "excess",
+    "lifePct": 36,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 52
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 52
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 26
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 21
+      }
+    ]
+  },
+  "RT-1092": {
+    "intakeChannel": "field_return",
+    "lifePct": 14,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 20
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 31
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 17
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 9
+      }
+    ]
+  },
+  "RT-1093": {
+    "intakeChannel": "lease_end",
+    "lifePct": 39,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 32
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 52
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 30
+      }
+    ]
+  },
+  "RT-1094": {
+    "intakeChannel": "lease_end",
+    "lifePct": 77,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 87
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 61
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 73
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 65
+      }
+    ]
+  },
+  "RT-1095": {
+    "intakeChannel": "excess",
+    "lifePct": 47,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 42
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 41
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 36
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 54
+      }
+    ]
+  },
+  "RT-1096": {
+    "intakeChannel": "excess",
+    "lifePct": 57,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1510,
+        "lifePct": 64
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1010,
+        "lifePct": 53
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 500,
+        "lifePct": 63
+      }
+    ]
+  },
+  "RT-1097": {
+    "intakeChannel": "field_return",
+    "lifePct": 83,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 69
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 90
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 81
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 89
+      }
+    ]
+  },
+  "RT-1098": {
+    "intakeChannel": "excess",
+    "lifePct": 44,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 39
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 48
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 41
+      }
+    ]
+  },
+  "RT-1099": {
+    "intakeChannel": "field_return",
+    "lifePct": 8,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 2
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 26
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 26
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 6
+      }
+    ]
+  },
+  "RT-1100": {
+    "intakeChannel": "excess",
+    "lifePct": 43,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 59
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 34
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 33
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 35
+      }
+    ]
+  },
+  "RT-1101": {
+    "intakeChannel": "excess",
+    "lifePct": 86,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 100
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 67
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 74
+      }
+    ]
+  },
+  "RT-1102": {
+    "intakeChannel": "field_return",
+    "lifePct": 68,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1640,
+        "lifePct": 73
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1090,
+        "lifePct": 60
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 550,
+        "lifePct": 68
+      }
+    ]
+  },
+  "RT-1103": {
+    "intakeChannel": "excess",
+    "lifePct": 14,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 32
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 3
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 2
+      }
+    ]
+  },
+  "RT-1104": {
+    "intakeChannel": "lease_end",
+    "lifePct": 14,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 33
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 5
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 13
+      }
+    ]
+  },
+  "RT-1105": {
+    "intakeChannel": "lease_end",
+    "lifePct": 29,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 47
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 33
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 11
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 48
+      }
+    ]
+  },
+  "RT-1106": {
+    "intakeChannel": "excess",
+    "lifePct": 38,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 43
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 42
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 40
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 20
+      }
+    ]
+  },
+  "RT-1107": {
+    "intakeChannel": "field_return",
+    "lifePct": 28,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 30
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 33
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 40
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 26
+      }
+    ]
+  },
+  "RT-1108": {
+    "intakeChannel": "field_return",
+    "lifePct": 79,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 75
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 72
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 79
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 89
+      }
+    ]
+  },
+  "RT-1109": {
+    "intakeChannel": "excess",
+    "lifePct": 67,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 62
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 56
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 65
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 82
+      }
+    ]
+  },
+  "RT-1110": {
+    "intakeChannel": "trade_in",
+    "lifePct": 37,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1760,
+        "lifePct": 18
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1180,
+        "lifePct": 34
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 590,
+        "lifePct": 38
+      }
+    ]
+  },
+  "RT-1111": {
+    "intakeChannel": "lease_end",
+    "lifePct": 59,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 76
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 52
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 50
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 46
+      }
+    ]
+  },
+  "RT-1112": {
+    "intakeChannel": "field_return",
+    "lifePct": 8,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1890,
+        "lifePct": 6
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1260,
+        "lifePct": 8
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 630,
+        "lifePct": 2
+      }
+    ]
+  },
+  "RT-1113": {
+    "intakeChannel": "trade_in",
+    "lifePct": 73,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 81
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 71
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 73
+      }
+    ]
+  },
+  "RT-1114": {
+    "intakeChannel": "lease_end",
+    "lifePct": 78,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 87
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 92
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 61
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 66
+      }
+    ]
+  },
+  "RT-1115": {
+    "intakeChannel": "trade_in",
+    "lifePct": 79,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 98
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 96
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 59
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 81
+      }
+    ]
+  },
+  "RT-1116": {
+    "intakeChannel": "excess",
+    "lifePct": 57,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 39
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 47
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 77
+      }
+    ]
+  },
+  "RT-1117": {
+    "intakeChannel": "trade_in",
+    "lifePct": 87,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 86
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 75
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 100
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 100
+      }
+    ]
+  },
+  "RT-1118": {
+    "intakeChannel": "lease_end",
+    "lifePct": 39,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 51
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 26
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 27
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 48
+      }
+    ]
+  },
+  "RT-1119": {
+    "intakeChannel": "excess",
+    "lifePct": 71,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 61
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 76
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 59
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 51
+      }
+    ]
+  },
+  "RT-1120": {
+    "intakeChannel": "lease_end",
+    "lifePct": 73,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 64
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 81
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 61
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 84
+      }
+    ]
+  },
+  "RT-1121": {
+    "intakeChannel": "field_return",
+    "lifePct": 13,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 23
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 29
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 7
+      }
+    ]
+  },
+  "RT-1122": {
+    "intakeChannel": "trade_in",
+    "lifePct": 45,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 50
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 29
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 34
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 45
+      }
+    ]
+  },
+  "RT-1123": {
+    "intakeChannel": "trade_in",
+    "lifePct": 64,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 53
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 51
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 68
+      }
+    ]
+  },
+  "RT-1124": {
+    "intakeChannel": "field_return",
+    "lifePct": 66,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 62
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 78
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 68
+      }
+    ]
+  },
+  "RT-1125": {
+    "intakeChannel": "trade_in",
+    "lifePct": 62,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 82
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 45
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 54
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 65
+      }
+    ]
+  },
+  "RT-1126": {
+    "intakeChannel": "lease_end",
+    "lifePct": 10,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1510,
+        "lifePct": 28
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1010,
+        "lifePct": 17
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 500,
+        "lifePct": 28
+      }
+    ]
+  },
+  "RT-1127": {
+    "intakeChannel": "field_return",
+    "lifePct": 58,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 57
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 47
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 49
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 47
+      }
+    ]
+  },
+  "RT-1128": {
+    "intakeChannel": "lease_end",
+    "lifePct": 72,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 88
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 70
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 84
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 58
+      }
+    ]
+  },
+  "RT-1129": {
+    "intakeChannel": "lease_end",
+    "lifePct": 71,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 56
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 57
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 89
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 54
+      }
+    ]
+  },
+  "RT-1130": {
+    "intakeChannel": "field_return",
+    "lifePct": 42,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 62
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 71
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 28
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 35
+      }
+    ]
+  },
+  "RT-1131": {
+    "intakeChannel": "excess",
+    "lifePct": 82,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 100
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 79
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 90
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 100
+      }
+    ]
+  },
+  "RT-1132": {
+    "intakeChannel": "trade_in",
+    "lifePct": 64,
+    "parts": [
+      {
+        "name": "Mainboard",
+        "newPrice": 300,
+        "lifePct": 68
+      },
+      {
+        "name": "SSD",
+        "newPrice": 120,
+        "lifePct": 53
+      },
+      {
+        "name": "Display",
+        "newPrice": 170,
+        "lifePct": 47
+      },
+      {
+        "name": "Battery",
+        "newPrice": 70,
+        "lifePct": 54
+      }
+    ]
+  },
+  "RT-1133": {
+    "intakeChannel": "field_return",
+    "lifePct": 30,
+    "parts": [
+      {
+        "name": "Stator winding",
+        "newPrice": 3780,
+        "lifePct": 62
+      },
+      {
+        "name": "Rotor and shaft",
+        "newPrice": 2600,
+        "lifePct": 71
+      },
+      {
+        "name": "Bearings (DE / NDE)",
+        "newPrice": 940,
+        "lifePct": 12
+      },
+      {
+        "name": "Terminal box",
+        "newPrice": 710,
+        "lifePct": 17
+      }
+    ]
+  },
+  "RT-1134": {
+    "intakeChannel": "lease_end",
+    "lifePct": 65,
+    "parts": [
+      {
+        "name": "Tool bodies",
+        "newPrice": 1640,
+        "lifePct": 66
+      },
+      {
+        "name": "Battery packs",
+        "newPrice": 1090,
+        "lifePct": 75
+      },
+      {
+        "name": "Chargers",
+        "newPrice": 550,
+        "lifePct": 81
+      }
+    ]
+  },
+  "RT-1135": {
+    "intakeChannel": "trade_in",
+    "lifePct": 58,
+    "parts": [
+      {
+        "name": "Piston assembly",
+        "newPrice": 1920,
+        "lifePct": 78
+      },
+      {
+        "name": "Swash plate",
+        "newPrice": 1150,
+        "lifePct": 55
+      },
+      {
+        "name": "Valve block",
+        "newPrice": 1280,
+        "lifePct": 58
+      },
+      {
+        "name": "Shaft seal kit",
+        "newPrice": 320,
+        "lifePct": 43
+      }
+    ]
+  },
+  "RT-1136": {
+    "intakeChannel": "field_return",
+    "lifePct": 86,
+    "parts": [
+      {
+        "name": "CPU module",
+        "newPrice": 1630,
+        "lifePct": 98
+      },
+      {
+        "name": "I/O cards",
+        "newPrice": 1030,
+        "lifePct": 100
+      },
+      {
+        "name": "Power supply",
+        "newPrice": 520,
+        "lifePct": 100
+      },
+      {
+        "name": "Comms module",
+        "newPrice": 600,
+        "lifePct": 69
+      }
+    ]
+  },
+  "RT-1137": {
+    "intakeChannel": "excess",
+    "lifePct": 41,
+    "parts": [
+      {
+        "name": "Brushless motor",
+        "newPrice": 120,
+        "lifePct": 44
+      },
+      {
+        "name": "Gearbox",
+        "newPrice": 70,
+        "lifePct": 36
+      },
+      {
+        "name": "Battery pack",
+        "newPrice": 90,
+        "lifePct": 31
+      }
+    ]
+  }
+}

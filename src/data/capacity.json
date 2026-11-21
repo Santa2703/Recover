@@ -1,0 +1,34 @@
+[
+  {
+    "id": "cap-insp-w1",
+    "label": "Inspection bays · Warehouse 1",
+    "site": "Warehouse 1",
+    "used": 12,
+    "capacity": 12,
+    "unit": "assets / week"
+  },
+  {
+    "id": "cap-insp-w2",
+    "label": "Inspection bays · Warehouse 2",
+    "site": "Warehouse 2",
+    "used": 12,
+    "capacity": 12,
+    "unit": "assets / week"
+  },
+  {
+    "id": "cap-repair",
+    "label": "Repair benches · Repair centre",
+    "site": "Repair centre",
+    "used": 9,
+    "capacity": 10,
+    "unit": "jobs / week"
+  },
+  {
+    "id": "cap-dock",
+    "label": "Staging dock · Warehouse 2",
+    "site": "Warehouse 2",
+    "used": 14,
+    "capacity": 20,
+    "unit": "pallets / day"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ASN-4019",
+    "carrier": "DHL Freight",
+    "origin": "Customer A",
+    "arrivalAt": "2026-11-20T14:00:00Z",
+    "units": 6,
+    "productClass": "Motors and drives",
+    "capacityId": "cap-insp-w1",
+    "status": "expected"
+  },
+  {
+    "id": "ASN-4024",
+    "carrier": "Kuehne+Nagel",
+    "origin": "Customer B",
+    "arrivalAt": "2026-11-21T09:00:00Z",
+    "units": 9,
+    "productClass": "Pumps and valves",
+    "capacityId": "cap-dock",
+    "status": "expected"
+  },
+  {
+    "id": "ASN-4028",
+    "carrier": "Internal fleet",
+    "origin": "Customer C",
+    "arrivalAt": "2026-11-21T16:00:00Z",
+    "units": 3,
+    "productClass": "Control units",
+    "capacityId": "cap-repair",
+    "status": "expected"
+  },
+  {
+    "id": "ASN-4033",
+    "carrier": "DHL Freight",
+    "origin": "Customer A",
+    "arrivalAt": "2026-11-22T11:00:00Z",
+    "units": 4,
+    "productClass": "IT electronics",
+    "capacityId": "cap-insp-w2",
+    "status": "bay_confirmed"
+  }
+]

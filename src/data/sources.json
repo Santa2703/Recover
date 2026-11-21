@@ -1,0 +1,2891 @@
+{
+  "asOf": "2026-11-20T09:00:00Z",
+  "categories": [
+    "PLM",
+    "ERP",
+    "EAM/FSM",
+    "WMS/OMS",
+    "CRM",
+    "IoT",
+    "Market",
+    "Sustainability",
+    "Files"
+  ],
+  "canonicalModels": [
+    {
+      "id": "asset",
+      "name": "Asset & component",
+      "version": "v2.3",
+      "fields": [
+        "asset_id",
+        "serial_number",
+        "product_code",
+        "bom_revision",
+        "manufacture_date",
+        "purchase_cost",
+        "hours_run",
+        "site",
+        "tenant",
+        "lease_end"
+      ]
+    },
+    {
+      "id": "condition",
+      "name": "Condition & eligibility",
+      "version": "v2.1",
+      "fields": [
+        "condition_grade",
+        "fault_codes",
+        "last_inspection",
+        "residual_life_months",
+        "cosmetic_score",
+        "test_result",
+        "material_declaration"
+      ]
+    },
+    {
+      "id": "demand",
+      "name": "Demand opportunity",
+      "version": "v1.8",
+      "fields": [
+        "buyer_segment",
+        "listing_price",
+        "demand_index",
+        "comparable_price",
+        "time_to_sale_days",
+        "region"
+      ]
+    },
+    {
+      "id": "intervention",
+      "name": "Intervention",
+      "version": "v1.5",
+      "fields": [
+        "work_order_id",
+        "intervention_type",
+        "labour_hours",
+        "parts_cost",
+        "technician",
+        "completed_at"
+      ]
+    },
+    {
+      "id": "route",
+      "name": "Route candidate",
+      "version": "v2.0",
+      "fields": [
+        "route",
+        "channel",
+        "partner",
+        "est_recovery_value",
+        "carbon_avoided_kg"
+      ]
+    },
+    {
+      "id": "decision",
+      "name": "Decision",
+      "version": "v2.2",
+      "fields": [
+        "decision_id",
+        "chosen_route",
+        "approved_by",
+        "rationale",
+        "decided_at"
+      ]
+    },
+    {
+      "id": "outcome",
+      "name": "Outcome",
+      "version": "v1.6",
+      "fields": [
+        "realised_value",
+        "sold_at",
+        "recovered_material_kg",
+        "certificate_id",
+        "settlement_status"
+      ]
+    }
+  ],
+  "decisionSteps": [
+    {
+      "id": "demand_matching",
+      "name": "Demand matching",
+      "kind": "Model",
+      "inputs": [
+        "demand",
+        "route",
+        "asset"
+      ]
+    },
+    {
+      "id": "condition_grading",
+      "name": "Condition grading",
+      "kind": "Model",
+      "inputs": [
+        "condition",
+        "asset"
+      ]
+    },
+    {
+      "id": "resale_price",
+      "name": "Resale price",
+      "kind": "Model",
+      "inputs": [
+        "demand",
+        "condition"
+      ]
+    },
+    {
+      "id": "prep_cost",
+      "name": "Prep cost and time",
+      "kind": "Model",
+      "inputs": [
+        "intervention",
+        "condition"
+      ]
+    },
+    {
+      "id": "service_exposure",
+      "name": "Service exposure",
+      "kind": "Model",
+      "inputs": [
+        "intervention",
+        "asset"
+      ]
+    },
+    {
+      "id": "decision",
+      "name": "Decision",
+      "kind": "Decision step",
+      "inputs": [
+        "route",
+        "decision"
+      ]
+    },
+    {
+      "id": "reconcile",
+      "name": "Reconcile",
+      "kind": "Decision step",
+      "inputs": [
+        "outcome",
+        "decision"
+      ]
+    }
+  ],
+  "syncIntervals": [
+    {
+      "label": "Real-time Webhook",
+      "minutes": 2
+    },
+    {
+      "label": "Every 5 mins",
+      "minutes": 5
+    },
+    {
+      "label": "Every 10 mins",
+      "minutes": 10
+    },
+    {
+      "label": "Every 15 mins",
+      "minutes": 15
+    },
+    {
+      "label": "Every 30 mins",
+      "minutes": 30
+    },
+    {
+      "label": "Hourly",
+      "minutes": 60
+    },
+    {
+      "label": "Every 4 hours",
+      "minutes": 240
+    },
+    {
+      "label": "Every 6 hours",
+      "minutes": 360
+    },
+    {
+      "label": "Daily",
+      "minutes": 1440
+    },
+    {
+      "label": "Weekly",
+      "minutes": 10080
+    },
+    {
+      "label": "Streaming (MQTT)",
+      "minutes": 60
+    },
+    {
+      "label": "Streaming (AMQP)",
+      "minutes": 60
+    },
+    {
+      "label": "File watcher (hourly)",
+      "minutes": 60
+    }
+  ],
+  "environments": [
+    "Production",
+    "Staging",
+    "Sandbox"
+  ],
+  "healthTrend": [
+    96.8,
+    96.9,
+    97.1,
+    97.1,
+    97.8,
+    97.4,
+    97.4,
+    96.9,
+    96.6,
+    95.7,
+    95.7,
+    95.3,
+    95.6,
+    95.9,
+    96.4,
+    97,
+    97.3,
+    97.2,
+    96,
+    96.3,
+    95.9,
+    96.9,
+    96.7,
+    96.4
+  ],
+  "catalogue": [
+    {
+      "id": "cat-aras",
+      "name": "Aras Innovator",
+      "vendor": "Aras",
+      "category": "PLM",
+      "connectorType": "PLM",
+      "role": "Part BOMs & revisions",
+      "syncMethod": "Daily",
+      "authTypes": [
+        "OAuth 2.0",
+        "Service account"
+      ],
+      "tables": [
+        {
+          "name": "Part",
+          "label": "Parts",
+          "rows": 9200
+        },
+        {
+          "name": "Part BOM",
+          "label": "BOM links",
+          "rows": 31000
+        },
+        {
+          "name": "ECO",
+          "label": "Change orders",
+          "rows": 700
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "Part",
+          "sourceField": "Part.item_number",
+          "canonicalModel": "asset",
+          "canonicalField": "product_code"
+        },
+        {
+          "table": "Part",
+          "sourceField": "Part.major_rev",
+          "canonicalModel": "asset",
+          "canonicalField": "bom_revision"
+        },
+        {
+          "table": "ECO",
+          "sourceField": "ECO.effective_date",
+          "canonicalModel": "condition",
+          "canonicalField": "material_declaration"
+        }
+      ]
+    },
+    {
+      "id": "cat-bentley",
+      "name": "Bentley AssetWise",
+      "vendor": "Bentley",
+      "category": "PLM",
+      "connectorType": "PLM",
+      "role": "Engineering asset registry",
+      "syncMethod": "Daily",
+      "authTypes": [
+        "API key",
+        "Service account"
+      ],
+      "tables": [
+        {
+          "name": "assets",
+          "label": "Assets",
+          "rows": 7300
+        },
+        {
+          "name": "documents",
+          "label": "Documents",
+          "rows": 12000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "assets",
+          "sourceField": "assets.asset_code",
+          "canonicalModel": "asset",
+          "canonicalField": "asset_id"
+        },
+        {
+          "table": "assets",
+          "sourceField": "assets.install_date",
+          "canonicalModel": "asset",
+          "canonicalField": "manufacture_date"
+        }
+      ]
+    },
+    {
+      "id": "cat-dynamics",
+      "name": "Microsoft Dynamics 365 Finance",
+      "vendor": "Microsoft",
+      "category": "ERP",
+      "connectorType": "ERP",
+      "role": "Fixed assets & leasing",
+      "syncMethod": "Every 6 hours",
+      "authTypes": [
+        "OAuth 2.0"
+      ],
+      "tables": [
+        {
+          "name": "AssetTable",
+          "label": "Fixed assets",
+          "rows": 15400
+        },
+        {
+          "name": "AssetBook",
+          "label": "Asset books",
+          "rows": 15400
+        },
+        {
+          "name": "CustInvoiceJour",
+          "label": "Customer invoices",
+          "rows": 8800
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "AssetTable",
+          "sourceField": "AssetTable.AssetId",
+          "canonicalModel": "asset",
+          "canonicalField": "asset_id"
+        },
+        {
+          "table": "AssetBook",
+          "sourceField": "AssetBook.AcquisitionPrice",
+          "canonicalModel": "asset",
+          "canonicalField": "purchase_cost"
+        },
+        {
+          "table": "CustInvoiceJour",
+          "sourceField": "CustInvoiceJour.InvoiceAmount",
+          "canonicalModel": "outcome",
+          "canonicalField": "realised_value"
+        }
+      ]
+    },
+    {
+      "id": "cat-netsuite",
+      "name": "Oracle NetSuite",
+      "vendor": "Oracle",
+      "category": "ERP",
+      "connectorType": "ERP",
+      "role": "Item fulfilment & invoicing",
+      "syncMethod": "Hourly",
+      "authTypes": [
+        "OAuth 2.0",
+        "API key"
+      ],
+      "tables": [
+        {
+          "name": "item",
+          "label": "Items",
+          "rows": 5100
+        },
+        {
+          "name": "invoice",
+          "label": "Invoices",
+          "rows": 6400
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "item",
+          "sourceField": "item.itemid",
+          "canonicalModel": "asset",
+          "canonicalField": "product_code"
+        },
+        {
+          "table": "invoice",
+          "sourceField": "invoice.total",
+          "canonicalModel": "outcome",
+          "canonicalField": "realised_value"
+        }
+      ]
+    },
+    {
+      "id": "cat-ifs",
+      "name": "IFS Cloud FSM",
+      "vendor": "IFS",
+      "category": "EAM/FSM",
+      "connectorType": "FSM",
+      "role": "Service work orders",
+      "syncMethod": "Every 30 mins",
+      "authTypes": [
+        "OAuth 2.0",
+        "Service account"
+      ],
+      "tables": [
+        {
+          "name": "work_order",
+          "label": "Work orders",
+          "rows": 18000
+        },
+        {
+          "name": "task_step",
+          "label": "Task steps",
+          "rows": 52000
+        },
+        {
+          "name": "material_use",
+          "label": "Material use",
+          "rows": 11000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "work_order",
+          "sourceField": "work_order.wo_no",
+          "canonicalModel": "intervention",
+          "canonicalField": "work_order_id"
+        },
+        {
+          "table": "task_step",
+          "sourceField": "task_step.technician_id",
+          "canonicalModel": "intervention",
+          "canonicalField": "technician"
+        },
+        {
+          "table": "material_use",
+          "sourceField": "material_use.cost",
+          "canonicalModel": "intervention",
+          "canonicalField": "parts_cost"
+        }
+      ]
+    },
+    {
+      "id": "cat-hxgn",
+      "name": "HxGN EAM",
+      "vendor": "Hexagon",
+      "category": "EAM/FSM",
+      "connectorType": "EAM",
+      "role": "Maintenance history & meters",
+      "syncMethod": "Every 15 mins",
+      "authTypes": [
+        "API key"
+      ],
+      "tables": [
+        {
+          "name": "R5OBJECTS",
+          "label": "Equipment",
+          "rows": 21000
+        },
+        {
+          "name": "R5EVENTS",
+          "label": "Work orders",
+          "rows": 64000
+        },
+        {
+          "name": "R5READINGS",
+          "label": "Meter readings",
+          "rows": 230000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "R5OBJECTS",
+          "sourceField": "R5OBJECTS.OBJ_CODE",
+          "canonicalModel": "asset",
+          "canonicalField": "asset_id"
+        },
+        {
+          "table": "R5READINGS",
+          "sourceField": "R5READINGS.REA_READING",
+          "canonicalModel": "asset",
+          "canonicalField": "hours_run"
+        },
+        {
+          "table": "R5EVENTS",
+          "sourceField": "R5EVENTS.EVT_CODE",
+          "canonicalModel": "intervention",
+          "canonicalField": "work_order_id"
+        }
+      ]
+    },
+    {
+      "id": "cat-blueyonder",
+      "name": "Blue Yonder WMS",
+      "vendor": "Blue Yonder",
+      "category": "WMS/OMS",
+      "connectorType": "WMS",
+      "role": "Receiving & inventory",
+      "syncMethod": "Every 5 mins",
+      "authTypes": [
+        "OAuth 2.0",
+        "API key"
+      ],
+      "tables": [
+        {
+          "name": "rcvlin",
+          "label": "Receipt lines",
+          "rows": 24000
+        },
+        {
+          "name": "invdtl",
+          "label": "Inventory detail",
+          "rows": 31000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "rcvlin",
+          "sourceField": "rcvlin.lotnum",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number"
+        },
+        {
+          "table": "invdtl",
+          "sourceField": "invdtl.wh_id",
+          "canonicalModel": "asset",
+          "canonicalField": "site"
+        }
+      ]
+    },
+    {
+      "id": "cat-shiplane",
+      "name": "ShipLane TMS",
+      "vendor": "ShipLane",
+      "category": "WMS/OMS",
+      "connectorType": "TMS",
+      "role": "Outbound shipments & freight cost",
+      "syncMethod": "Hourly",
+      "authTypes": [
+        "API key"
+      ],
+      "tables": [
+        {
+          "name": "shipments",
+          "label": "Shipments",
+          "rows": 8100
+        },
+        {
+          "name": "rates",
+          "label": "Freight rates",
+          "rows": 900
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "shipments",
+          "sourceField": "shipments.delivered_at",
+          "canonicalModel": "outcome",
+          "canonicalField": "sold_at"
+        },
+        {
+          "table": "rates",
+          "sourceField": "rates.lane_cost",
+          "canonicalModel": "route",
+          "canonicalField": "est_recovery_value"
+        }
+      ]
+    },
+    {
+      "id": "cat-hubspot",
+      "name": "HubSpot CRM",
+      "vendor": "HubSpot",
+      "category": "CRM",
+      "connectorType": "CRM",
+      "role": "Buyer accounts & deals",
+      "syncMethod": "Hourly",
+      "authTypes": [
+        "OAuth 2.0",
+        "API key"
+      ],
+      "tables": [
+        {
+          "name": "companies",
+          "label": "Companies",
+          "rows": 4200
+        },
+        {
+          "name": "deals",
+          "label": "Deals",
+          "rows": 6100
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "companies",
+          "sourceField": "companies.industry",
+          "canonicalModel": "demand",
+          "canonicalField": "buyer_segment"
+        },
+        {
+          "table": "deals",
+          "sourceField": "deals.amount",
+          "canonicalModel": "demand",
+          "canonicalField": "listing_price"
+        }
+      ]
+    },
+    {
+      "id": "cat-dynamics-cs",
+      "name": "Dynamics 365 Customer Service",
+      "vendor": "Microsoft",
+      "category": "CRM",
+      "connectorType": "CRM",
+      "role": "Return cases & entitlements",
+      "syncMethod": "Hourly",
+      "authTypes": [
+        "OAuth 2.0"
+      ],
+      "tables": [
+        {
+          "name": "incident",
+          "label": "Cases",
+          "rows": 13000
+        },
+        {
+          "name": "entitlement",
+          "label": "Entitlements",
+          "rows": 4100
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "incident",
+          "sourceField": "incident.casetypecode",
+          "canonicalModel": "condition",
+          "canonicalField": "fault_codes"
+        },
+        {
+          "table": "entitlement",
+          "sourceField": "entitlement.enddate",
+          "canonicalModel": "asset",
+          "canonicalField": "lease_end"
+        }
+      ]
+    },
+    {
+      "id": "cat-thingworx",
+      "name": "PTC ThingWorx",
+      "vendor": "PTC",
+      "category": "IoT",
+      "connectorType": "IoT",
+      "role": "Machine telemetry",
+      "syncMethod": "Streaming (MQTT)",
+      "authTypes": [
+        "API key",
+        "Service account"
+      ],
+      "tables": [
+        {
+          "name": "things",
+          "label": "Things",
+          "rows": 5200
+        },
+        {
+          "name": "value_stream",
+          "label": "Value stream",
+          "rows": 900000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "things",
+          "sourceField": "things.serialNumber",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number"
+        },
+        {
+          "table": "value_stream",
+          "sourceField": "value_stream.runtime_h",
+          "canonicalModel": "asset",
+          "canonicalField": "hours_run"
+        },
+        {
+          "table": "value_stream",
+          "sourceField": "value_stream.alarm_code",
+          "canonicalModel": "condition",
+          "canonicalField": "fault_codes"
+        }
+      ]
+    },
+    {
+      "id": "cat-gcp-iot",
+      "name": "Google Cloud Pub/Sub telemetry",
+      "vendor": "Google Cloud",
+      "category": "IoT",
+      "connectorType": "IoT",
+      "role": "Sensor events",
+      "syncMethod": "Streaming (MQTT)",
+      "authTypes": [
+        "Service account"
+      ],
+      "tables": [
+        {
+          "name": "events",
+          "label": "Events",
+          "rows": 610000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "events",
+          "sourceField": "events.device_id",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number"
+        },
+        {
+          "table": "events",
+          "sourceField": "events.temp_c",
+          "canonicalModel": "condition",
+          "canonicalField": "test_result"
+        }
+      ]
+    },
+    {
+      "id": "cat-ironplanet",
+      "name": "IronPlanet Marketplace",
+      "vendor": "RB Global",
+      "category": "Market",
+      "connectorType": "Market",
+      "role": "Online auction results",
+      "syncMethod": "Daily",
+      "authTypes": [
+        "API key"
+      ],
+      "tables": [
+        {
+          "name": "results",
+          "label": "Results",
+          "rows": 22000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "results",
+          "sourceField": "results.final_bid",
+          "canonicalModel": "demand",
+          "canonicalField": "comparable_price"
+        },
+        {
+          "table": "results",
+          "sourceField": "results.region",
+          "canonicalModel": "demand",
+          "canonicalField": "region"
+        }
+      ]
+    },
+    {
+      "id": "cat-ebay",
+      "name": "eBay Business Supply",
+      "vendor": "eBay",
+      "category": "Market",
+      "connectorType": "Market",
+      "role": "Listings & sold prices",
+      "syncMethod": "Every 4 hours",
+      "authTypes": [
+        "OAuth 2.0"
+      ],
+      "tables": [
+        {
+          "name": "listings",
+          "label": "Listings",
+          "rows": 51000
+        },
+        {
+          "name": "sold_items",
+          "label": "Sold items",
+          "rows": 14000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "listings",
+          "sourceField": "listings.price",
+          "canonicalModel": "demand",
+          "canonicalField": "listing_price"
+        },
+        {
+          "table": "sold_items",
+          "sourceField": "sold_items.sold_price",
+          "canonicalModel": "outcome",
+          "canonicalField": "realised_value"
+        },
+        {
+          "table": "sold_items",
+          "sourceField": "sold_items.days_to_sell",
+          "canonicalModel": "demand",
+          "canonicalField": "time_to_sale_days"
+        }
+      ]
+    },
+    {
+      "id": "cat-sphera",
+      "name": "Sphera Product Sustainability",
+      "vendor": "Sphera",
+      "category": "Sustainability",
+      "connectorType": "LCA",
+      "role": "Life-cycle emission factors",
+      "syncMethod": "Weekly",
+      "authTypes": [
+        "API key"
+      ],
+      "tables": [
+        {
+          "name": "lca_datasets",
+          "label": "LCA datasets",
+          "rows": 3100
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "lca_datasets",
+          "sourceField": "lca_datasets.gwp100",
+          "canonicalModel": "route",
+          "canonicalField": "carbon_avoided_kg"
+        }
+      ]
+    },
+    {
+      "id": "cat-watershed",
+      "name": "Watershed",
+      "vendor": "Watershed",
+      "category": "Sustainability",
+      "connectorType": "Carbon",
+      "role": "Scope 3 reporting",
+      "syncMethod": "Weekly",
+      "authTypes": [
+        "API key",
+        "OAuth 2.0"
+      ],
+      "tables": [
+        {
+          "name": "activities",
+          "label": "Activities",
+          "rows": 8200
+        },
+        {
+          "name": "factors",
+          "label": "Factors",
+          "rows": 1400
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "factors",
+          "sourceField": "factors.kgco2e",
+          "canonicalModel": "route",
+          "canonicalField": "carbon_avoided_kg"
+        },
+        {
+          "table": "activities",
+          "sourceField": "activities.material_kg",
+          "canonicalModel": "outcome",
+          "canonicalField": "recovered_material_kg"
+        }
+      ]
+    },
+    {
+      "id": "cat-s3",
+      "name": "Amazon S3 bucket",
+      "vendor": "Amazon Web Services",
+      "category": "Files",
+      "connectorType": "Files",
+      "role": "Bulk CSV / Parquet exports",
+      "syncMethod": "Daily",
+      "authTypes": [
+        "Service account",
+        "API key"
+      ],
+      "tables": [
+        {
+          "name": "exports/assets.parquet",
+          "label": "Asset exports",
+          "rows": 40000
+        },
+        {
+          "name": "exports/grades.csv",
+          "label": "Grade exports",
+          "rows": 9000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "exports/assets.parquet",
+          "sourceField": "exports/assets.parquet.serial",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number"
+        },
+        {
+          "table": "exports/grades.csv",
+          "sourceField": "exports/grades.csv.grade",
+          "canonicalModel": "condition",
+          "canonicalField": "condition_grade"
+        }
+      ]
+    },
+    {
+      "id": "cat-sftp",
+      "name": "SFTP folder",
+      "vendor": "Generic",
+      "category": "Files",
+      "connectorType": "SFTP",
+      "role": "Partner file drops",
+      "syncMethod": "File watcher (hourly)",
+      "authTypes": [
+        "Service account"
+      ],
+      "tables": [
+        {
+          "name": "inbound/*.csv",
+          "label": "Inbound CSV files",
+          "rows": 5000
+        }
+      ],
+      "mappingTemplate": [
+        {
+          "table": "inbound/*.csv",
+          "sourceField": "inbound/*.csv.serial",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number"
+        },
+        {
+          "table": "inbound/*.csv",
+          "sourceField": "inbound/*.csv.grade",
+          "canonicalModel": "condition",
+          "canonicalField": "condition_grade"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "sap-s4",
+      "name": "SAP S/4HANA ERP",
+      "category": "ERP",
+      "connectorType": "ERP",
+      "vendor": "SAP",
+      "role": "Asset Financials & Purchase Cost",
+      "description": "System of record for fixed assets, acquisition cost, depreciation and lease billing.",
+      "syncMethod": "Real-time Webhook",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "OAuth 2.0",
+      "instanceUrl": "https://s4.northfield.example/sap/opu/odata",
+      "connectedBy": "Priya Raman · ERP integration owner",
+      "lastSyncAt": "2026-11-20T08:58:00.000Z",
+      "records30d": 124500,
+      "successRate": 99.6,
+      "failedRecords": 498,
+      "tables": [
+        {
+          "name": "ANLA",
+          "label": "Asset master",
+          "rows": 48210
+        },
+        {
+          "name": "ANLC",
+          "label": "Asset values",
+          "rows": 48210
+        },
+        {
+          "name": "EQUI",
+          "label": "Equipment",
+          "rows": 61204
+        },
+        {
+          "name": "MARA",
+          "label": "Material master",
+          "rows": 18440
+        },
+        {
+          "name": "EKPO",
+          "label": "Purchase order items",
+          "rows": 124500
+        },
+        {
+          "name": "VBAK",
+          "label": "Sales documents",
+          "rows": 9310
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "ANLA.ANLN1",
+          "canonicalModel": "asset",
+          "canonicalField": "asset_id",
+          "confidence": 0.87
+        },
+        {
+          "sourceField": "EQUI.SERGE",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number",
+          "confidence": 0.97
+        },
+        {
+          "sourceField": "MARA.MATNR",
+          "canonicalModel": "asset",
+          "canonicalField": "product_code",
+          "confidence": 0.99
+        },
+        {
+          "sourceField": "ANLC.KANSW",
+          "canonicalModel": "asset",
+          "canonicalField": "purchase_cost",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "ANLA.AKTIV",
+          "canonicalModel": "asset",
+          "canonicalField": "manufacture_date",
+          "confidence": 0.89
+        },
+        {
+          "sourceField": "EQUI.SWERK",
+          "canonicalModel": "asset",
+          "canonicalField": "site",
+          "confidence": 0.89
+        },
+        {
+          "sourceField": "VBAK.NETWR",
+          "canonicalModel": "outcome",
+          "canonicalField": "realised_value",
+          "confidence": 0.89
+        },
+        {
+          "sourceField": "VBAK.ERDAT",
+          "canonicalModel": "outcome",
+          "canonicalField": "sold_at",
+          "confidence": 0.91
+        },
+        {
+          "sourceField": "EKPO.NETPR",
+          "canonicalModel": "intervention",
+          "canonicalField": "parts_cost",
+          "confidence": 0.87
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:58:00.000Z",
+          "status": "success",
+          "records": 17,
+          "durationSec": 32
+        },
+        {
+          "at": "2026-11-20T08:56:00.000Z",
+          "status": "success",
+          "records": 21,
+          "durationSec": 18
+        },
+        {
+          "at": "2026-11-20T08:54:00.000Z",
+          "status": "success",
+          "records": 19,
+          "durationSec": 14
+        },
+        {
+          "at": "2026-11-20T08:52:00.000Z",
+          "status": "success",
+          "records": 23,
+          "durationSec": 32
+        },
+        {
+          "at": "2026-11-20T08:50:00.000Z",
+          "status": "success",
+          "records": 20,
+          "durationSec": 18
+        }
+      ]
+    },
+    {
+      "id": "manhattan-wms",
+      "name": "Manhattan Active WMS",
+      "category": "WMS/OMS",
+      "connectorType": "WMS",
+      "vendor": "Manhattan Associates",
+      "role": "Intake Scanning & Bin Locations",
+      "description": "Receives returned assets at Warehouse 1 and Warehouse 2, records scans, bins and putaway.",
+      "syncMethod": "Every 5 mins",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "OAuth 2.0",
+      "instanceUrl": "https://northfield.sce.manh.com/api",
+      "connectedBy": "Luis Ortega · Warehouse systems",
+      "lastSyncAt": "2026-11-20T08:59:00.000Z",
+      "records30d": 89200,
+      "successRate": 99.1,
+      "failedRecords": 803,
+      "tables": [
+        {
+          "name": "receipts",
+          "label": "Inbound receipts",
+          "rows": 32110
+        },
+        {
+          "name": "lpn",
+          "label": "License plates",
+          "rows": 41870
+        },
+        {
+          "name": "locations",
+          "label": "Bin locations",
+          "rows": 6120
+        },
+        {
+          "name": "inventory_snapshot",
+          "label": "Inventory snapshot",
+          "rows": 9100
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "lpn.serial_no",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "lpn.item_id",
+          "canonicalModel": "asset",
+          "canonicalField": "product_code",
+          "confidence": 0.89
+        },
+        {
+          "sourceField": "receipts.facility_id",
+          "canonicalModel": "asset",
+          "canonicalField": "site",
+          "confidence": 0.86
+        },
+        {
+          "sourceField": "receipts.received_ts",
+          "canonicalModel": "condition",
+          "canonicalField": "last_inspection",
+          "confidence": 0.86
+        },
+        {
+          "sourceField": "locations.location_id",
+          "canonicalModel": "route",
+          "canonicalField": "channel",
+          "confidence": 1
+        },
+        {
+          "sourceField": "inventory_snapshot.disposition_code",
+          "canonicalModel": "route",
+          "canonicalField": "route",
+          "confidence": 0.99
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:59:00.000Z",
+          "status": "success",
+          "records": 22,
+          "durationSec": 33
+        },
+        {
+          "at": "2026-11-20T08:54:00.000Z",
+          "status": "success",
+          "records": 22,
+          "durationSec": 44
+        },
+        {
+          "at": "2026-11-20T08:49:00.000Z",
+          "status": "success",
+          "records": 17,
+          "durationSec": 33
+        },
+        {
+          "at": "2026-11-20T08:44:00.000Z",
+          "status": "success",
+          "records": 18,
+          "durationSec": 51
+        },
+        {
+          "at": "2026-11-20T08:39:00.000Z",
+          "status": "success",
+          "records": 20,
+          "durationSec": 29
+        }
+      ]
+    },
+    {
+      "id": "sfdc-service",
+      "name": "Salesforce Service Cloud",
+      "category": "CRM",
+      "connectorType": "CRM",
+      "vendor": "Salesforce",
+      "role": "Customer Return Authorizations (RMAs)",
+      "description": "Return authorisations, customer cases and entitlement data for leased equipment.",
+      "syncMethod": "Hourly",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "OAuth 2.0",
+      "instanceUrl": "https://northfield.my.salesforce.com",
+      "connectedBy": "Hannah Lee · CRM admin",
+      "lastSyncAt": "2026-11-20T08:46:00.000Z",
+      "records30d": 14350,
+      "successRate": 98.7,
+      "failedRecords": 187,
+      "tables": [
+        {
+          "name": "Case",
+          "label": "Cases",
+          "rows": 21400
+        },
+        {
+          "name": "ReturnOrder",
+          "label": "Return orders",
+          "rows": 14350
+        },
+        {
+          "name": "Asset",
+          "label": "Customer assets",
+          "rows": 38200
+        },
+        {
+          "name": "Entitlement",
+          "label": "Entitlements",
+          "rows": 7600
+        },
+        {
+          "name": "Account",
+          "label": "Accounts",
+          "rows": 2310
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "Asset.SerialNumber",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number",
+          "confidence": 0.87
+        },
+        {
+          "sourceField": "Asset.AccountId",
+          "canonicalModel": "asset",
+          "canonicalField": "tenant",
+          "confidence": 0.93
+        },
+        {
+          "sourceField": "Entitlement.EndDate",
+          "canonicalModel": "asset",
+          "canonicalField": "lease_end",
+          "confidence": 0.88
+        },
+        {
+          "sourceField": "ReturnOrder.Reason__c",
+          "canonicalModel": "condition",
+          "canonicalField": "fault_codes",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "Case.Priority",
+          "canonicalModel": "demand",
+          "canonicalField": "buyer_segment",
+          "confidence": 0.91
+        },
+        {
+          "sourceField": "ReturnOrder.Approved_By__c",
+          "canonicalModel": "decision",
+          "canonicalField": "approved_by",
+          "confidence": 0.89
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:46:00.000Z",
+          "status": "success",
+          "records": 22,
+          "durationSec": 35
+        },
+        {
+          "at": "2026-11-20T07:46:00.000Z",
+          "status": "success",
+          "records": 22,
+          "durationSec": 38
+        },
+        {
+          "at": "2026-11-20T06:46:00.000Z",
+          "status": "success",
+          "records": 19,
+          "durationSec": 24
+        },
+        {
+          "at": "2026-11-20T05:46:00.000Z",
+          "status": "success",
+          "records": 19,
+          "durationSec": 23
+        },
+        {
+          "at": "2026-11-20T04:46:00.000Z",
+          "status": "success",
+          "records": 21,
+          "durationSec": 24
+        }
+      ]
+    },
+    {
+      "id": "ptc-windchill",
+      "name": "PTC Windchill PLM",
+      "category": "PLM",
+      "connectorType": "PLM",
+      "vendor": "PTC",
+      "role": "Engineering Bill of Materials (BOM)",
+      "description": "Engineering BOMs, part revisions and service kits used to value components and plan harvesting.",
+      "syncMethod": "Daily",
+      "status": "warning",
+      "issue": "schema_drift",
+      "statusNote": "Schema drift",
+      "environment": "Production",
+      "authType": "Service account",
+      "instanceUrl": "https://plm.northfield.example/Windchill/servlet/odata",
+      "connectedBy": "Arjun Mehta · Engineering IT",
+      "lastSyncAt": "2026-11-20T05:00:00.000Z",
+      "records30d": 6400,
+      "successRate": 91.4,
+      "failedRecords": 550,
+      "tables": [
+        {
+          "name": "WTPart",
+          "label": "Parts",
+          "rows": 18900
+        },
+        {
+          "name": "WTPartUsageLink",
+          "label": "BOM links",
+          "rows": 64000
+        },
+        {
+          "name": "ChangeNotice",
+          "label": "Change notices",
+          "rows": 1200
+        },
+        {
+          "name": "ServiceKit",
+          "label": "Service kits",
+          "rows": 860
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "WTPart.number",
+          "canonicalModel": "asset",
+          "canonicalField": "product_code",
+          "confidence": 0.89
+        },
+        {
+          "sourceField": "WTPart.revision_code",
+          "canonicalModel": "asset",
+          "canonicalField": "bom_revision",
+          "confidence": 0.62
+        },
+        {
+          "sourceField": "WTPartUsageLink.parent_number",
+          "canonicalModel": "asset",
+          "canonicalField": "asset_id",
+          "confidence": 0.96
+        },
+        {
+          "sourceField": "ServiceKit.kit_cost",
+          "canonicalModel": "intervention",
+          "canonicalField": "parts_cost",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "ChangeNotice.effective_date",
+          "canonicalModel": "condition",
+          "canonicalField": "material_declaration",
+          "confidence": 0.92
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T05:00:00.000Z",
+          "status": "partial",
+          "records": 185,
+          "durationSec": 58
+        },
+        {
+          "at": "2026-11-19T05:00:00.000Z",
+          "status": "success",
+          "records": 216,
+          "durationSec": 8
+        },
+        {
+          "at": "2026-11-18T05:00:00.000Z",
+          "status": "success",
+          "records": 245,
+          "durationSec": 27
+        },
+        {
+          "at": "2026-11-17T05:00:00.000Z",
+          "status": "success",
+          "records": 226,
+          "durationSec": 14
+        },
+        {
+          "at": "2026-11-16T05:00:00.000Z",
+          "status": "success",
+          "records": 216,
+          "durationSec": 58
+        }
+      ]
+    },
+    {
+      "id": "ibm-maximo",
+      "name": "IBM Maximo EAM",
+      "category": "EAM/FSM",
+      "connectorType": "EAM",
+      "vendor": "IBM",
+      "role": "Asset service history & work orders",
+      "description": "Maintenance history, meter readings and failure codes for in-service equipment.",
+      "syncMethod": "Every 15 mins",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "API key",
+      "instanceUrl": "https://maximo.northfield.example/maximo/oslc",
+      "connectedBy": "Dev Kapoor · Reliability engineering",
+      "lastSyncAt": "2026-11-20T08:54:00.000Z",
+      "records30d": 96100,
+      "successRate": 99.3,
+      "failedRecords": 673,
+      "tables": [
+        {
+          "name": "ASSET",
+          "label": "Assets",
+          "rows": 52300
+        },
+        {
+          "name": "WORKORDER",
+          "label": "Work orders",
+          "rows": 88400
+        },
+        {
+          "name": "METERREADING",
+          "label": "Meter readings",
+          "rows": 410200
+        },
+        {
+          "name": "FAILUREREPORT",
+          "label": "Failure reports",
+          "rows": 12600
+        },
+        {
+          "name": "LABTRANS",
+          "label": "Labour transactions",
+          "rows": 70100
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "ASSET.ASSETNUM",
+          "canonicalModel": "asset",
+          "canonicalField": "asset_id",
+          "confidence": 0.93
+        },
+        {
+          "sourceField": "METERREADING.READING",
+          "canonicalModel": "asset",
+          "canonicalField": "hours_run",
+          "confidence": 0.93
+        },
+        {
+          "sourceField": "FAILUREREPORT.FAILURECODE",
+          "canonicalModel": "condition",
+          "canonicalField": "fault_codes",
+          "confidence": 0.87
+        },
+        {
+          "sourceField": "WORKORDER.WONUM",
+          "canonicalModel": "intervention",
+          "canonicalField": "work_order_id",
+          "confidence": 1
+        },
+        {
+          "sourceField": "WORKORDER.WORKTYPE",
+          "canonicalModel": "intervention",
+          "canonicalField": "intervention_type",
+          "confidence": 0.91
+        },
+        {
+          "sourceField": "LABTRANS.REGULARHRS",
+          "canonicalModel": "intervention",
+          "canonicalField": "labour_hours",
+          "confidence": 0.97
+        },
+        {
+          "sourceField": "WORKORDER.ACTFINISH",
+          "canonicalModel": "intervention",
+          "canonicalField": "completed_at",
+          "confidence": 0.9
+        },
+        {
+          "sourceField": "ASSET.EXPECTEDLIFE",
+          "canonicalModel": "condition",
+          "canonicalField": "residual_life_months",
+          "confidence": 0.95
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:54:00.000Z",
+          "status": "success",
+          "records": 35,
+          "durationSec": 13
+        },
+        {
+          "at": "2026-11-20T08:39:00.000Z",
+          "status": "success",
+          "records": 36,
+          "durationSec": 48
+        },
+        {
+          "at": "2026-11-20T08:24:00.000Z",
+          "status": "success",
+          "records": 29,
+          "durationSec": 5
+        },
+        {
+          "at": "2026-11-20T08:09:00.000Z",
+          "status": "success",
+          "records": 29,
+          "durationSec": 39
+        },
+        {
+          "at": "2026-11-20T07:54:00.000Z",
+          "status": "success",
+          "records": 32,
+          "durationSec": 17
+        }
+      ]
+    },
+    {
+      "id": "servicenow-fsm",
+      "name": "ServiceNow Field Service Management",
+      "category": "EAM/FSM",
+      "connectorType": "FSM",
+      "vendor": "ServiceNow",
+      "role": "Field interventions & technician notes",
+      "description": "Field work orders, on-site diagnostics and parts consumed during service visits.",
+      "syncMethod": "Every 30 mins",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "OAuth 2.0",
+      "instanceUrl": "https://northfield.service-now.com/api/now",
+      "connectedBy": "Hannah Lee · CRM admin",
+      "lastSyncAt": "2026-11-20T08:38:00.000Z",
+      "records30d": 41200,
+      "successRate": 98.9,
+      "failedRecords": 453,
+      "tables": [
+        {
+          "name": "wm_order",
+          "label": "Work orders",
+          "rows": 23100
+        },
+        {
+          "name": "wm_task",
+          "label": "Work tasks",
+          "rows": 41200
+        },
+        {
+          "name": "sm_part_requirement",
+          "label": "Part requirements",
+          "rows": 9800
+        },
+        {
+          "name": "alm_hardware",
+          "label": "Hardware assets",
+          "rows": 30400
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "wm_order.number",
+          "canonicalModel": "intervention",
+          "canonicalField": "work_order_id",
+          "confidence": 0.94
+        },
+        {
+          "sourceField": "wm_task.assigned_to",
+          "canonicalModel": "intervention",
+          "canonicalField": "technician",
+          "confidence": 0.98
+        },
+        {
+          "sourceField": "sm_part_requirement.cost",
+          "canonicalModel": "intervention",
+          "canonicalField": "parts_cost",
+          "confidence": 0.93
+        },
+        {
+          "sourceField": "wm_task.close_notes",
+          "canonicalModel": "condition",
+          "canonicalField": "test_result",
+          "confidence": 0.9
+        },
+        {
+          "sourceField": "alm_hardware.serial_number",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number",
+          "confidence": 0.91
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:38:00.000Z",
+          "status": "success",
+          "records": 33,
+          "durationSec": 29
+        },
+        {
+          "at": "2026-11-20T08:08:00.000Z",
+          "status": "success",
+          "records": 28,
+          "durationSec": 54
+        },
+        {
+          "at": "2026-11-20T07:38:00.000Z",
+          "status": "success",
+          "records": 29,
+          "durationSec": 57
+        },
+        {
+          "at": "2026-11-20T07:08:00.000Z",
+          "status": "success",
+          "records": 27,
+          "durationSec": 47
+        },
+        {
+          "at": "2026-11-20T06:38:00.000Z",
+          "status": "success",
+          "records": 32,
+          "durationSec": 44
+        }
+      ]
+    },
+    {
+      "id": "siemens-teamcenter",
+      "name": "Siemens Teamcenter",
+      "category": "PLM",
+      "connectorType": "PLM",
+      "vendor": "Siemens",
+      "role": "Part revisions & material declarations",
+      "description": "Drive-train part revisions and full material declarations (IMDS) used for recycling yield.",
+      "syncMethod": "Daily",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "Service account",
+      "instanceUrl": "https://tc.northfield.example/tc/rest",
+      "connectedBy": "Arjun Mehta · Engineering IT",
+      "lastSyncAt": "2026-11-20T03:50:00.000Z",
+      "records30d": 5400,
+      "successRate": 99.8,
+      "failedRecords": 11,
+      "tables": [
+        {
+          "name": "Item",
+          "label": "Items",
+          "rows": 14200
+        },
+        {
+          "name": "ItemRevision",
+          "label": "Item revisions",
+          "rows": 31800
+        },
+        {
+          "name": "MaterialDeclaration",
+          "label": "Material declarations",
+          "rows": 5400
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "Item.item_id",
+          "canonicalModel": "asset",
+          "canonicalField": "product_code",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "ItemRevision.rev_id",
+          "canonicalModel": "asset",
+          "canonicalField": "bom_revision",
+          "confidence": 0.99
+        },
+        {
+          "sourceField": "MaterialDeclaration.substance_mass",
+          "canonicalModel": "condition",
+          "canonicalField": "material_declaration",
+          "confidence": 0.88
+        },
+        {
+          "sourceField": "MaterialDeclaration.recyclable_mass",
+          "canonicalModel": "route",
+          "canonicalField": "carbon_avoided_kg",
+          "confidence": 0.92
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T03:50:00.000Z",
+          "status": "success",
+          "records": 170,
+          "durationSec": 28
+        },
+        {
+          "at": "2026-11-19T03:50:00.000Z",
+          "status": "success",
+          "records": 184,
+          "durationSec": 39
+        },
+        {
+          "at": "2026-11-18T03:50:00.000Z",
+          "status": "success",
+          "records": 156,
+          "durationSec": 30
+        },
+        {
+          "at": "2026-11-17T03:50:00.000Z",
+          "status": "success",
+          "records": 178,
+          "durationSec": 4
+        },
+        {
+          "at": "2026-11-16T03:50:00.000Z",
+          "status": "success",
+          "records": 191,
+          "durationSec": 25
+        }
+      ]
+    },
+    {
+      "id": "oracle-erp",
+      "name": "Oracle ERP Cloud",
+      "category": "ERP",
+      "connectorType": "ERP",
+      "vendor": "Oracle",
+      "role": "Lease contracts & depreciation",
+      "description": "Lease contracts and book values for the Customer B and Customer C portfolios.",
+      "syncMethod": "Every 6 hours",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "OAuth 2.0",
+      "instanceUrl": "https://fa-northfield.oraclecloud.com/fscmRestApi",
+      "connectedBy": "Priya Raman · ERP integration owner",
+      "lastSyncAt": "2026-11-20T07:25:00.000Z",
+      "records30d": 38600,
+      "successRate": 99.4,
+      "failedRecords": 232,
+      "tables": [
+        {
+          "name": "FA_ADDITIONS",
+          "label": "Asset additions",
+          "rows": 22100
+        },
+        {
+          "name": "FA_BOOKS",
+          "label": "Asset books",
+          "rows": 22100
+        },
+        {
+          "name": "OKL_CONTRACTS",
+          "label": "Lease contracts",
+          "rows": 3900
+        },
+        {
+          "name": "AR_INVOICES",
+          "label": "Receivables invoices",
+          "rows": 12800
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "FA_ADDITIONS.TAG_NUMBER",
+          "canonicalModel": "asset",
+          "canonicalField": "asset_id",
+          "confidence": 0.88
+        },
+        {
+          "sourceField": "FA_BOOKS.COST",
+          "canonicalModel": "asset",
+          "canonicalField": "purchase_cost",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "OKL_CONTRACTS.END_DATE",
+          "canonicalModel": "asset",
+          "canonicalField": "lease_end",
+          "confidence": 0.88
+        },
+        {
+          "sourceField": "OKL_CONTRACTS.CUSTOMER_NAME",
+          "canonicalModel": "asset",
+          "canonicalField": "tenant",
+          "confidence": 0.97
+        },
+        {
+          "sourceField": "AR_INVOICES.AMOUNT_DUE",
+          "canonicalModel": "outcome",
+          "canonicalField": "realised_value",
+          "confidence": 0.91
+        },
+        {
+          "sourceField": "AR_INVOICES.STATUS",
+          "canonicalModel": "outcome",
+          "canonicalField": "settlement_status",
+          "confidence": 0.87
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T07:25:00.000Z",
+          "status": "success",
+          "records": 302,
+          "durationSec": 26
+        },
+        {
+          "at": "2026-11-20T01:25:00.000Z",
+          "status": "success",
+          "records": 297,
+          "durationSec": 24
+        },
+        {
+          "at": "2026-11-19T19:25:00.000Z",
+          "status": "success",
+          "records": 342,
+          "durationSec": 55
+        },
+        {
+          "at": "2026-11-19T13:25:00.000Z",
+          "status": "success",
+          "records": 275,
+          "durationSec": 30
+        },
+        {
+          "at": "2026-11-19T07:25:00.000Z",
+          "status": "success",
+          "records": 353,
+          "durationSec": 33
+        }
+      ]
+    },
+    {
+      "id": "aws-iot",
+      "name": "AWS IoT Core",
+      "category": "IoT",
+      "connectorType": "IoT",
+      "vendor": "Amazon Web Services",
+      "role": "Runtime telemetry & fault codes",
+      "description": "Telemetry from connected motors, pumps and controllers: run hours, vibration and fault codes.",
+      "syncMethod": "Streaming (MQTT)",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "Service account",
+      "instanceUrl": "https://a1x2y3z4.iot.eu-west-1.amazonaws.com",
+      "connectedBy": "Dev Kapoor · Reliability engineering",
+      "lastSyncAt": "2026-11-20T08:59:30.000Z",
+      "records30d": 1840000,
+      "successRate": 99.9,
+      "failedRecords": 1840,
+      "tables": [
+        {
+          "name": "device_shadow",
+          "label": "Device shadows",
+          "rows": 18200
+        },
+        {
+          "name": "telemetry_hourly",
+          "label": "Hourly telemetry",
+          "rows": 1840000
+        },
+        {
+          "name": "fault_events",
+          "label": "Fault events",
+          "rows": 26400
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "device_shadow.thing_name",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number",
+          "confidence": 0.95
+        },
+        {
+          "sourceField": "telemetry_hourly.run_hours",
+          "canonicalModel": "asset",
+          "canonicalField": "hours_run",
+          "confidence": 0.93
+        },
+        {
+          "sourceField": "fault_events.code",
+          "canonicalModel": "condition",
+          "canonicalField": "fault_codes",
+          "confidence": 0.97
+        },
+        {
+          "sourceField": "telemetry_hourly.vibration_rms",
+          "canonicalModel": "condition",
+          "canonicalField": "residual_life_months",
+          "confidence": 0.88
+        },
+        {
+          "sourceField": "telemetry_hourly.health_score",
+          "canonicalModel": "condition",
+          "canonicalField": "condition_grade",
+          "confidence": 0.91
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:59:30.000Z",
+          "status": "success",
+          "records": 2631,
+          "durationSec": 22
+        },
+        {
+          "at": "2026-11-20T07:59:30.000Z",
+          "status": "success",
+          "records": 2367,
+          "durationSec": 25
+        },
+        {
+          "at": "2026-11-20T06:59:30.000Z",
+          "status": "success",
+          "records": 2413,
+          "durationSec": 37
+        },
+        {
+          "at": "2026-11-20T05:59:30.000Z",
+          "status": "success",
+          "records": 2329,
+          "durationSec": 19
+        },
+        {
+          "at": "2026-11-20T04:59:30.000Z",
+          "status": "success",
+          "records": 2931,
+          "durationSec": 14
+        }
+      ]
+    },
+    {
+      "id": "azure-iot",
+      "name": "Azure IoT Hub",
+      "category": "IoT",
+      "connectorType": "IoT",
+      "vendor": "Microsoft",
+      "role": "Condition sensors on leased fleet",
+      "description": "Retrofit condition sensors on the Customer A leased fleet (temperature, duty cycle).",
+      "syncMethod": "Streaming (AMQP)",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "Service account",
+      "instanceUrl": "https://northfield-fleet.azure-devices.net",
+      "connectedBy": "Dev Kapoor · Reliability engineering",
+      "lastSyncAt": "2026-11-20T08:59:00.000Z",
+      "records30d": 512000,
+      "successRate": 99.7,
+      "failedRecords": 1536,
+      "tables": [
+        {
+          "name": "device_twin",
+          "label": "Device twins",
+          "rows": 6400
+        },
+        {
+          "name": "d2c_messages",
+          "label": "Device messages",
+          "rows": 512000
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "device_twin.deviceId",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number",
+          "confidence": 0.91
+        },
+        {
+          "sourceField": "d2c_messages.duty_cycle",
+          "canonicalModel": "asset",
+          "canonicalField": "hours_run",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "d2c_messages.temp_c",
+          "canonicalModel": "condition",
+          "canonicalField": "test_result",
+          "confidence": 0.92
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:59:00.000Z",
+          "status": "success",
+          "records": 652,
+          "durationSec": 20
+        },
+        {
+          "at": "2026-11-20T07:59:00.000Z",
+          "status": "success",
+          "records": 640,
+          "durationSec": 56
+        },
+        {
+          "at": "2026-11-20T06:59:00.000Z",
+          "status": "success",
+          "records": 759,
+          "durationSec": 36
+        },
+        {
+          "at": "2026-11-20T05:59:00.000Z",
+          "status": "success",
+          "records": 715,
+          "durationSec": 30
+        },
+        {
+          "at": "2026-11-20T04:59:00.000Z",
+          "status": "success",
+          "records": 682,
+          "durationSec": 20
+        }
+      ]
+    },
+    {
+      "id": "ritchie-bros",
+      "name": "Ritchie Bros. Market Data",
+      "category": "Market",
+      "connectorType": "Market",
+      "vendor": "RB Global",
+      "role": "Comparable auction results & realised prices",
+      "description": "Comparable transactions, realised prices, time-to-sale and buyer demand.",
+      "syncMethod": "Daily",
+      "status": "stale",
+      "issue": "stale_feed",
+      "statusNote": "No new data for 19 h",
+      "environment": "Production",
+      "authType": "API key",
+      "instanceUrl": "https://api.rbauction.example/v2",
+      "connectedBy": "Remarketing · integration owner",
+      "lastSyncAt": "2026-11-19T14:00:00.000Z",
+      "records30d": 53449,
+      "successRate": 95.6,
+      "failedRecords": 2352,
+      "tables": [
+        {
+          "name": "auction_results",
+          "label": "Auction results",
+          "rows": 41200
+        },
+        {
+          "name": "price_index",
+          "label": "Price index",
+          "rows": 2300
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "auction_results.hammer_price",
+          "canonicalModel": "demand",
+          "canonicalField": "comparable_price",
+          "confidence": 0.98
+        },
+        {
+          "sourceField": "auction_results.days_listed",
+          "canonicalModel": "demand",
+          "canonicalField": "time_to_sale_days",
+          "confidence": 0.99
+        },
+        {
+          "sourceField": "price_index.region_code",
+          "canonicalModel": "demand",
+          "canonicalField": "region",
+          "confidence": 1
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-19T14:00:00.000Z",
+          "status": "failed",
+          "records": 0,
+          "durationSec": 29
+        },
+        {
+          "at": "2026-11-18T14:00:00.000Z",
+          "status": "success",
+          "records": 1703,
+          "durationSec": 9
+        },
+        {
+          "at": "2026-11-17T14:00:00.000Z",
+          "status": "success",
+          "records": 1904,
+          "durationSec": 26
+        },
+        {
+          "at": "2026-11-16T14:00:00.000Z",
+          "status": "success",
+          "records": 1520,
+          "durationSec": 23
+        },
+        {
+          "at": "2026-11-15T14:00:00.000Z",
+          "status": "success",
+          "records": 1802,
+          "durationSec": 14
+        }
+      ]
+    },
+    {
+      "id": "machinio",
+      "name": "Machinio",
+      "category": "Market",
+      "connectorType": "Market",
+      "vendor": "Machinio",
+      "role": "Live listings & buyer demand",
+      "description": "Live used-equipment listings and buyer enquiries used to score demand by product class.",
+      "syncMethod": "Every 4 hours",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "API key",
+      "instanceUrl": "https://api.machinio.example/v1",
+      "connectedBy": "Remarketing · integration owner",
+      "lastSyncAt": "2026-11-20T06:50:00.000Z",
+      "records30d": 92300,
+      "successRate": 98.2,
+      "failedRecords": 1661,
+      "tables": [
+        {
+          "name": "listings",
+          "label": "Listings",
+          "rows": 88200
+        },
+        {
+          "name": "enquiries",
+          "label": "Buyer enquiries",
+          "rows": 4100
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "listings.asking_price",
+          "canonicalModel": "demand",
+          "canonicalField": "listing_price",
+          "confidence": 0.98
+        },
+        {
+          "sourceField": "enquiries.buyer_type",
+          "canonicalModel": "demand",
+          "canonicalField": "buyer_segment",
+          "confidence": 0.88
+        },
+        {
+          "sourceField": "enquiries.enquiry_count",
+          "canonicalModel": "demand",
+          "canonicalField": "demand_index",
+          "confidence": 0.96
+        },
+        {
+          "sourceField": "listings.channel",
+          "canonicalModel": "route",
+          "canonicalField": "channel",
+          "confidence": 1
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T06:50:00.000Z",
+          "status": "success",
+          "records": 558,
+          "durationSec": 16
+        },
+        {
+          "at": "2026-11-20T02:50:00.000Z",
+          "status": "success",
+          "records": 515,
+          "durationSec": 14
+        },
+        {
+          "at": "2026-11-19T22:50:00.000Z",
+          "status": "success",
+          "records": 570,
+          "durationSec": 48
+        },
+        {
+          "at": "2026-11-19T18:50:00.000Z",
+          "status": "success",
+          "records": 588,
+          "durationSec": 22
+        },
+        {
+          "at": "2026-11-19T14:50:00.000Z",
+          "status": "success",
+          "records": 533,
+          "durationSec": 41
+        }
+      ]
+    },
+    {
+      "id": "ibm-sterling",
+      "name": "IBM Sterling OMS",
+      "category": "WMS/OMS",
+      "connectorType": "OMS",
+      "vendor": "IBM",
+      "role": "Resale orders & fulfilment",
+      "description": "Orders for refurbished equipment and harvested parts, through to shipment.",
+      "syncMethod": "Every 10 mins",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "API key",
+      "instanceUrl": "https://oms.northfield.example/smcfs/restapi",
+      "connectedBy": "Luis Ortega · Warehouse systems",
+      "lastSyncAt": "2026-11-20T08:52:00.000Z",
+      "records30d": 29900,
+      "successRate": 99.2,
+      "failedRecords": 239,
+      "tables": [
+        {
+          "name": "YFS_ORDER_HEADER",
+          "label": "Order headers",
+          "rows": 7800
+        },
+        {
+          "name": "YFS_ORDER_LINE",
+          "label": "Order lines",
+          "rows": 15200
+        },
+        {
+          "name": "YFS_SHIPMENT",
+          "label": "Shipments",
+          "rows": 6900
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "YFS_ORDER_LINE.UNIT_PRICE",
+          "canonicalModel": "outcome",
+          "canonicalField": "realised_value",
+          "confidence": 0.89
+        },
+        {
+          "sourceField": "YFS_SHIPMENT.ACTUAL_SHIP_DATE",
+          "canonicalModel": "outcome",
+          "canonicalField": "sold_at",
+          "confidence": 0.91
+        },
+        {
+          "sourceField": "YFS_ORDER_HEADER.ENTERPRISE_CODE",
+          "canonicalModel": "route",
+          "canonicalField": "channel",
+          "confidence": 0.96
+        },
+        {
+          "sourceField": "YFS_ORDER_HEADER.ORDER_TYPE",
+          "canonicalModel": "route",
+          "canonicalField": "route",
+          "confidence": 0.92
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:52:00.000Z",
+          "status": "success",
+          "records": 23,
+          "durationSec": 11
+        },
+        {
+          "at": "2026-11-20T08:42:00.000Z",
+          "status": "success",
+          "records": 19,
+          "durationSec": 6
+        },
+        {
+          "at": "2026-11-20T08:32:00.000Z",
+          "status": "success",
+          "records": 20,
+          "durationSec": 13
+        },
+        {
+          "at": "2026-11-20T08:22:00.000Z",
+          "status": "success",
+          "records": 20,
+          "durationSec": 12
+        },
+        {
+          "at": "2026-11-20T08:12:00.000Z",
+          "status": "success",
+          "records": 22,
+          "durationSec": 17
+        }
+      ]
+    },
+    {
+      "id": "optoro",
+      "name": "Optoro",
+      "category": "WMS/OMS",
+      "connectorType": "Returns",
+      "vendor": "Optoro",
+      "role": "Returns disposition & recommerce outcomes",
+      "description": "Disposition recommendations and recommerce results for small electronics returns.",
+      "syncMethod": "Hourly",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "OAuth 2.0",
+      "instanceUrl": "https://api.optoro.example/v3",
+      "connectedBy": "Remarketing · integration owner",
+      "lastSyncAt": "2026-11-20T08:19:00.000Z",
+      "records30d": 17100,
+      "successRate": 97.9,
+      "failedRecords": 359,
+      "tables": [
+        {
+          "name": "dispositions",
+          "label": "Dispositions",
+          "rows": 11900
+        },
+        {
+          "name": "recommerce_sales",
+          "label": "Recommerce sales",
+          "rows": 5200
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "dispositions.recommended_path",
+          "canonicalModel": "route",
+          "canonicalField": "route",
+          "confidence": 0.94
+        },
+        {
+          "sourceField": "dispositions.expected_recovery",
+          "canonicalModel": "route",
+          "canonicalField": "est_recovery_value",
+          "confidence": 0.94
+        },
+        {
+          "sourceField": "recommerce_sales.sale_price",
+          "canonicalModel": "outcome",
+          "canonicalField": "realised_value",
+          "confidence": 0.91
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T08:19:00.000Z",
+          "status": "success",
+          "records": 27,
+          "durationSec": 35
+        },
+        {
+          "at": "2026-11-20T07:19:00.000Z",
+          "status": "success",
+          "records": 24,
+          "durationSec": 39
+        },
+        {
+          "at": "2026-11-20T06:19:00.000Z",
+          "status": "success",
+          "records": 27,
+          "durationSec": 31
+        },
+        {
+          "at": "2026-11-20T05:19:00.000Z",
+          "status": "success",
+          "records": 24,
+          "durationSec": 8
+        },
+        {
+          "at": "2026-11-20T04:19:00.000Z",
+          "status": "success",
+          "records": 26,
+          "durationSec": 12
+        }
+      ]
+    },
+    {
+      "id": "sap-ariba",
+      "name": "SAP Ariba",
+      "category": "ERP",
+      "connectorType": "Procurement",
+      "vendor": "SAP",
+      "role": "Supplier quotes for parts & refurbishment",
+      "description": "Supplier quotes for replacement parts and third-party refurbishment services.",
+      "syncMethod": "Every 6 hours",
+      "status": "warning",
+      "issue": "token_expiring",
+      "statusNote": "Token expires in 3 days",
+      "environment": "Production",
+      "authType": "OAuth 2.0",
+      "instanceUrl": "https://openapi.ariba.com/api/sourcing-reporting",
+      "connectedBy": "Procurement · Marta Silva",
+      "lastSyncAt": "2026-11-20T05:40:00.000Z",
+      "records30d": 4020,
+      "successRate": 96.8,
+      "failedRecords": 129,
+      "tables": [
+        {
+          "name": "quotes",
+          "label": "Quotes",
+          "rows": 3100
+        },
+        {
+          "name": "suppliers",
+          "label": "Suppliers",
+          "rows": 640
+        },
+        {
+          "name": "contracts",
+          "label": "Contracts",
+          "rows": 280
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "quotes.unit_price",
+          "canonicalModel": "intervention",
+          "canonicalField": "parts_cost",
+          "confidence": 0.97
+        },
+        {
+          "sourceField": "quotes.lead_time_days",
+          "canonicalModel": "intervention",
+          "canonicalField": "labour_hours",
+          "confidence": 0.89
+        },
+        {
+          "sourceField": "suppliers.supplier_name",
+          "canonicalModel": "route",
+          "canonicalField": "partner",
+          "confidence": 0.87
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T05:40:00.000Z",
+          "status": "partial",
+          "records": 33,
+          "durationSec": 16
+        },
+        {
+          "at": "2026-11-19T23:40:00.000Z",
+          "status": "success",
+          "records": 37,
+          "durationSec": 30
+        },
+        {
+          "at": "2026-11-19T17:40:00.000Z",
+          "status": "success",
+          "records": 36,
+          "durationSec": 31
+        },
+        {
+          "at": "2026-11-19T11:40:00.000Z",
+          "status": "success",
+          "records": 29,
+          "durationSec": 38
+        },
+        {
+          "at": "2026-11-19T05:40:00.000Z",
+          "status": "success",
+          "records": 36,
+          "durationSec": 12
+        }
+      ]
+    },
+    {
+      "id": "persefoni",
+      "name": "Persefoni",
+      "category": "Sustainability",
+      "connectorType": "Carbon",
+      "vendor": "Persefoni",
+      "role": "Carbon factors & avoided-emissions reporting",
+      "description": "Emission factors per material and product class; receives avoided-emissions results.",
+      "syncMethod": "Weekly",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "API key",
+      "instanceUrl": "https://api.persefoni.example/v1",
+      "connectedBy": "ESG reporting · Nadia Okoye",
+      "lastSyncAt": "2026-11-18T09:00:00.000Z",
+      "records30d": 1920,
+      "successRate": 100,
+      "failedRecords": 0,
+      "tables": [
+        {
+          "name": "emission_factors",
+          "label": "Emission factors",
+          "rows": 1800
+        },
+        {
+          "name": "disclosures",
+          "label": "Disclosures",
+          "rows": 120
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "emission_factors.kgco2e_per_kg",
+          "canonicalModel": "route",
+          "canonicalField": "carbon_avoided_kg",
+          "confidence": 0.98
+        },
+        {
+          "sourceField": "disclosures.avoided_tco2e",
+          "canonicalModel": "outcome",
+          "canonicalField": "recovered_material_kg",
+          "confidence": 0.98
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-18T09:00:00.000Z",
+          "status": "success",
+          "records": 443,
+          "durationSec": 44
+        },
+        {
+          "at": "2026-11-11T09:00:00.000Z",
+          "status": "success",
+          "records": 510,
+          "durationSec": 33
+        },
+        {
+          "at": "2026-11-04T09:00:00.000Z",
+          "status": "success",
+          "records": 387,
+          "durationSec": 39
+        },
+        {
+          "at": "2026-10-28T09:00:00.000Z",
+          "status": "success",
+          "records": 432,
+          "durationSec": 31
+        },
+        {
+          "at": "2026-10-21T09:00:00.000Z",
+          "status": "success",
+          "records": 430,
+          "durationSec": 24
+        }
+      ]
+    },
+    {
+      "id": "sims-lifecycle",
+      "name": "Sims Lifecycle Services",
+      "category": "Sustainability",
+      "connectorType": "ITAD",
+      "vendor": "Sims Limited",
+      "role": "Recycling certificates & material recovery",
+      "description": "Certificates of recycling and recovered material weights for assets sent to material recovery.",
+      "syncMethod": "Daily",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "API key",
+      "instanceUrl": "https://portal.simslifecycle.example/api",
+      "connectedBy": "ESG reporting · Nadia Okoye",
+      "lastSyncAt": "2026-11-20T02:00:00.000Z",
+      "records30d": 12640,
+      "successRate": 99,
+      "failedRecords": 126,
+      "tables": [
+        {
+          "name": "certificates",
+          "label": "Certificates",
+          "rows": 2400
+        },
+        {
+          "name": "material_weights",
+          "label": "Material weights",
+          "rows": 9600
+        },
+        {
+          "name": "pickups",
+          "label": "Pickups",
+          "rows": 640
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "certificates.certificate_no",
+          "canonicalModel": "outcome",
+          "canonicalField": "certificate_id",
+          "confidence": 0.91
+        },
+        {
+          "sourceField": "material_weights.net_kg",
+          "canonicalModel": "outcome",
+          "canonicalField": "recovered_material_kg",
+          "confidence": 0.98
+        },
+        {
+          "sourceField": "pickups.partner_site",
+          "canonicalModel": "route",
+          "canonicalField": "partner",
+          "confidence": 0.99
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T02:00:00.000Z",
+          "status": "success",
+          "records": 473,
+          "durationSec": 34
+        },
+        {
+          "at": "2026-11-19T02:00:00.000Z",
+          "status": "success",
+          "records": 364,
+          "durationSec": 44
+        },
+        {
+          "at": "2026-11-18T02:00:00.000Z",
+          "status": "success",
+          "records": 391,
+          "durationSec": 37
+        },
+        {
+          "at": "2026-11-17T02:00:00.000Z",
+          "status": "success",
+          "records": 361,
+          "durationSec": 29
+        },
+        {
+          "at": "2026-11-16T02:00:00.000Z",
+          "status": "success",
+          "records": 438,
+          "durationSec": 52
+        }
+      ]
+    },
+    {
+      "id": "sftp-grading",
+      "name": "SFTP CSV drop",
+      "category": "Files",
+      "connectorType": "SFTP",
+      "vendor": "Partner upload",
+      "role": "Partner grading sheets & manifests",
+      "description": "Grading sheets and pickup manifests uploaded by repair partners as CSV files.",
+      "syncMethod": "File watcher (hourly)",
+      "status": "failed",
+      "issue": "auth_failed",
+      "statusNote": "Authentication failed",
+      "environment": "Production",
+      "authType": "Service account",
+      "instanceUrl": "sftp://files.northfield.example/inbound/grading",
+      "connectedBy": "Luis Ortega · Warehouse systems",
+      "lastSyncAt": "2026-11-20T03:00:00.000Z",
+      "records30d": 10500,
+      "successRate": 82.4,
+      "failedRecords": 1848,
+      "tables": [
+        {
+          "name": "grading_sheet.csv",
+          "label": "Grading sheets",
+          "rows": 8400
+        },
+        {
+          "name": "manifest.csv",
+          "label": "Manifests",
+          "rows": 2100
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "grading_sheet.csv.grade",
+          "canonicalModel": "condition",
+          "canonicalField": "condition_grade",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "grading_sheet.csv.cosmetic",
+          "canonicalModel": "condition",
+          "canonicalField": "cosmetic_score",
+          "confidence": 0.94
+        },
+        {
+          "sourceField": "grading_sheet.csv.inspected_on",
+          "canonicalModel": "condition",
+          "canonicalField": "last_inspection",
+          "confidence": 0.95
+        },
+        {
+          "sourceField": "manifest.csv.serial",
+          "canonicalModel": "asset",
+          "canonicalField": "serial_number",
+          "confidence": 0.94
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T03:00:00.000Z",
+          "status": "failed",
+          "records": 0,
+          "durationSec": 30
+        },
+        {
+          "at": "2026-11-20T02:00:00.000Z",
+          "status": "failed",
+          "records": 0,
+          "durationSec": 30
+        },
+        {
+          "at": "2026-11-20T01:00:00.000Z",
+          "status": "failed",
+          "records": 0,
+          "durationSec": 32
+        },
+        {
+          "at": "2026-11-20T00:00:00.000Z",
+          "status": "success",
+          "records": 17,
+          "durationSec": 6
+        },
+        {
+          "at": "2026-11-19T23:00:00.000Z",
+          "status": "success",
+          "records": 20,
+          "durationSec": 34
+        }
+      ]
+    },
+    {
+      "id": "sharepoint-docs",
+      "name": "SharePoint inspection library",
+      "category": "Files",
+      "connectorType": "Files",
+      "vendor": "Microsoft",
+      "role": "Inspection photos & approval memos",
+      "description": "Inspection photos and signed approval memos linked to cases.",
+      "syncMethod": "Daily",
+      "status": "healthy",
+      "issue": null,
+      "statusNote": null,
+      "environment": "Production",
+      "authType": "OAuth 2.0",
+      "instanceUrl": "https://northfield.sharepoint.com/sites/inspections",
+      "connectedBy": "Marcus Vance · Operations",
+      "lastSyncAt": "2026-11-20T00:00:00.000Z",
+      "records30d": 44000,
+      "successRate": 99.5,
+      "failedRecords": 220,
+      "tables": [
+        {
+          "name": "Inspection Photos",
+          "label": "Inspection photos",
+          "rows": 42100
+        },
+        {
+          "name": "Approval Memos",
+          "label": "Approval memos",
+          "rows": 1900
+        }
+      ],
+      "fieldMappings": [
+        {
+          "sourceField": "Approval Memos.Approver",
+          "canonicalModel": "decision",
+          "canonicalField": "approved_by",
+          "confidence": 0.92
+        },
+        {
+          "sourceField": "Approval Memos.Summary",
+          "canonicalModel": "decision",
+          "canonicalField": "rationale",
+          "confidence": 0.91
+        },
+        {
+          "sourceField": "Inspection Photos.Created",
+          "canonicalModel": "condition",
+          "canonicalField": "last_inspection",
+          "confidence": 1
+        }
+      ],
+      "syncHistory": [
+        {
+          "at": "2026-11-20T00:00:00.000Z",
+          "status": "success",
+          "records": 1520,
+          "durationSec": 11
+        },
+        {
+          "at": "2026-11-19T00:00:00.000Z",
+          "status": "success",
+          "records": 1588,
+          "durationSec": 48
+        },
+        {
+          "at": "2026-11-18T00:00:00.000Z",
+          "status": "success",
+          "records": 1674,
+          "durationSec": 27
+        },
+        {
+          "at": "2026-11-17T00:00:00.000Z",
+          "status": "success",
+          "records": 1286,
+          "durationSec": 28
+        },
+        {
+          "at": "2026-11-16T00:00:00.000Z",
+          "status": "success",
+          "records": 1679,
+          "durationSec": 57
+        }
+      ]
+    }
+  ]
+}

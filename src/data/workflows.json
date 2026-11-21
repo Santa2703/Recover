@@ -1,0 +1,213 @@
+[
+  {
+    "id": "WF-103",
+    "code": "WF-103",
+    "version": "v1.6",
+    "name": "Ingest · SAP S/4HANA",
+    "type": "Ingest",
+    "sourceSystemType": "ERP",
+    "sourceSystemName": "SAP S/4HANA",
+    "sourceIconColor": "#0284C7",
+    "trigger": "Every 5 min",
+    "status": "Published",
+    "active": true,
+    "lastRunStatus": "Success",
+    "lastRunTime": "5 s ago",
+    "lastRunAt": "2026-11-20T08:55:55",
+    "nextRun": "13:10",
+    "successRate": 98,
+    "avgDurationSec": 6,
+    "owner": "Finance Systems",
+    "description": "Asset master, depreciation schedule and purchase order reconciliation.",
+    "tags": ["ERP", "Finance", "Ingest"],
+    "hasUnpublishedChanges": false,
+    "updatedAt": "2026-11-18T06:02:00",
+    "nodes": [
+      { "id": "n1", "type": "trigger", "position": { "x": 0, "y": 60 }, "data": { "label": "Schedule", "subtitle": "Every 5 min", "status": "Success", "config": [{ "key": "cron", "value": "*/5 * * * *" }], "inputs": [], "outputs": ["tick"] } },
+      { "id": "n2", "type": "dataSource", "position": { "x": 256, "y": 60 }, "data": { "label": "Asset master", "subtitle": "SAP S/4HANA · FI-AA", "brand": { "text": "S4", "color": "#0284C7" }, "status": "Success", "records": 412, "config": [{ "key": "entity", "value": "A_FixedAsset" }, { "key": "companyCode", "value": "1000" }], "inputs": ["tick"], "outputs": ["asset_records"] } },
+      { "id": "n3", "type": "validation", "position": { "x": 512, "y": 60 }, "data": { "label": "Depreciation check", "subtitle": "Schedule and book value rules", "status": "Success", "records": 410, "config": [{ "key": "ruleset", "value": "fi-aa-depreciation-v3" }], "inputs": ["asset_records"], "outputs": ["valid_assets"] } },
+      { "id": "n4", "type": "condition", "position": { "x": 768, "y": 60 }, "data": { "label": "PO matched?", "subtitle": "Purchase order reconciliation", "status": "Success", "records": 410, "condition": "asset.poNumber != null", "config": [{ "key": "branch", "value": "true" }], "inputs": ["valid_assets"], "outputs": ["true", "false"] } },
+      { "id": "n5", "type": "action", "position": { "x": 1024, "y": 0 }, "data": { "label": "Reconcile purchase orders", "subtitle": "Write to Demand model", "status": "Success", "records": 401, "config": [{ "key": "target", "value": "demand.asset_po" }], "inputs": ["matched_assets"], "outputs": ["reconciled"] } },
+      { "id": "n6", "type": "approval", "position": { "x": 1024, "y": 150 }, "data": { "label": "Finance review", "subtitle": "Unmatched assets", "status": "Skipped", "config": [{ "key": "approverRole", "value": "Finance" }, { "key": "slaHours", "value": "24" }], "inputs": ["unmatched_assets"], "outputs": ["approved_assets"] } },
+      { "id": "n7", "type": "end", "position": { "x": 1280, "y": 60 }, "data": { "label": "Complete", "subtitle": "Run finished", "status": "Success", "config": [], "inputs": ["reconciled"], "outputs": [] } }
+    ],
+    "edges": [
+      { "id": "e1-2", "source": "n1", "target": "n2" },
+      { "id": "e2-3", "source": "n2", "target": "n3" },
+      { "id": "e3-4", "source": "n3", "target": "n4" },
+      { "id": "e4-5", "source": "n4", "sourceHandle": "true", "target": "n5", "label": "true" },
+      { "id": "e4-6", "source": "n4", "sourceHandle": "false", "target": "n6", "label": "false" },
+      { "id": "e5-7", "source": "n5", "target": "n7" },
+      { "id": "e6-7", "source": "n6", "target": "n7" }
+    ],
+    "runs": [
+      { "id": "RUN-103-0412", "trigger": "Schedule", "startedAt": "2026-11-20T08:55:49", "durationMs": 6100, "status": "Success", "records": 401 },
+      { "id": "RUN-103-0411", "trigger": "Schedule", "startedAt": "2026-11-20T08:50:49", "durationMs": 5800, "status": "Success", "records": 398 }
+    ]
+  },
+  {
+    "id": "WF-128",
+    "code": "WF-128",
+    "version": "v1.3",
+    "name": "Outbound · Manhattan Active Warehouse Management",
+    "type": "Outbound",
+    "sourceSystemType": "WMS",
+    "sourceSystemName": "Manhattan Active Warehouse Management",
+    "sourceIconColor": "#1E40AF",
+    "trigger": "On approval",
+    "status": "Published",
+    "active": true,
+    "lastRunStatus": "Success",
+    "lastRunTime": "20 s ago",
+    "lastRunAt": "2026-11-20T08:55:40",
+    "nextRun": "On approval",
+    "successRate": 94,
+    "avgDurationSec": 5,
+    "owner": "Warehouse Operations",
+    "description": "Dispatch staging work orders, parts harvest bins and pallet release.",
+    "tags": ["WMS", "Warehouse", "Outbound"],
+    "hasUnpublishedChanges": false,
+    "updatedAt": "2026-11-17T11:30:00",
+    "nodes": [
+      { "id": "n1", "type": "trigger", "position": { "x": 0, "y": 0 }, "data": { "label": "Approval received", "subtitle": "Disposition approved", "status": "Success", "config": [{ "key": "event", "value": "decision.approved" }], "inputs": [], "outputs": ["decision"] } },
+      { "id": "n2", "type": "agent", "position": { "x": 256, "y": 0 }, "data": { "label": "Dispatch planner", "subtitle": "Builds staging work orders", "status": "Success", "records": 36, "config": [{ "key": "model", "value": "planner-v2" }, { "key": "maxSteps", "value": "6" }], "inputs": ["decision"], "outputs": ["work_orders"] } },
+      { "id": "n3", "type": "mcpTool", "position": { "x": 512, "y": 0 }, "data": { "label": "Manhattan WMS API", "subtitle": "wms_create_task", "status": "Success", "records": 36, "config": [{ "key": "tool", "value": "wms_create_task" }, { "key": "timeoutMs", "value": "5000" }], "inputs": ["work_orders"], "outputs": ["task_ids"] } },
+      { "id": "n4", "type": "action", "position": { "x": 768, "y": 0 }, "data": { "label": "Release pallets", "subtitle": "Parts harvest bins", "status": "Success", "records": 36, "config": [{ "key": "site", "value": "Warehouse 1" }], "inputs": ["task_ids"], "outputs": ["released"] } },
+      { "id": "n5", "type": "notification", "position": { "x": 512, "y": 150 }, "data": { "label": "Warehouse alert", "subtitle": "Teams · #wh-ops", "status": "Success", "config": [{ "key": "channel", "value": "#wh-ops" }], "inputs": ["released"], "outputs": ["sent"] } },
+      { "id": "n6", "type": "end", "position": { "x": 1024, "y": 0 }, "data": { "label": "Complete", "subtitle": "Run finished", "status": "Success", "config": [], "inputs": ["released"], "outputs": [] } }
+    ],
+    "edges": [
+      { "id": "e1-2", "source": "n1", "target": "n2" },
+      { "id": "e2-3", "source": "n2", "target": "n3" },
+      { "id": "e3-4", "source": "n3", "target": "n4" },
+      { "id": "e4-5", "source": "n4", "target": "n5" },
+      { "id": "e4-6", "source": "n4", "target": "n6" }
+    ],
+    "runs": [
+      { "id": "RUN-128-0207", "trigger": "On approval", "startedAt": "2026-11-20T08:55:35", "durationMs": 4900, "status": "Success", "records": 36 },
+      { "id": "RUN-128-0206", "trigger": "On approval", "startedAt": "2026-11-20T08:31:10", "durationMs": 7200, "status": "Failed", "records": 0 }
+    ]
+  },
+  {
+    "id": "WF-123",
+    "code": "WF-123",
+    "version": "v1.5",
+    "name": "Outbound · SAP S/4HANA",
+    "type": "Outbound",
+    "sourceSystemType": "ERP",
+    "sourceSystemName": "SAP S/4HANA",
+    "sourceIconColor": "#0284C7",
+    "trigger": "On approval",
+    "status": "Published",
+    "active": true,
+    "lastRunStatus": "Success",
+    "lastRunTime": "32 s ago",
+    "lastRunAt": "2026-11-20T08:55:28",
+    "nextRun": "On approval",
+    "successRate": 96,
+    "avgDurationSec": 4,
+    "owner": "Finance Systems",
+    "description": "Emit confirmed net recovery journal entries into general ledger.",
+    "tags": ["ERP", "Ledger", "Outbound"],
+    "hasUnpublishedChanges": false,
+    "updatedAt": "2026-11-16T04:55:00",
+    "nodes": [
+      { "id": "n1", "type": "trigger", "position": { "x": 0, "y": 0 }, "data": { "label": "Outcome confirmed", "subtitle": "Case closed with recovery", "status": "Success", "config": [{ "key": "event", "value": "case.outcome_confirmed" }], "inputs": [], "outputs": ["case"] } },
+      { "id": "n2", "type": "validation", "position": { "x": 256, "y": 0 }, "data": { "label": "Journal balance check", "subtitle": "Debits equal credits", "status": "Success", "records": 18, "config": [{ "key": "tolerance", "value": "0.01" }], "inputs": ["case"], "outputs": ["journal"] } },
+      { "id": "n3", "type": "approval", "position": { "x": 512, "y": 0 }, "data": { "label": "Controller sign-off", "subtitle": "Over 10,000 EUR", "status": "Success", "records": 18, "condition": "journal.amount > 10000", "config": [{ "key": "approverRole", "value": "Finance" }], "inputs": ["journal"], "outputs": ["approved_journal"] } },
+      { "id": "n4", "type": "mcpTool", "position": { "x": 768, "y": 0 }, "data": { "label": "SAP GL posting", "subtitle": "sap_post_journal", "status": "Success", "records": 18, "config": [{ "key": "tool", "value": "sap_post_journal" }, { "key": "companyCode", "value": "1000" }], "inputs": ["approved_journal"], "outputs": ["document_number"] } },
+      { "id": "n5", "type": "end", "position": { "x": 1024, "y": 0 }, "data": { "label": "Complete", "subtitle": "Run finished", "status": "Success", "config": [], "inputs": ["document_number"], "outputs": [] } }
+    ],
+    "edges": [
+      { "id": "e1-2", "source": "n1", "target": "n2" },
+      { "id": "e2-3", "source": "n2", "target": "n3" },
+      { "id": "e3-4", "source": "n3", "target": "n4" },
+      { "id": "e4-5", "source": "n4", "target": "n5" }
+    ],
+    "runs": [
+      { "id": "RUN-123-0318", "trigger": "On approval", "startedAt": "2026-11-20T08:55:24", "durationMs": 3800, "status": "Success", "records": 18 }
+    ]
+  },
+  {
+    "id": "WF-102",
+    "code": "WF-102",
+    "version": "v1.5",
+    "name": "Ingest · Oracle Lease and Finance Management",
+    "type": "Ingest",
+    "sourceSystemType": "Lease",
+    "sourceSystemName": "Oracle Lease and Finance Management",
+    "sourceIconColor": "#DC2626",
+    "trigger": "Every 15 min",
+    "status": "Published",
+    "active": true,
+    "lastRunStatus": "Success",
+    "lastRunTime": "45 s ago",
+    "lastRunAt": "2026-11-20T08:55:15",
+    "nextRun": "13:20",
+    "successRate": 99,
+    "avgDurationSec": 4,
+    "owner": "Lease Administration",
+    "description": "Lease management into the Demand opportunity model through validation and field mapping.",
+    "tags": ["Lease", "Demand", "Ingest"],
+    "hasUnpublishedChanges": false,
+    "updatedAt": "2026-11-19T12:12:00",
+    "nodes": [
+      { "id": "n1", "type": "dataSource", "position": { "x": 0, "y": 0 }, "data": { "label": "Lease management", "subtitle": "Oracle Lease and Finance Management", "brand": { "text": "O", "color": "#DC2626" }, "status": "Success", "records": 290, "config": [{ "key": "schedule", "value": "Every 15 min" }, { "key": "endpoint", "value": "/ofsll/leases" }], "inputs": [], "outputs": ["lease_records"] } },
+      { "id": "n2", "type": "mcpTool", "position": { "x": 256, "y": 0 }, "data": { "label": "API gateway", "subtitle": "REST / SOAP, auth, throttling", "status": "Success", "records": 290, "config": [{ "key": "auth", "value": "OAuth 2.0" }, { "key": "rateLimit", "value": "50 req/s" }], "inputs": ["lease_records"], "outputs": ["payload"] } },
+      { "id": "n3", "type": "validation", "position": { "x": 512, "y": 0 }, "data": { "label": "Validation & enrichment", "subtitle": "Schema, completeness and reference checks", "status": "Success", "records": 289, "config": [{ "key": "schema", "value": "demand.lease.v4" }], "inputs": ["payload"], "outputs": ["valid_records", "invalid_records"] } },
+      { "id": "n4", "type": "action", "position": { "x": 768, "y": 0 }, "data": { "label": "Timestamps to local time", "subtitle": "Local time → UTC", "icon": "Clock", "status": "Success", "records": 289, "config": [{ "key": "sourceZone", "value": "Europe/Amsterdam" }, { "key": "targetZone", "value": "UTC" }], "inputs": ["valid_records"], "outputs": ["demand_records"] } },
+      { "id": "n5", "type": "notification", "position": { "x": 384, "y": 150 }, "data": { "label": "Error handler", "subtitle": "Invalid records", "icon": "AlertTriangle", "status": "Success", "records": 1, "config": [{ "key": "queue", "value": "conflict-queue" }], "inputs": ["invalid_records"], "outputs": ["ticket"] } }
+    ],
+    "edges": [
+      { "id": "e1-2", "source": "n1", "target": "n2" },
+      { "id": "e2-3", "source": "n2", "target": "n3" },
+      { "id": "e3-4", "source": "n3", "target": "n4" },
+      { "id": "e3-5", "source": "n3", "target": "n5", "label": "invalid" }
+    ],
+    "runs": [
+      { "id": "RUN-102-0864", "trigger": "Schedule", "startedAt": "2026-11-20T08:55:11", "durationMs": 4200, "status": "Success", "records": 289 },
+      { "id": "RUN-102-0863", "trigger": "Schedule", "startedAt": "2026-11-20T08:40:11", "durationMs": 3900, "status": "Success", "records": 274 },
+      { "id": "RUN-102-0862", "trigger": "Schedule", "startedAt": "2026-11-20T08:25:11", "durationMs": 4400, "status": "Success", "records": 281 }
+    ]
+  },
+  {
+    "id": "WF-120",
+    "code": "WF-120",
+    "version": "v1.2",
+    "name": "Ingest · Sims Lifecycle Services",
+    "type": "Ingest",
+    "sourceSystemType": "Recycler",
+    "sourceSystemName": "Sims Lifecycle Services",
+    "sourceIconColor": "#059669",
+    "trigger": "On file arrival",
+    "status": "Published",
+    "active": true,
+    "lastRunStatus": "Success",
+    "lastRunTime": "51 s ago",
+    "lastRunAt": "2026-11-20T08:55:09",
+    "nextRun": "On file arrival",
+    "successRate": 100,
+    "avgDurationSec": 3,
+    "owner": "Sustainability Lead",
+    "description": "Downstream material reclamation weights, recycling certificates and carbon credits.",
+    "tags": ["Recycler", "Sustainability", "Ingest"],
+    "hasUnpublishedChanges": false,
+    "updatedAt": "2026-11-12T07:20:00",
+    "nodes": [
+      { "id": "n1", "type": "trigger", "position": { "x": 0, "y": 0 }, "data": { "label": "File arrival", "subtitle": "SFTP /inbound/sims", "status": "Success", "config": [{ "key": "pattern", "value": "*.csv" }], "inputs": [], "outputs": ["file"] } },
+      { "id": "n2", "type": "dataSource", "position": { "x": 256, "y": 0 }, "data": { "label": "Reclamation report", "subtitle": "Sims Lifecycle Services", "brand": { "text": "SL", "color": "#059669" }, "status": "Success", "records": 64, "config": [{ "key": "format", "value": "CSV" }], "inputs": ["file"], "outputs": ["weights"] } },
+      { "id": "n3", "type": "validation", "position": { "x": 512, "y": 0 }, "data": { "label": "Certificate check", "subtitle": "Recycling certificate IDs", "status": "Success", "records": 64, "config": [{ "key": "registry", "value": "R2 / e-Stewards" }], "inputs": ["weights"], "outputs": ["certified"] } },
+      { "id": "n4", "type": "agent", "position": { "x": 768, "y": 0 }, "data": { "label": "Carbon credit extractor", "subtitle": "Reads certificate PDFs", "status": "Success", "records": 64, "config": [{ "key": "model", "value": "extractor-v1" }], "inputs": ["certified"], "outputs": ["credits"] } },
+      { "id": "n5", "type": "end", "position": { "x": 1024, "y": 0 }, "data": { "label": "Complete", "subtitle": "Run finished", "status": "Success", "config": [], "inputs": ["credits"], "outputs": [] } }
+    ],
+    "edges": [
+      { "id": "e1-2", "source": "n1", "target": "n2" },
+      { "id": "e2-3", "source": "n2", "target": "n3" },
+      { "id": "e3-4", "source": "n3", "target": "n4" },
+      { "id": "e4-5", "source": "n4", "target": "n5" }
+    ],
+    "runs": [
+      { "id": "RUN-120-0055", "trigger": "File arrival", "startedAt": "2026-11-20T08:55:06", "durationMs": 2900, "status": "Success", "records": 64 }
+    ]
+  }
+]

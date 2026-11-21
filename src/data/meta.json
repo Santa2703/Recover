@@ -1,0 +1,160 @@
+{
+  "asOf": "2026-11-20T09:00:00Z",
+  "organisation": "Northfield Industrial Leasing",
+  "environment": "Production",
+  "tenants": [
+    "Customer A",
+    "Customer B",
+    "Customer C"
+  ],
+  "sites": [
+    "Warehouse 1",
+    "Warehouse 2",
+    "Repair centre"
+  ],
+  "routes": [
+    {
+      "id": "redeploy",
+      "name": "Redeploy",
+      "description": "Transfer to another internal site or operating line"
+    },
+    {
+      "id": "resale",
+      "name": "Resale",
+      "description": "Sell the certified whole asset on secondary markets"
+    },
+    {
+      "id": "intparts",
+      "name": "Internal parts",
+      "description": "Harvest components for the internal service fleet"
+    },
+    {
+      "id": "relase",
+      "name": "Re-lease",
+      "description": "Refurbish and place into a new customer lease"
+    },
+    {
+      "id": "material",
+      "name": "Material recovery",
+      "description": "Closed-loop recycling of metals and polymers"
+    },
+    {
+      "id": "extparts",
+      "name": "External parts",
+      "description": "Sell certified parts to third-party repair networks"
+    },
+    {
+      "id": "exit",
+      "name": "Responsible exit",
+      "description": "Certified environmental disposal"
+    }
+  ],
+  "stages": [
+    {
+      "id": "awaiting_inspection",
+      "label": "Awaiting inspection"
+    },
+    {
+      "id": "needs_information",
+      "label": "Needs information"
+    },
+    {
+      "id": "awaiting_approval",
+      "label": "Awaiting approval"
+    },
+    {
+      "id": "approved",
+      "label": "Approved · handing off"
+    },
+    {
+      "id": "handed_off",
+      "label": "Handed off · awaiting outcome"
+    },
+    {
+      "id": "reevaluate",
+      "label": "Re-evaluate"
+    },
+    {
+      "id": "no_viable_route",
+      "label": "No viable route"
+    }
+  ],
+  "riskReasons": [
+    {
+      "id": "missing_evidence",
+      "label": "Missing evidence"
+    },
+    {
+      "id": "condition_deterioration",
+      "label": "Condition deterioration"
+    },
+    {
+      "id": "delayed_approval",
+      "label": "Delayed approval"
+    },
+    {
+      "id": "market_price_decline",
+      "label": "Market price decline"
+    },
+    {
+      "id": "capacity_constraint",
+      "label": "Capacity constraint"
+    },
+    {
+      "id": "no_viable_route",
+      "label": "No viable route"
+    }
+  ],
+  "journey": [
+    {
+      "id": 1,
+      "label": "Supply evidence",
+      "phase": "Evidence"
+    },
+    {
+      "id": 2,
+      "label": "Build alternatives",
+      "phase": "Evaluate"
+    },
+    {
+      "id": 3,
+      "label": "Predict outcomes",
+      "phase": "Evaluate"
+    },
+    {
+      "id": 4,
+      "label": "Optimise plan",
+      "phase": "Decide"
+    },
+    {
+      "id": 5,
+      "label": "Plan approval",
+      "phase": "Approve"
+    },
+    {
+      "id": 6,
+      "label": "Send instruction",
+      "phase": "Execute"
+    },
+    {
+      "id": 7,
+      "label": "Create execution work",
+      "phase": "Execute"
+    },
+    {
+      "id": 8,
+      "label": "Repair & certify",
+      "phase": "Execute"
+    },
+    {
+      "id": 9,
+      "label": "Action & return outcome",
+      "phase": "Reconcile"
+    },
+    {
+      "id": 10,
+      "label": "Reconcile & learn",
+      "phase": "Learn"
+    }
+  ]
+}

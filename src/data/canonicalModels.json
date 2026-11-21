@@ -1,0 +1,1052 @@
+[
+  {
+    "id": "product",
+    "name": "Product",
+    "description": "A sellable product definition (make and model) independent of any physical unit.",
+    "fields": [
+      {
+        "name": "product_code",
+        "type": "string",
+        "required": true,
+        "description": "Unique product or material code"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": "Display name"
+      },
+      {
+        "name": "manufacturer",
+        "type": "string",
+        "required": true,
+        "description": "OEM name"
+      },
+      {
+        "name": "product_class",
+        "type": "enum(motor|pump|control|drill|batch|it)",
+        "required": true,
+        "description": "Product family used for routing"
+      },
+      {
+        "name": "category",
+        "type": "string",
+        "required": false,
+        "description": "Commercial category"
+      },
+      {
+        "name": "warranty_end",
+        "type": "date",
+        "required": false,
+        "description": "Standard warranty end date"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-001",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "MARA.MATNR",
+        "canonicalField": "product_code",
+        "transform": "TRIM()",
+        "confidence": 98
+      },
+      {
+        "id": "MAP-002",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "MAKT.MAKTX",
+        "canonicalField": "name",
+        "transform": "NONE",
+        "confidence": 95
+      },
+      {
+        "id": "MAP-003",
+        "source": "PTC Windchill PLM",
+        "sourceField": "WTPart.manufacturer",
+        "canonicalField": "manufacturer",
+        "transform": "TITLE_CASE()",
+        "confidence": 92
+      },
+      {
+        "id": "MAP-004",
+        "source": "PTC Windchill PLM",
+        "sourceField": "WTPart.family",
+        "canonicalField": "product_class",
+        "transform": "MAP_FAMILY_TO_CLASS()",
+        "confidence": 88
+      },
+      {
+        "id": "MAP-005",
+        "source": "Salesforce Service Cloud",
+        "sourceField": "Asset.Warranty_End__c",
+        "canonicalField": "warranty_end",
+        "transform": "TO_DATE()",
+        "confidence": 90
+      }
+    ],
+    "versions": [
+      {
+        "version": "3.2",
+        "status": "published",
+        "publishedAt": "2026-10-02T10:00:00Z",
+        "author": "Sam Okafor",
+        "note": "Added warranty_end from Salesforce"
+      },
+      {
+        "version": "3.1",
+        "status": "superseded",
+        "publishedAt": "2026-07-14T09:00:00Z",
+        "author": "Sam Okafor",
+        "note": "product_class became an enum"
+      },
+      {
+        "version": "3.0",
+        "status": "superseded",
+        "publishedAt": "2026-03-01T09:00:00Z",
+        "author": "Jordan Ellis",
+        "note": "Initial v3 schema"
+      }
+    ],
+    "version": "3.2",
+    "draft": null
+  },
+  {
+    "id": "product_revision",
+    "name": "Product Revision",
+    "description": "An engineering revision of a product, from PLM.",
+    "fields": [
+      {
+        "name": "product_code",
+        "type": "string",
+        "required": true,
+        "description": "Parent product"
+      },
+      {
+        "name": "revision_code",
+        "type": "string",
+        "required": true,
+        "description": "Normalised revision, e.g. v2.4"
+      },
+      {
+        "name": "effective_from",
+        "type": "date",
+        "required": true,
+        "description": "Date the revision took effect"
+      },
+      {
+        "name": "change_summary",
+        "type": "string",
+        "required": false,
+        "description": "Engineering change note"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-006",
+        "source": "PTC Windchill PLM",
+        "sourceField": "WTPartDescribeLink.bom_revision_tag",
+        "canonicalField": "revision_code",
+        "transform": "EXTRACT_REV_PREFIX()",
+        "confidence": 76
+      },
+      {
+        "id": "MAP-007",
+        "source": "PTC Windchill PLM",
+        "sourceField": "WTPart.number",
+        "canonicalField": "product_code",
+        "transform": "UPPERCASE()",
+        "confidence": 99
+      },
+      {
+        "id": "MAP-008",
+        "source": "PTC Windchill PLM",
+        "sourceField": "ECN.effective_date",
+        "canonicalField": "effective_from",
+        "transform": "TO_DATE()",
+        "confidence": 94
+      }
+    ],
+    "versions": [
+      {
+        "version": "2.2",
+        "status": "draft",
+        "publishedAt": null,
+        "author": "Sam Okafor",
+        "note": "Keep hotfix suffix in a separate field"
+      },
+      {
+        "version": "2.1",
+        "status": "published",
+        "publishedAt": "2026-09-18T12:00:00Z",
+        "author": "Sam Okafor",
+        "note": "Hotfix suffixes stripped from revision codes"
+      },
+      {
+        "version": "2.0",
+        "status": "superseded",
+        "publishedAt": "2026-04-11T09:00:00Z",
+        "author": "Sam Okafor",
+        "note": "Split from Product"
+      }
+    ],
+    "draft": {
+      "version": "2.2",
+      "note": "Keep hotfix suffix in a separate field",
+      "author": "Sam Okafor",
+      "createdAt": "2026-11-18T15:20:00Z"
+    },
+    "version": "2.1"
+  },
+  {
+    "id": "part",
+    "name": "Part",
+    "description": "A harvestable component or spare part.",
+    "fields": [
+      {
+        "name": "part_number",
+        "type": "string",
+        "required": true,
+        "description": "OEM or internal part number"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": "Part description"
+      },
+      {
+        "name": "unit_cost_eur",
+        "type": "decimal",
+        "required": false,
+        "description": "Standard cost"
+      },
+      {
+        "name": "is_serialised",
+        "type": "boolean",
+        "required": true,
+        "description": "Whether units carry serial numbers"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-009",
+        "source": "PTC Windchill PLM",
+        "sourceField": "WTPartMaster.wtPartNumber",
+        "canonicalField": "part_number",
+        "transform": "UPPERCASE()",
+        "confidence": 100
+      },
+      {
+        "id": "MAP-010",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "MBEW.STPRS",
+        "canonicalField": "unit_cost_eur",
+        "transform": "TO_DECIMAL()",
+        "confidence": 93
+      },
+      {
+        "id": "MAP-011",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "MARC.SERNP",
+        "canonicalField": "is_serialised",
+        "transform": "NOT_EMPTY()",
+        "confidence": 85
+      }
+    ],
+    "versions": [
+      {
+        "version": "1.4",
+        "status": "published",
+        "publishedAt": "2026-08-21T09:00:00Z",
+        "author": "Dev Kapoor",
+        "note": "Added is_serialised"
+      }
+    ],
+    "version": "1.4",
+    "draft": null
+  },
+  {
+    "id": "bom",
+    "name": "BOM",
+    "description": "Bill of materials linking a product revision to its parts.",
+    "fields": [
+      {
+        "name": "product_code",
+        "type": "string",
+        "required": true,
+        "description": "Parent product"
+      },
+      {
+        "name": "revision_code",
+        "type": "string",
+        "required": true,
+        "description": "Parent revision"
+      },
+      {
+        "name": "part_number",
+        "type": "string",
+        "required": true,
+        "description": "Child part"
+      },
+      {
+        "name": "quantity",
+        "type": "integer",
+        "required": true,
+        "description": "Quantity per parent"
+      },
+      {
+        "name": "recoverable",
+        "type": "boolean",
+        "required": false,
+        "description": "Part can be harvested"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-012",
+        "source": "PTC Windchill PLM",
+        "sourceField": "WTPartUsageLink.parent",
+        "canonicalField": "product_code",
+        "transform": "UPPERCASE()",
+        "confidence": 97
+      },
+      {
+        "id": "MAP-013",
+        "source": "PTC Windchill PLM",
+        "sourceField": "WTPartUsageLink.child",
+        "canonicalField": "part_number",
+        "transform": "UPPERCASE()",
+        "confidence": 97
+      },
+      {
+        "id": "MAP-014",
+        "source": "PTC Windchill PLM",
+        "sourceField": "WTPartUsageLink.amount",
+        "canonicalField": "quantity",
+        "transform": "TO_INT()",
+        "confidence": 99
+      }
+    ],
+    "versions": [
+      {
+        "version": "1.2",
+        "status": "published",
+        "publishedAt": "2026-06-30T09:00:00Z",
+        "author": "Dev Kapoor",
+        "note": "recoverable flag added"
+      }
+    ],
+    "version": "1.2",
+    "draft": null
+  },
+  {
+    "id": "physical_asset",
+    "name": "Physical Asset",
+    "description": "A single serialised unit returned or under management.",
+    "fields": [
+      {
+        "name": "case_id",
+        "type": "ref(case)",
+        "required": true,
+        "description": "Return case id, RT-xxxx"
+      },
+      {
+        "name": "serial_number",
+        "type": "string",
+        "required": true,
+        "description": "Manufacturer serial"
+      },
+      {
+        "name": "asset_tag",
+        "type": "string",
+        "required": true,
+        "description": "Internal asset tag"
+      },
+      {
+        "name": "product_code",
+        "type": "string",
+        "required": true,
+        "description": "Product it is an instance of"
+      },
+      {
+        "name": "site",
+        "type": "enum(Warehouse 1|Warehouse 2|Repair centre)",
+        "required": true,
+        "description": "Current site"
+      },
+      {
+        "name": "tenant",
+        "type": "string",
+        "required": false,
+        "description": "Customer the asset was leased to"
+      },
+      {
+        "name": "acquired_at",
+        "type": "date",
+        "required": false,
+        "description": "Acquisition date"
+      },
+      {
+        "name": "book_value_eur",
+        "type": "decimal",
+        "required": false,
+        "description": "Current book value"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-015",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "EQUI.EQUNR",
+        "canonicalField": "serial_number",
+        "transform": "TRIM_LEADING_ZEROS()",
+        "confidence": 100
+      },
+      {
+        "id": "MAP-016",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "EQUZ.WERK",
+        "canonicalField": "site",
+        "transform": "LOOKUP_PLANT_TO_WAREHOUSE()",
+        "confidence": 95
+      },
+      {
+        "id": "MAP-017",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "ANLA.AKTIV",
+        "canonicalField": "acquired_at",
+        "transform": "TO_TIMESTAMP(YYYYMMDD)",
+        "confidence": 96
+      },
+      {
+        "id": "MAP-018",
+        "source": "Manhattan Active WMS",
+        "sourceField": "LPN.serial",
+        "canonicalField": "serial_number",
+        "transform": "TRIM()",
+        "confidence": 97
+      },
+      {
+        "id": "MAP-019",
+        "source": "Manhattan Active WMS",
+        "sourceField": "LPN.facility",
+        "canonicalField": "site",
+        "transform": "LOOKUP_FACILITY()",
+        "confidence": 93
+      },
+      {
+        "id": "MAP-020",
+        "source": "Salesforce Service Cloud",
+        "sourceField": "Asset.Account.Name",
+        "canonicalField": "tenant",
+        "transform": "NONE",
+        "confidence": 91
+      },
+      {
+        "id": "MAP-021",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "ANLC.KANSW",
+        "canonicalField": "book_value_eur",
+        "transform": "TO_DECIMAL()",
+        "confidence": 89
+      }
+    ],
+    "versions": [
+      {
+        "version": "4.0",
+        "status": "published",
+        "publishedAt": "2026-10-28T09:00:00Z",
+        "author": "Sam Okafor",
+        "note": "case_id became required"
+      },
+      {
+        "version": "3.6",
+        "status": "superseded",
+        "publishedAt": "2026-08-02T09:00:00Z",
+        "author": "Sam Okafor",
+        "note": "Added book_value_eur"
+      },
+      {
+        "version": "3.5",
+        "status": "superseded",
+        "publishedAt": "2026-05-15T09:00:00Z",
+        "author": "Jordan Ellis",
+        "note": "WMS mapping added"
+      }
+    ],
+    "version": "4.0",
+    "draft": null
+  },
+  {
+    "id": "asset_condition",
+    "name": "Asset Condition",
+    "description": "A graded condition observation for a physical asset.",
+    "fields": [
+      {
+        "name": "case_id",
+        "type": "ref(case)",
+        "required": true,
+        "description": "Return case id"
+      },
+      {
+        "name": "grade",
+        "type": "enum(A|B|C|D|Scrap)",
+        "required": true,
+        "description": "Condition grade"
+      },
+      {
+        "name": "residual_life_months",
+        "type": "integer",
+        "required": false,
+        "description": "Estimated remaining life"
+      },
+      {
+        "name": "inspected_at",
+        "type": "date",
+        "required": true,
+        "description": "Inspection date"
+      },
+      {
+        "name": "inspector",
+        "type": "string",
+        "required": false,
+        "description": "Who inspected"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-022",
+        "source": "IBM Maximo EAM",
+        "sourceField": "ASSET.CONDITIONCODE",
+        "canonicalField": "grade",
+        "transform": "MAP_COND_CODE_TO_GRADE()",
+        "confidence": 89
+      },
+      {
+        "id": "MAP-023",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "QALS.PRSTAT",
+        "canonicalField": "grade",
+        "transform": "MAP_COND_CODE_TO_GRADE()",
+        "confidence": 84
+      },
+      {
+        "id": "MAP-024",
+        "source": "IBM Maximo EAM",
+        "sourceField": "INSPECTIONRESULT.INSPDATE",
+        "canonicalField": "inspected_at",
+        "transform": "TO_DATE()",
+        "confidence": 96
+      }
+    ],
+    "versions": [
+      {
+        "version": "2.3",
+        "status": "published",
+        "publishedAt": "2026-09-09T09:00:00Z",
+        "author": "Dev Kapoor",
+        "note": "Scrap added as a grade"
+      }
+    ],
+    "version": "2.3",
+    "draft": null
+  },
+  {
+    "id": "maintenance_event",
+    "name": "Maintenance Event",
+    "description": "A maintenance or repair performed on an asset.",
+    "fields": [
+      {
+        "name": "case_id",
+        "type": "ref(case)",
+        "required": true,
+        "description": "Return case id"
+      },
+      {
+        "name": "work_order",
+        "type": "string",
+        "required": true,
+        "description": "Source work order"
+      },
+      {
+        "name": "performed_at",
+        "type": "date",
+        "required": true,
+        "description": "Completion date"
+      },
+      {
+        "name": "failure_code",
+        "type": "string",
+        "required": false,
+        "description": "Failure code"
+      },
+      {
+        "name": "labour_hours",
+        "type": "decimal",
+        "required": false,
+        "description": "Hours booked"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-025",
+        "source": "IBM Maximo EAM",
+        "sourceField": "WORKORDER.WONUM",
+        "canonicalField": "work_order",
+        "transform": "NONE",
+        "confidence": 99
+      },
+      {
+        "id": "MAP-026",
+        "source": "IBM Maximo EAM",
+        "sourceField": "WORKORDER.ACTFINISH",
+        "canonicalField": "performed_at",
+        "transform": "TO_DATE()",
+        "confidence": 97
+      },
+      {
+        "id": "MAP-027",
+        "source": "IBM Maximo EAM",
+        "sourceField": "FAILUREREPORT.FAILURECODE",
+        "canonicalField": "failure_code",
+        "transform": "NONE",
+        "confidence": 92
+      }
+    ],
+    "versions": [
+      {
+        "version": "1.1",
+        "status": "published",
+        "publishedAt": "2026-07-01T09:00:00Z",
+        "author": "Dev Kapoor",
+        "note": "labour_hours added"
+      }
+    ],
+    "version": "1.1",
+    "draft": null
+  },
+  {
+    "id": "work_order",
+    "name": "Work Order",
+    "description": "A return authorisation or refurbishment order.",
+    "fields": [
+      {
+        "name": "order_id",
+        "type": "string",
+        "required": true,
+        "description": "RMA or work order number"
+      },
+      {
+        "name": "case_id",
+        "type": "ref(case)",
+        "required": true,
+        "description": "Return case id"
+      },
+      {
+        "name": "customer_account",
+        "type": "string",
+        "required": true,
+        "description": "Customer account"
+      },
+      {
+        "name": "reason",
+        "type": "string",
+        "required": false,
+        "description": "Return reason"
+      },
+      {
+        "name": "opened_at",
+        "type": "date",
+        "required": true,
+        "description": "Open date"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-028",
+        "source": "Salesforce Service Cloud",
+        "sourceField": "Case.RMA_Number__c",
+        "canonicalField": "order_id",
+        "transform": "NONE",
+        "confidence": 99
+      },
+      {
+        "id": "MAP-029",
+        "source": "Salesforce Service Cloud",
+        "sourceField": "Case.Account.Name",
+        "canonicalField": "customer_account",
+        "transform": "NONE",
+        "confidence": 97
+      },
+      {
+        "id": "MAP-030",
+        "source": "Salesforce Service Cloud",
+        "sourceField": "Case.Reason",
+        "canonicalField": "reason",
+        "transform": "NONE",
+        "confidence": 90
+      },
+      {
+        "id": "MAP-031",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "AUFK.AUFNR",
+        "canonicalField": "order_id",
+        "transform": "TRIM_LEADING_ZEROS()",
+        "confidence": 82
+      }
+    ],
+    "versions": [
+      {
+        "version": "1.3",
+        "status": "published",
+        "publishedAt": "2026-08-12T09:00:00Z",
+        "author": "Sam Okafor",
+        "note": "SAP refurbishment orders mapped"
+      }
+    ],
+    "version": "1.3",
+    "draft": null
+  },
+  {
+    "id": "inventory",
+    "name": "Inventory",
+    "description": "Stock position by site and bin.",
+    "fields": [
+      {
+        "name": "case_id",
+        "type": "ref(case)",
+        "required": true,
+        "description": "Return case id"
+      },
+      {
+        "name": "site",
+        "type": "enum(Warehouse 1|Warehouse 2|Repair centre)",
+        "required": true,
+        "description": "Site"
+      },
+      {
+        "name": "bin_location",
+        "type": "string",
+        "required": true,
+        "description": "Bin"
+      },
+      {
+        "name": "quantity",
+        "type": "integer",
+        "required": true,
+        "description": "On-hand quantity"
+      },
+      {
+        "name": "counted_at",
+        "type": "date",
+        "required": false,
+        "description": "Last cycle count"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-032",
+        "source": "Manhattan Active WMS",
+        "sourceField": "INVENTORY.LOCN_ID",
+        "canonicalField": "bin_location",
+        "transform": "NONE",
+        "confidence": 99
+      },
+      {
+        "id": "MAP-033",
+        "source": "Manhattan Active WMS",
+        "sourceField": "INVENTORY.ON_HAND_QTY",
+        "canonicalField": "quantity",
+        "transform": "TO_INT()",
+        "confidence": 99
+      },
+      {
+        "id": "MAP-034",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "MARD.LABST",
+        "canonicalField": "quantity",
+        "transform": "TO_INT()",
+        "confidence": 90
+      },
+      {
+        "id": "MAP-035",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "MARD.LGPBE",
+        "canonicalField": "bin_location",
+        "transform": "TRIM()",
+        "confidence": 78
+      }
+    ],
+    "versions": [
+      {
+        "version": "2.0",
+        "status": "published",
+        "publishedAt": "2026-09-30T09:00:00Z",
+        "author": "Sam Okafor",
+        "note": "WMS became system of record for bins"
+      }
+    ],
+    "version": "2.0",
+    "draft": null
+  },
+  {
+    "id": "market_observation",
+    "name": "Market Observation",
+    "description": "An observed secondary-market price for a product.",
+    "fields": [
+      {
+        "name": "product_code",
+        "type": "string",
+        "required": true,
+        "description": "Product"
+      },
+      {
+        "name": "price_eur",
+        "type": "decimal",
+        "required": true,
+        "description": "Observed price"
+      },
+      {
+        "name": "condition_grade",
+        "type": "enum(A|B|C|D|Scrap)",
+        "required": false,
+        "description": "Grade of the listed unit"
+      },
+      {
+        "name": "channel",
+        "type": "string",
+        "required": true,
+        "description": "Marketplace or broker"
+      },
+      {
+        "name": "observed_at",
+        "type": "date",
+        "required": true,
+        "description": "Observation date"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-036",
+        "source": "Salesforce Service Cloud",
+        "sourceField": "Opportunity.Amount",
+        "canonicalField": "price_eur",
+        "transform": "FX_TO_EUR()",
+        "confidence": 74
+      },
+      {
+        "id": "MAP-037",
+        "source": "Salesforce Service Cloud",
+        "sourceField": "Opportunity.Product_Code__c",
+        "canonicalField": "product_code",
+        "transform": "UPPERCASE()",
+        "confidence": 88
+      }
+    ],
+    "versions": [
+      {
+        "version": "1.1",
+        "status": "draft",
+        "publishedAt": null,
+        "author": "Elena Rostova",
+        "note": "Add channel and grade from broker feeds"
+      },
+      {
+        "version": "1.0",
+        "status": "published",
+        "publishedAt": "2026-05-20T09:00:00Z",
+        "author": "Elena Rostova",
+        "note": "Initial version"
+      }
+    ],
+    "draft": {
+      "version": "1.1",
+      "note": "Add channel and grade from broker feeds",
+      "author": "Elena Rostova",
+      "createdAt": "2026-11-16T11:00:00Z"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": "disposition",
+    "name": "Disposition",
+    "description": "The approved route and value for a returned asset.",
+    "fields": [
+      {
+        "name": "case_id",
+        "type": "ref(case)",
+        "required": true,
+        "description": "Return case id"
+      },
+      {
+        "name": "route",
+        "type": "enum(redeploy|resale|intparts|extparts|recycle)",
+        "required": true,
+        "description": "Disposition route"
+      },
+      {
+        "name": "net_recovery_eur",
+        "type": "decimal",
+        "required": true,
+        "description": "Expected net recovery"
+      },
+      {
+        "name": "approved_by",
+        "type": "string",
+        "required": true,
+        "description": "Approver"
+      },
+      {
+        "name": "approved_at",
+        "type": "date",
+        "required": true,
+        "description": "Approval date"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-038",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "ZDISP.ROUTE",
+        "canonicalField": "route",
+        "transform": "LOOKUP_ROUTE()",
+        "confidence": 92
+      },
+      {
+        "id": "MAP-039",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "ZDISP.NET_VALUE",
+        "canonicalField": "net_recovery_eur",
+        "transform": "TO_DECIMAL()",
+        "confidence": 95
+      }
+    ],
+    "versions": [
+      {
+        "version": "1.2",
+        "status": "published",
+        "publishedAt": "2026-10-10T09:00:00Z",
+        "author": "Marcus Vance",
+        "note": "Outbound posting to SAP"
+      }
+    ],
+    "version": "1.2",
+    "draft": null
+  },
+  {
+    "id": "lifecycle_outcome",
+    "name": "Lifecycle Outcome",
+    "description": "The realised result of a disposition, used for learning.",
+    "fields": [
+      {
+        "name": "case_id",
+        "type": "ref(case)",
+        "required": true,
+        "description": "Return case id"
+      },
+      {
+        "name": "route",
+        "type": "enum(redeploy|resale|intparts|extparts|recycle)",
+        "required": true,
+        "description": "Route taken"
+      },
+      {
+        "name": "realised_value_eur",
+        "type": "decimal",
+        "required": true,
+        "description": "Actual value realised"
+      },
+      {
+        "name": "closed_at",
+        "type": "date",
+        "required": true,
+        "description": "Close date"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-040",
+        "source": "SAP S/4HANA ERP",
+        "sourceField": "BSEG.DMBTR",
+        "canonicalField": "realised_value_eur",
+        "transform": "TO_DECIMAL()",
+        "confidence": 86
+      },
+      {
+        "id": "MAP-041",
+        "source": "Salesforce Service Cloud",
+        "sourceField": "Opportunity.CloseDate",
+        "canonicalField": "closed_at",
+        "transform": "TO_DATE()",
+        "confidence": 90
+      }
+    ],
+    "versions": [
+      {
+        "version": "1.0",
+        "status": "published",
+        "publishedAt": "2026-06-01T09:00:00Z",
+        "author": "Helen Brandt",
+        "note": "Initial version"
+      }
+    ],
+    "version": "1.0",
+    "draft": null
+  },
+  {
+    "id": "emission_factor",
+    "name": "Emission Factor",
+    "description": "CO2e factors per product and route, for avoided-emissions reporting.",
+    "fields": [
+      {
+        "name": "product_code",
+        "type": "string",
+        "required": true,
+        "description": "Product"
+      },
+      {
+        "name": "route",
+        "type": "enum(redeploy|resale|intparts|extparts|recycle)",
+        "required": true,
+        "description": "Route"
+      },
+      {
+        "name": "kg_co2e",
+        "type": "decimal",
+        "required": true,
+        "description": "kg CO2e avoided per unit"
+      },
+      {
+        "name": "source_dataset",
+        "type": "string",
+        "required": true,
+        "description": "LCA dataset reference"
+      }
+    ],
+    "mappings": [
+      {
+        "id": "MAP-042",
+        "source": "PTC Windchill PLM",
+        "sourceField": "LCA.kgCO2e",
+        "canonicalField": "kg_co2e",
+        "transform": "TO_DECIMAL()",
+        "confidence": 81
+      }
+    ],
+    "versions": [
+      {
+        "version": "0.9",
+        "status": "draft",
+        "publishedAt": null,
+        "author": "Helen Brandt",
+        "note": "First draft from PLM LCA attributes"
+      }
+    ],
+    "draft": {
+      "version": "0.9",
+      "note": "First draft from PLM LCA attributes",
+      "author": "Helen Brandt",
+      "createdAt": "2026-11-12T09:30:00Z"
+    },
+    "version": null
+  }
+]

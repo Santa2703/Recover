@@ -1,0 +1,96 @@
+[
+  {
+    "id": "AL-001",
+    "severity": "danger",
+    "title": "EAM condition feed stale for 26 hours",
+    "body": "Inspection grades from EAM have not refreshed; 4 cases in Warehouse 1 cannot be routed.",
+    "source": "Connection Fabric",
+    "link": "/integration/map",
+    "createdAt": "2026-11-20T07:40:00Z",
+    "read": false,
+    "roles": [
+      "Developer",
+      "Admin",
+      "Planner",
+      "Warehouse Manager"
+    ]
+  },
+  {
+    "id": "AL-002",
+    "severity": "warning",
+    "title": "Market feed is stale, resale prices carry a warning",
+    "body": "The Machinio price feed last updated 3 days ago. Resale predictions use the last known prices.",
+    "source": "Market intelligence",
+    "link": "/command/signals",
+    "createdAt": "2026-11-20T06:15:00Z",
+    "read": false,
+    "roles": [
+      "Planner",
+      "Approver",
+      "Finance",
+      "Executive",
+      "Admin"
+    ]
+  },
+  {
+    "id": "AL-003",
+    "severity": "warning",
+    "title": "Warehouse 1 inspection queue above capacity",
+    "body": "Inspection backlog is 118% of configured weekly capacity.",
+    "source": "Capacity",
+    "link": "/command/signals",
+    "createdAt": "2026-11-19T16:20:00Z",
+    "read": false,
+    "roles": [
+      "Warehouse Manager",
+      "Executive",
+      "Admin",
+      "Engineer"
+    ]
+  },
+  {
+    "id": "AL-004",
+    "severity": "info",
+    "title": "Model v1.3 promoted to production",
+    "body": "Resale price model v1.3 replaced v1.2 after back-testing (bias −0.5%).",
+    "source": "Analytics",
+    "link": "/analytics/forecast?tab=models",
+    "createdAt": "2026-11-18T10:00:00Z",
+    "read": true,
+    "roles": [
+      "Finance",
+      "Executive",
+      "Admin",
+      "Developer",
+      "Planner"
+    ]
+  },
+  {
+    "id": "AL-005",
+    "severity": "danger",
+    "title": "Workflow \"ERP purchase sync\" failed 3 runs",
+    "body": "Authentication to SAP S/4 expired. Rotate the credential to resume.",
+    "source": "Workflow studio",
+    "link": "/integration/studio",
+    "createdAt": "2026-11-20T05:02:00Z",
+    "read": false,
+    "roles": [
+      "Developer",
+      "Admin"
+    ]
+  },
+  {
+    "id": "AL-006",
+    "severity": "info",
+    "title": "Delegation updated",
+    "body": "Admin delegated tenant access requests to the Approver.",
+    "source": "Access",
+    "link": "/access/delegations",
+    "createdAt": "2026-11-17T12:30:00Z",
+    "read": true,
+    "roles": [
+      "Approver",
+      "Admin"
+    ]
+  }
+]

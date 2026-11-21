@@ -1,0 +1,102 @@
+{
+  "accountMeta": {
+    "u-planner-a": { "status": "active", "lastSignIn": "2026-11-20T08:14:00Z", "mfa": true },
+    "u-planner-b": { "status": "active", "lastSignIn": "2026-11-20T07:52:00Z", "mfa": true },
+    "u-planner-c": { "status": "active", "lastSignIn": "2026-11-19T16:31:00Z", "mfa": true },
+    "u-approver": { "status": "active", "lastSignIn": "2026-11-20T08:02:00Z", "mfa": true },
+    "u-engineer": { "status": "active", "lastSignIn": "2026-11-20T06:48:00Z", "mfa": true },
+    "u-finance": { "status": "active", "lastSignIn": "2026-11-19T17:10:00Z", "mfa": true },
+    "u-developer": { "status": "active", "lastSignIn": "2026-11-20T08:40:00Z", "mfa": true },
+    "u-executive": { "status": "active", "lastSignIn": "2026-11-18T09:05:00Z", "mfa": false },
+    "u-wm-1": { "status": "active", "lastSignIn": "2026-11-20T05:58:00Z", "mfa": true },
+    "u-wm-2": { "status": "suspended", "lastSignIn": "2026-11-12T14:22:00Z", "mfa": true },
+    "u-admin": { "status": "active", "lastSignIn": "2026-11-20T08:45:00Z", "mfa": true }
+  },
+  "idp": {
+    "provider": "Microsoft Entra ID",
+    "domain": "northfield.example",
+    "protocol": "OIDC sign-in + SCIM 2.0 provisioning",
+    "lastSync": "2026-11-20T08:30:00Z",
+    "status": "connected",
+    "interval": "Every 30 minutes",
+    "lastResult": "14 users read, 1 not provisioned, 1 role mismatch"
+  },
+  "groupMappings": [
+    { "id": "gm-1", "group": "CIRC-Planners-CustomerA", "objectId": "6f1c…a210", "role": "Planner", "tenant": "Customer A", "site": "Warehouse 1" },
+    { "id": "gm-2", "group": "CIRC-Planners-CustomerB", "objectId": "91be…04df", "role": "Planner", "tenant": "Customer B", "site": "Warehouse 2" },
+    { "id": "gm-3", "group": "CIRC-Planners-CustomerC", "objectId": "27aa…c9e1", "role": "Planner", "tenant": "Customer C", "site": "Warehouse 1" },
+    { "id": "gm-4", "group": "CIRC-Approvers", "objectId": "d402…7b3a", "role": "Approver", "tenant": "All", "site": "Head office" },
+    { "id": "gm-5", "group": "CIRC-Engineering", "objectId": "5c0e…88f2", "role": "Engineer", "tenant": "All", "site": "Repair centre" },
+    { "id": "gm-6", "group": "FIN-Asset-Recovery", "objectId": "a7d3…1e60", "role": "Finance", "tenant": "All", "site": "Head office" },
+    { "id": "gm-7", "group": "IT-Integration-Devs", "objectId": "3e9f…b5c4", "role": "Developer", "tenant": "All", "site": "Head office" },
+    { "id": "gm-8", "group": "EXEC-Leadership", "objectId": "0b6d…f37e", "role": "Executive", "tenant": "All", "site": "Head office" },
+    { "id": "gm-9", "group": "OPS-Warehouse-Managers", "objectId": "c815…2d09", "role": "Warehouse Manager", "tenant": "All", "site": "Warehouse 1" },
+    { "id": "gm-10", "group": "CIRC-Admins", "objectId": "f2c7…6a41", "role": "Admin", "tenant": "All", "site": "Head office" }
+  ],
+  "idpUsers": [
+    { "id": "idp-01", "name": "Priya Raman", "email": "planner.a@northfield.example", "group": "CIRC-Planners-CustomerA", "department": "Asset planning", "idpStatus": "active" },
+    { "id": "idp-02", "name": "Tomás Herrera", "email": "planner.b@northfield.example", "group": "CIRC-Planners-CustomerB", "department": "Asset planning", "idpStatus": "active" },
+    { "id": "idp-03", "name": "Aiko Tanaka", "email": "planner.c@northfield.example", "group": "CIRC-Planners-CustomerC", "department": "Asset planning", "idpStatus": "active" },
+    { "id": "idp-04", "name": "Marcus Vance", "email": "approver@northfield.example", "group": "CIRC-Approvers", "department": "Operations", "idpStatus": "active" },
+    { "id": "idp-05", "name": "Dev Kapoor", "email": "engineer@northfield.example", "group": "CIRC-Engineering", "department": "Repair centre", "idpStatus": "active" },
+    { "id": "idp-06", "name": "Elena Rostova", "email": "finance@northfield.example", "group": "FIN-Asset-Recovery", "department": "Finance", "idpStatus": "active" },
+    { "id": "idp-07", "name": "Sam Okafor", "email": "developer@northfield.example", "group": "IT-Integration-Devs", "department": "IT", "idpStatus": "active" },
+    { "id": "idp-08", "name": "Helen Brandt", "email": "executive@northfield.example", "group": "EXEC-Leadership", "department": "Leadership", "idpStatus": "active" },
+    { "id": "idp-09", "name": "Luis Ortega", "email": "warehouse1@northfield.example", "group": "OPS-Warehouse-Managers", "department": "Warehouse operations", "idpStatus": "active" },
+    { "id": "idp-10", "name": "Grace Mensah", "email": "warehouse2@northfield.example", "group": "CIRC-Planners-CustomerB", "department": "Warehouse operations", "idpStatus": "active" },
+    { "id": "idp-11", "name": "Jordan Ellis", "email": "admin@northfield.example", "group": "CIRC-Admins", "department": "IT", "idpStatus": "active" },
+    { "id": "idp-12", "name": "Nadia Petrov", "email": "n.petrov@northfield.example", "group": "CIRC-Planners-CustomerC", "department": "Asset planning", "idpStatus": "active" },
+    { "id": "idp-13", "name": "Owen Clarke", "email": "o.clarke@northfield.example", "group": "CIRC-Engineering", "department": "Repair centre", "idpStatus": "disabled" },
+    { "id": "idp-14", "name": "Fatima Al-Sayed", "email": "f.alsayed@northfield.example", "group": "FIN-Asset-Recovery", "department": "Finance", "idpStatus": "active" }
+  ],
+  "approvalThresholds": { "autoApproveBelow": 2500, "level2Above": 5000 },
+  "delegationSettings": [
+    {
+      "id": "decisions",
+      "label": "Decisions",
+      "description": "Approve or decline disposition plans at step 5 of the journey.",
+      "enabled": true,
+      "scope": "All tenants",
+      "limit": 25000,
+      "limitLabel": "Delegation limit (net recovery, $)"
+    },
+    {
+      "id": "mcp",
+      "label": "MCP server proposals",
+      "description": "Approve new MCP servers and tool scopes proposed by developers.",
+      "enabled": true,
+      "scope": "Read-only servers",
+      "limit": 200,
+      "limitLabel": "Max calls per hour on approved servers"
+    },
+    {
+      "id": "tenant",
+      "label": "Tenant access",
+      "description": "Grant users access to a customer tenant's cases and data.",
+      "enabled": false,
+      "scope": "Customer A",
+      "limit": 30,
+      "limitLabel": "Max grant length (days)"
+    }
+  ],
+  "covers": [
+    { "id": "cv-1", "approverId": "u-approver", "delegateId": "u-finance", "from": "2026-11-24", "to": "2026-11-28", "scope": "Decisions", "reason": "Annual leave" },
+    { "id": "cv-2", "approverId": "u-approver", "delegateId": "u-executive", "from": "2026-11-10", "to": "2026-11-12", "scope": "Decisions and MCP proposals", "reason": "Supplier audit travel" }
+  ],
+  "changeLog": [
+    { "id": "cl-4", "at": "2026-11-19T16:05:00Z", "actor": "Jordan Ellis", "change": "Out-of-office cover created: Marcus Vance to Elena Rostova, 24–28 Nov 2026 (Decisions)" },
+    { "id": "cl-3", "at": "2026-11-15T10:22:00Z", "actor": "Jordan Ellis", "change": "Decisions value threshold changed from $15,000 to $25,000" },
+    { "id": "cl-2", "at": "2026-11-09T09:40:00Z", "actor": "Jordan Ellis", "change": "Out-of-office cover created: Marcus Vance to Helen Brandt, 10–12 Nov 2026" },
+    { "id": "cl-1", "at": "2026-11-02T14:12:00Z", "actor": "Jordan Ellis", "change": "Tenant access delegation turned off" }
+  ],
+  "requests": [
+    { "id": "AR-2047", "type": "tenant", "requesterId": "u-planner-b", "target": "Customer C", "detail": "Read and write on cases, Warehouse 1", "justification": "Covering Aiko Tanaka's Customer C intake backlog this week.", "requestedAt": "2026-11-20T07:41:00Z", "status": "pending", "risk": "medium" },
+    { "id": "MCP-121", "type": "mcp", "requesterId": "u-developer", "target": "quality-certs-mcp", "detail": "Tools: get_certificate, list_certificates (read-only)", "justification": "Lets the Evidence Agent read quality certificates directly instead of PDF uploads.", "requestedAt": "2026-11-20T06:58:00Z", "status": "pending", "risk": "low" },
+    { "id": "MCP-120", "type": "mcp", "requesterId": "u-developer", "target": "sap-pm-writeback", "detail": "Tools: create_work_order, update_notification (write)", "justification": "Removes the manual work-order step at stage 7.", "requestedAt": "2026-11-19T15:20:00Z", "status": "pending", "risk": "high" },
+    { "id": "AR-2046", "type": "tenant", "requesterId": "u-wm-1", "target": "Customer B", "detail": "Read-only on cases at Warehouse 1", "justification": "Customer B returns are being staged in Warehouse 1 bay 4.", "requestedAt": "2026-11-19T11:03:00Z", "status": "pending", "risk": "low" },
+    { "id": "AR-2045", "type": "tenant", "requesterId": "u-engineer", "target": "Customer A", "detail": "Write on inspection results", "justification": "Recording test-bench grades for Customer A pumps.", "requestedAt": "2026-11-18T09:47:00Z", "status": "approved", "risk": "low", "decidedBy": "Marcus Vance", "decidedAt": "2026-11-18T10:15:00Z", "comment": "Approved for inspection data only." },
+    { "id": "MCP-119", "type": "mcp", "requesterId": "u-developer", "target": "marketplace-listings", "detail": "Tools: create_listing, update_price (write)", "justification": "Publish certified units to the resale marketplace automatically.", "requestedAt": "2026-11-17T13:30:00Z", "status": "declined", "risk": "high", "decidedBy": "Marcus Vance", "decidedAt": "2026-11-17T16:02:00Z", "comment": "Price changes must stay human-approved. Resubmit as read-only." },
+    { "id": "MCP-118", "type": "mcp", "requesterId": "u-developer", "target": "pricing-feed", "detail": "Tools: get_price_index (read-only), 200 calls/hour", "justification": "Market price input for the Prediction Service.", "requestedAt": "2026-11-16T10:12:00Z", "status": "approved", "risk": "low", "decidedBy": "Marcus Vance", "decidedAt": "2026-11-16T11:40:00Z", "comment": "Read-only, rate limit as proposed." },
+    { "id": "AR-2041", "type": "tenant", "requesterId": "u-planner-c", "target": "Customer C", "detail": "Read and write on cases", "justification": "New tenant assignment.", "requestedAt": "2026-11-14T08:20:00Z", "status": "approved", "risk": "low", "decidedBy": "Jordan Ellis", "decidedAt": "2026-11-14T09:02:00Z", "comment": "Standard planner access." }
+  ]
+}

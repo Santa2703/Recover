@@ -1,0 +1,170 @@
+{
+  "pipeline": {
+    "cohortMonth": "Oct 26",
+    "closedShareByTenant": { "Customer A": 0.36, "Customer B": 0.34, "Customer C": 0.30 },
+    "closedShareBySite": { "Warehouse 1": 0.35, "Warehouse 2": 0.33, "Repair centre": 0.32 },
+    "stages": [
+      {
+        "id": "received",
+        "label": "Received",
+        "description": "Return case opened; waiting for inspection",
+        "liveStages": ["awaiting_inspection"],
+        "medianDays": 2.4
+      },
+      {
+        "id": "inspected",
+        "label": "Inspected",
+        "description": "Condition graded; collecting remaining evidence",
+        "liveStages": ["needs_information"],
+        "medianDays": 3.1
+      },
+      {
+        "id": "evidence_complete",
+        "label": "Evidence complete",
+        "description": "Route recommended; waiting for a decision",
+        "liveStages": ["awaiting_approval", "reevaluate", "no_viable_route"],
+        "medianDays": 4.6
+      },
+      {
+        "id": "approved",
+        "label": "Approved",
+        "description": "Decision approved; instruction being handed off",
+        "liveStages": ["approved"],
+        "medianDays": 1.8
+      },
+      {
+        "id": "handed_off",
+        "label": "Handed off",
+        "description": "Executing; waiting for the outcome to return",
+        "liveStages": ["handed_off"],
+        "medianDays": 9.3
+      },
+      {
+        "id": "reconciled",
+        "label": "Reconciled",
+        "description": "Outcome returned and reconciled against the prediction",
+        "liveStages": [],
+        "medianDays": null
+      }
+    ],
+    "durationFactorByTenant": { "Customer A": 1.0, "Customer B": 1.06, "Customer C": 0.94 },
+    "durationFactorBySite": { "Warehouse 1": 1.04, "Warehouse 2": 0.93, "Repair centre": 1.09 }
+  },
+  "sustainability": {
+    "monthly": [
+      { "month": "Nov 25", "measuredShare": 0.41, "materialsDivertedT": 31.3 },
+      { "month": "Dec 25", "measuredShare": 0.43, "materialsDivertedT": 34.1 },
+      { "month": "Jan 26", "measuredShare": 0.44, "materialsDivertedT": 31.9 },
+      { "month": "Feb 26", "measuredShare": 0.46, "materialsDivertedT": 40.9 },
+      { "month": "Mar 26", "measuredShare": 0.49, "materialsDivertedT": 38.8 },
+      { "month": "Apr 26", "measuredShare": 0.51, "materialsDivertedT": 29.5 },
+      { "month": "May 26", "measuredShare": 0.53, "materialsDivertedT": 34.1 },
+      { "month": "Jun 26", "measuredShare": 0.55, "materialsDivertedT": 40.3 },
+      { "month": "Jul 26", "measuredShare": 0.58, "materialsDivertedT": 32.9 },
+      { "month": "Aug 26", "measuredShare": 0.60, "materialsDivertedT": 41.5 },
+      { "month": "Sep 26", "measuredShare": 0.63, "materialsDivertedT": 37.8 },
+      { "month": "Oct 26", "measuredShare": 0.66, "materialsDivertedT": 36.0 }
+    ],
+    "routeIntensity": {
+      "redeploy": 1.0,
+      "relase": 0.9,
+      "resale": 0.85,
+      "intparts": 0.6,
+      "extparts": 0.5,
+      "material": 0.35,
+      "exit": 0.05
+    },
+    "emissionFactors": [
+      { "id": "ef-01", "factor": "Avoided manufacture: industrial motor 75 kW", "value": 2.85, "unit": "tCO₂e / unit", "source": "ecoinvent", "version": "3.10", "lastUpdated": "2026-09-14" },
+      { "id": "ef-02", "factor": "Avoided manufacture: hydraulic piston pump", "value": 0.94, "unit": "tCO₂e / unit", "source": "Manufacturer EPD (Halden HX)", "version": "2.1", "lastUpdated": "2026-05-02" },
+      { "id": "ef-03", "factor": "Avoided manufacture: PLC control unit", "value": 0.21, "unit": "tCO₂e / unit", "source": "ecoinvent", "version": "3.10", "lastUpdated": "2026-09-14" },
+      { "id": "ef-04", "factor": "Avoided manufacture: laptop / IT electronics", "value": 0.31, "unit": "tCO₂e / unit", "source": "PEF category rules (ICT)", "version": "1.3", "lastUpdated": "2026-03-21" },
+      { "id": "ef-05", "factor": "Avoided manufacture: cordless power tool", "value": 0.026, "unit": "tCO₂e / unit", "source": "ecoinvent", "version": "3.10", "lastUpdated": "2026-09-14" },
+      { "id": "ef-06", "factor": "Recycling credit: steel scrap", "value": 1.46, "unit": "tCO₂e / t", "source": "worldsteel LCI", "version": "2025.1", "lastUpdated": "2026-02-11" },
+      { "id": "ef-07", "factor": "Recycling credit: aluminium scrap", "value": 8.1, "unit": "tCO₂e / t", "source": "International Aluminium Institute", "version": "2025", "lastUpdated": "2026-01-30" },
+      { "id": "ef-08", "factor": "Recycling credit: copper winding", "value": 2.7, "unit": "tCO₂e / t", "source": "International Copper Association", "version": "2024.2", "lastUpdated": "2025-11-18" },
+      { "id": "ef-09", "factor": "Road freight, rigid HGV", "value": 0.105, "unit": "kgCO₂e / t·km", "source": "DESNZ GHG conversion factors", "version": "2026 v1.0", "lastUpdated": "2026-06-10" },
+      { "id": "ef-10", "factor": "Refurbishment energy, grid electricity", "value": 0.207, "unit": "kgCO₂e / kWh", "source": "DESNZ GHG conversion factors", "version": "2026 v1.0", "lastUpdated": "2026-06-10" }
+    ]
+  },
+  "pools": [
+    {
+      "id": "pool-motor",
+      "productClass": "motor",
+      "name": "Industrial Motor 75kW (MTR-75)",
+      "unitValueRedeploy": 5890,
+      "unitValueResale": 3920,
+      "greedyFit": 0.9,
+      "demand": {
+        "Customer A": { "internal": 7, "external": 4 },
+        "Customer B": { "internal": 5, "external": 3 },
+        "Customer C": { "internal": 2, "external": 1 }
+      }
+    },
+    {
+      "id": "pool-pump",
+      "productClass": "pump",
+      "name": "Hydraulic Piston Pump (PMP-200)",
+      "unitValueRedeploy": 2150,
+      "unitValueResale": 1410,
+      "greedyFit": 0.94,
+      "demand": {
+        "Customer A": { "internal": 4, "external": 2 },
+        "Customer B": { "internal": 3, "external": 2 },
+        "Customer C": { "internal": 4, "external": 2 }
+      }
+    },
+    {
+      "id": "pool-control",
+      "productClass": "control",
+      "name": "PLC Control Unit (CTL-90)",
+      "unitValueRedeploy": 1980,
+      "unitValueResale": 1370,
+      "greedyFit": 0.92,
+      "demand": {
+        "Customer A": { "internal": 6, "external": 3 },
+        "Customer B": { "internal": 1, "external": 1 },
+        "Customer C": { "internal": 5, "external": 3 }
+      }
+    },
+    {
+      "id": "pool-drill",
+      "productClass": "drill",
+      "name": "Cordless Power Tool (DRL-18)",
+      "unitValueRedeploy": 180,
+      "unitValueResale": 105,
+      "greedyFit": 0.97,
+      "demand": {
+        "Customer A": { "internal": 2, "external": 1 },
+        "Customer B": { "internal": 4, "external": 2 },
+        "Customer C": { "internal": 3, "external": 2 }
+      }
+    },
+    {
+      "id": "pool-it",
+      "productClass": "it",
+      "name": "IT Electronics (LAP-14)",
+      "unitValueRedeploy": 420,
+      "unitValueResale": 285,
+      "greedyFit": 0.95,
+      "demand": {
+        "Customer A": { "internal": 1, "external": 1 },
+        "Customer B": { "internal": 3, "external": 3 },
+        "Customer C": { "internal": 2, "external": 1 }
+      }
+    },
+    {
+      "id": "pool-batch",
+      "productClass": "batch",
+      "name": "Tool-fleet Batch (BTC-01)",
+      "unitValueRedeploy": 1050,
+      "unitValueResale": 760,
+      "greedyFit": 0.93,
+      "demand": {
+        "Customer A": { "internal": 1, "external": 1 },
+        "Customer B": { "internal": 1, "external": 1 },
+        "Customer C": { "internal": 2, "external": 1 }
+      }
+    }
+  ]
+}

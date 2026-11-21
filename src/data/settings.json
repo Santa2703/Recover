@@ -1,0 +1,118 @@
+{
+  "tenant": {
+    "name": "Customer A · Northfield Assembly",
+    "uid": "TEN-NA-2026-X89",
+    "currency": "USD ($)",
+    "timezone": "UTC-5 (Eastern Time)"
+  },
+  "options": {
+    "currencies": [
+      {
+        "value": "USD ($)",
+        "label": "USD ($) · United States Dollar"
+      },
+      {
+        "value": "EUR (€)",
+        "label": "EUR (€) · Euro"
+      },
+      {
+        "value": "GBP (£)",
+        "label": "GBP (£) · British Pound"
+      },
+      {
+        "value": "CAD ($)",
+        "label": "CAD ($) · Canadian Dollar"
+      }
+    ],
+    "timezones": [
+      {
+        "value": "UTC-5 (Eastern Time)",
+        "label": "UTC-5 (Eastern Time · Detroit/New York)"
+      },
+      {
+        "value": "UTC-6 (Central Time)",
+        "label": "UTC-6 (Central Time · Chicago)"
+      },
+      {
+        "value": "UTC+0 (London)",
+        "label": "UTC+0 (London · GMT)"
+      },
+      {
+        "value": "UTC+1 (Central Europe)",
+        "label": "UTC+1 (Central Europe · Frankfurt)"
+      }
+    ],
+    "auditRetention": [
+      "3 Years (Immutable WORM Cloud Storage)",
+      "7 Years (Immutable WORM Cloud Storage)",
+      "10 Years (Immutable WORM Cloud Storage)"
+    ],
+    "payloadPurge": [
+      "30 Days post-reconciliation",
+      "90 Days post-reconciliation",
+      "180 Days post-reconciliation"
+    ]
+  },
+  "sites": [
+    {
+      "id": "WH-01",
+      "name": "Warehouse 1",
+      "location": "Detroit, MI",
+      "capacityPct": 82,
+      "baysCount": 24,
+      "manager": "Luis Ortega",
+      "status": "Active"
+    },
+    {
+      "id": "WH-02",
+      "name": "Warehouse 2",
+      "location": "Lansing, MI",
+      "capacityPct": 45,
+      "baysCount": 16,
+      "manager": "Grace Mensah",
+      "status": "Active"
+    },
+    {
+      "id": "RC-01",
+      "name": "Repair centre",
+      "location": "Grand Rapids, MI",
+      "capacityPct": 91,
+      "baysCount": 12,
+      "manager": "Dev Kapoor",
+      "status": "Warning - High Load"
+    }
+  ],
+  "workflow": {
+    "requireEngineeringSignoff": true,
+    "escalateAfterHours": 48,
+    "escalateToRole": "Executive",
+    "strictCarbonTracking": true
+  },
+  "notifications": {
+    "emailAlerts": true,
+    "slackAlerts": true,
+    "slackWebhookUrl": "https://hooks.slack.com/services/T00/B00/CIRCULARITY_ALERT"
+  },
+  "policies": {
+    "description": "All decision provenance, inspection photos, and ERP balance confirmations are retained in compliance with ISO 14040.",
+    "auditRetention": "7 Years (Immutable WORM Cloud Storage)",
+    "payloadPurge": "90 Days post-reconciliation"
+  },
+  "integrations": [
+    {
+      "id": "sap",
+      "name": "SAP S/4HANA OData Limit",
+      "limit": "500 req / minute"
+    },
+    {
+      "id": "wms",
+      "name": "Manhattan WMS Kafka Stream",
+      "limit": "Unbounded / 20k eps"
+    },
+    {
+      "id": "crm",
+      "name": "Salesforce CRM REST API",
+      "limit": "10,000 calls / 24 hrs"
+    }
+  ]
+}

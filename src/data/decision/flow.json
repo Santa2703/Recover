@@ -1,0 +1,143 @@
+{
+  "template": [
+    {
+      "id": "intake",
+      "kind": "trigger",
+      "title": "Intake",
+      "subtitle": "Return received from any intake channel",
+      "owner": "Returns desk",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "id": "condition",
+      "kind": "agent",
+      "title": "Condition and life agent",
+      "subtitle": "Grade A–D / Scrap and remaining life %",
+      "owner": "Repair center lead",
+      "x": 220,
+      "y": 0
+    },
+    {
+      "id": "demand",
+      "kind": "agent",
+      "title": "Demand discovery agent",
+      "subtitle": "Lease orders, sales orders, bids, repair orders",
+      "owner": "Remarketing lead",
+      "x": 440,
+      "y": 0
+    },
+    {
+      "id": "fit",
+      "kind": "agent",
+      "title": "Fit-for-use agent",
+      "subtitle": "Parts at or above the 50 % threshold",
+      "owner": "Service parts planner",
+      "x": 660,
+      "y": 0
+    },
+    {
+      "id": "valuation",
+      "kind": "agent",
+      "title": "Valuation agent",
+      "subtitle": "Net value of every route against named demand",
+      "owner": "Finance",
+      "x": 880,
+      "y": 0
+    },
+    {
+      "id": "gate",
+      "kind": "gate",
+      "title": "Guardrail gate",
+      "subtitle": "GR-01 … GR-06 checked on every route",
+      "owner": "Head of asset recovery",
+      "x": 1100,
+      "y": 0
+    },
+    {
+      "id": "decision",
+      "kind": "decision",
+      "title": "Decision",
+      "subtitle": "Best route for the whole queue",
+      "owner": "Circularity",
+      "x": 1340,
+      "y": 310
+    },
+    {
+      "id": "approval",
+      "kind": "approval",
+      "title": "Owner approval",
+      "subtitle": "Named owner approves before anything executes",
+      "owner": "Route owner",
+      "x": 1580,
+      "y": 310
+    },
+    {
+      "id": "execute",
+      "kind": "step",
+      "title": "Execute in owning system",
+      "subtitle": "ERP, lease system, recycler portal",
+      "owner": "Route owner",
+      "x": 2360,
+      "y": 240
+    },
+    {
+      "id": "learning",
+      "kind": "learning",
+      "title": "Learning",
+      "subtitle": "Realised value vs forecast, overrides",
+      "owner": "Head of asset recovery",
+      "x": 2360,
+      "y": 400
+    }
+  ],
+  "actors": [
+    {
+      "id": "u-planner-a",
+      "name": "Priya Raman",
+      "role": "Asset planner"
+    },
+    {
+      "id": "u-approver",
+      "name": "Marcus Vance",
+      "role": "Head of asset recovery"
+    },
+    {
+      "id": "u-finance",
+      "name": "Elena Rostova",
+      "role": "Finance"
+    }
+  ],
+  "versions": [
+    {
+      "version": 1,
+      "publishedAt": "2026-11-13T10:00:00Z",
+      "publishedBy": "Marcus Vance",
+      "note": "BR-01 and BR-02 go live",
+      "rules": 2
+    }
+  ],
+  "audit": [
+    {
+      "id": "AU-003",
+      "at": "2026-11-13T10:00:00Z",
+      "actor": "Marcus Vance",
+      "action": "Published",
+      "detail": "Rules v1 published after a 2-day shadow run (0 unexpected changes)."
+    },
+    {
+      "id": "AU-002",
+      "at": "2026-11-12T15:20:00Z",
+      "actor": "Marcus Vance",
+      "action": "Approved",
+      "detail": "Approved draft v1 (BR-01, BR-02) made by Priya Raman."
+    },
+    {
+      "id": "AU-001",
+      "at": "2026-11-11T09:05:00Z",
+      "actor": "Priya Raman",
+      "action": "Submitted",
+      "detail": "Submitted draft v1 for approval: BR-01 Control units with life of at least 40 %: never Material Recovery; BR-02 Field service returns, grade A or B: prefer Internal Redeploy."
+    }
+  ]
+}

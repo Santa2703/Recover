@@ -1,0 +1,581 @@
+[
+  {
+    "id": "CFL-201",
+    "entityType": "Asset Condition",
+    "entityId": "RT-1004",
+    "entityLabel": "Nimbus C14 laptop",
+    "field": "condition_grade",
+    "values": [
+      {
+        "system": "IBM Maximo EAM",
+        "value": "B",
+        "observedAt": "2026-11-18T04:48:00.000Z"
+      },
+      {
+        "system": "Manhattan Active WMS",
+        "value": "C",
+        "observedAt": "2026-11-18T04:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-18T05:00:00.000Z",
+    "severity": "high",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-18T05:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on condition_grade"
+      }
+    ]
+  },
+  {
+    "id": "CFL-202",
+    "entityType": "Physical Asset",
+    "entityId": "RT-1009",
+    "entityLabel": "Tessen Logic OC-7 PLC",
+    "field": "site",
+    "values": [
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "Warehouse 1",
+        "observedAt": "2026-11-19T02:48:00.000Z"
+      },
+      {
+        "system": "Manhattan Active WMS",
+        "value": "Repair centre",
+        "observedAt": "2026-11-19T02:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-19T03:00:00.000Z",
+    "severity": "high",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-19T03:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on site"
+      }
+    ]
+  },
+  {
+    "id": "CFL-203",
+    "entityType": "Physical Asset",
+    "entityId": "RT-1015",
+    "entityLabel": "Norvik Fluid PMP-200",
+    "field": "serial_number",
+    "values": [
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "8821934",
+        "observedAt": "2026-11-17T04:48:00.000Z"
+      },
+      {
+        "system": "Manhattan Active WMS",
+        "value": "8821943",
+        "observedAt": "2026-11-17T04:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-17T05:00:00.000Z",
+    "severity": "high",
+    "status": "escalated",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-17T05:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on serial_number"
+      },
+      {
+        "at": "2026-11-17T11:00:00.000Z",
+        "actor": "Priya Raman",
+        "action": "Escalated",
+        "note": "Serial transposition suspected; needs warehouse recount"
+      }
+    ]
+  },
+  {
+    "id": "CFL-204",
+    "entityType": "Inventory",
+    "entityId": "RT-1022",
+    "entityLabel": "Aquaterra AQ-12",
+    "field": "quantity",
+    "values": [
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "12",
+        "observedAt": "2026-11-19T12:48:00.000Z"
+      },
+      {
+        "system": "Manhattan Active WMS",
+        "value": "11",
+        "observedAt": "2026-11-19T12:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-19T13:00:00.000Z",
+    "severity": "medium",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-19T13:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on quantity"
+      }
+    ]
+  },
+  {
+    "id": "CFL-205",
+    "entityType": "Product Revision",
+    "entityId": "RT-1028",
+    "entityLabel": "Brava TT-18V",
+    "field": "revision_code",
+    "values": [
+      {
+        "system": "PTC Windchill PLM",
+        "value": "v2.4",
+        "observedAt": "2026-11-19T18:48:00.000Z"
+      },
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "v2.3",
+        "observedAt": "2026-11-19T18:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-19T19:00:00.000Z",
+    "severity": "medium",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-19T19:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on revision_code"
+      }
+    ]
+  },
+  {
+    "id": "CFL-206",
+    "entityType": "Work Order",
+    "entityId": "RT-1034",
+    "entityLabel": "Tessen Logic TL-9",
+    "field": "customer_account",
+    "values": [
+      {
+        "system": "Salesforce Service Cloud",
+        "value": "Customer B",
+        "observedAt": "2026-11-19T23:48:00.000Z"
+      },
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "Customer C",
+        "observedAt": "2026-11-19T23:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-20T00:00:00.000Z",
+    "severity": "medium",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-20T00:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on customer_account"
+      }
+    ]
+  },
+  {
+    "id": "CFL-207",
+    "entityType": "Physical Asset",
+    "entityId": "RT-1041",
+    "entityLabel": "Tessen Tools NP-Drive",
+    "field": "book_value_eur",
+    "values": [
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "4,120",
+        "observedAt": "2026-11-20T02:48:00.000Z"
+      },
+      {
+        "system": "IBM Maximo EAM",
+        "value": "3,890",
+        "observedAt": "2026-11-20T02:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-20T03:00:00.000Z",
+    "severity": "low",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-20T03:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on book_value_eur"
+      }
+    ]
+  },
+  {
+    "id": "CFL-208",
+    "entityType": "Asset Condition",
+    "entityId": "RT-1046",
+    "entityLabel": "Tessen Logic TL-9",
+    "field": "residual_life_months",
+    "values": [
+      {
+        "system": "IBM Maximo EAM",
+        "value": "18",
+        "observedAt": "2026-11-20T04:48:00.000Z"
+      },
+      {
+        "system": "Salesforce Service Cloud",
+        "value": "24",
+        "observedAt": "2026-11-20T04:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-20T05:00:00.000Z",
+    "severity": "low",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-20T05:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on residual_life_months"
+      }
+    ]
+  },
+  {
+    "id": "CFL-209",
+    "entityType": "Physical Asset",
+    "entityId": "RT-1052",
+    "entityLabel": "Aquaterra NF-40",
+    "field": "received_date",
+    "values": [
+      {
+        "system": "Manhattan Active WMS",
+        "value": "2026-11-12",
+        "observedAt": "2026-11-18T16:48:00.000Z"
+      },
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "2026-11-13",
+        "observedAt": "2026-11-18T16:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-18T17:00:00.000Z",
+    "severity": "low",
+    "status": "auto_resolved",
+    "resolution": {
+      "system": "Manhattan Active WMS",
+      "value": "2026-11-12",
+      "reason": "Rule: WMS is system of record for physical receipt dates",
+      "by": "Survivorship rules",
+      "at": "2026-11-18T18:00:00.000Z"
+    },
+    "history": [
+      {
+        "at": "2026-11-18T17:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on received_date"
+      },
+      {
+        "at": "2026-11-18T18:00:00.000Z",
+        "actor": "Survivorship rules",
+        "action": "Auto-resolved",
+        "note": "Manhattan Active WMS value \"2026-11-12\" kept. Rule: WMS is system of record for physical receipt dates"
+      }
+    ]
+  },
+  {
+    "id": "CFL-210",
+    "entityType": "Inventory",
+    "entityId": "RT-1058",
+    "entityLabel": "Kestrel Automation OC-7 PLC",
+    "field": "bin_location",
+    "values": [
+      {
+        "system": "Manhattan Active WMS",
+        "value": "Q-3-2",
+        "observedAt": "2026-11-18T23:48:00.000Z"
+      },
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "A-21-4",
+        "observedAt": "2026-11-18T23:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-19T00:00:00.000Z",
+    "severity": "low",
+    "status": "auto_resolved",
+    "resolution": {
+      "system": "Manhattan Active WMS",
+      "value": "Q-3-2",
+      "reason": "Rule: WMS is system of record for bin locations",
+      "by": "Survivorship rules",
+      "at": "2026-11-19T01:00:00.000Z"
+    },
+    "history": [
+      {
+        "at": "2026-11-19T00:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on bin_location"
+      },
+      {
+        "at": "2026-11-19T01:00:00.000Z",
+        "actor": "Survivorship rules",
+        "action": "Auto-resolved",
+        "note": "Manhattan Active WMS value \"Q-3-2\" kept. Rule: WMS is system of record for bin locations"
+      }
+    ]
+  },
+  {
+    "id": "CFL-211",
+    "entityType": "Product",
+    "entityId": "RT-1063",
+    "entityLabel": "Halden Hydraulics PMP-200",
+    "field": "manufacturer",
+    "values": [
+      {
+        "system": "PTC Windchill PLM",
+        "value": "Halden Hydraulics",
+        "observedAt": "2026-11-19T04:48:00.000Z"
+      },
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "HALDEN HYDRAULICS",
+        "observedAt": "2026-11-19T04:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-19T05:00:00.000Z",
+    "severity": "low",
+    "status": "auto_resolved",
+    "resolution": {
+      "system": "PTC Windchill PLM",
+      "value": "Halden Hydraulics",
+      "reason": "Rule: case-insensitive match, PLM casing kept",
+      "by": "Survivorship rules",
+      "at": "2026-11-19T06:00:00.000Z"
+    },
+    "history": [
+      {
+        "at": "2026-11-19T05:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on manufacturer"
+      },
+      {
+        "at": "2026-11-19T06:00:00.000Z",
+        "actor": "Survivorship rules",
+        "action": "Auto-resolved",
+        "note": "PTC Windchill PLM value \"Halden Hydraulics\" kept. Rule: case-insensitive match, PLM casing kept"
+      }
+    ]
+  },
+  {
+    "id": "CFL-212",
+    "entityType": "Asset Condition",
+    "entityId": "RT-1071",
+    "entityLabel": "Tessen Tools BR-X2",
+    "field": "condition_grade",
+    "values": [
+      {
+        "system": "IBM Maximo EAM",
+        "value": "A",
+        "observedAt": "2026-11-17T20:48:00.000Z"
+      },
+      {
+        "system": "Manhattan Active WMS",
+        "value": "B",
+        "observedAt": "2026-11-17T20:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-17T21:00:00.000Z",
+    "severity": "medium",
+    "status": "resolved",
+    "resolution": {
+      "system": "IBM Maximo EAM",
+      "value": "A",
+      "reason": "Inspection photos confirm grade A",
+      "by": "Dev Kapoor",
+      "at": "2026-11-17T22:00:00.000Z"
+    },
+    "history": [
+      {
+        "at": "2026-11-17T21:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on condition_grade"
+      },
+      {
+        "at": "2026-11-17T22:00:00.000Z",
+        "actor": "Dev Kapoor",
+        "action": "Resolved",
+        "note": "IBM Maximo EAM value \"A\" kept. Inspection photos confirm grade A"
+      }
+    ]
+  },
+  {
+    "id": "CFL-213",
+    "entityType": "Disposition",
+    "entityId": "RT-1078",
+    "entityLabel": "Tessen Tools NP-Drive",
+    "field": "route",
+    "values": [
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "resale",
+        "observedAt": "2026-11-20T05:48:00.000Z"
+      },
+      {
+        "system": "Salesforce Service Cloud",
+        "value": "redeploy",
+        "observedAt": "2026-11-20T05:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-20T06:00:00.000Z",
+    "severity": "high",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-20T06:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on route"
+      }
+    ]
+  },
+  {
+    "id": "CFL-214",
+    "entityType": "Product",
+    "entityId": "RT-1085",
+    "entityLabel": "Halden Electric V4 75kW",
+    "field": "warranty_end",
+    "values": [
+      {
+        "system": "Salesforce Service Cloud",
+        "value": "2027-03-31",
+        "observedAt": "2026-11-19T21:48:00.000Z"
+      },
+      {
+        "system": "PTC Windchill PLM",
+        "value": "2027-01-31",
+        "observedAt": "2026-11-19T21:24:00.000Z"
+      },
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "2027-03-31",
+        "observedAt": "2026-11-19T21:00:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-19T22:00:00.000Z",
+    "severity": "medium",
+    "status": "open",
+    "resolution": null,
+    "history": [
+      {
+        "at": "2026-11-19T22:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "3 systems disagree on warranty_end"
+      }
+    ]
+  },
+  {
+    "id": "CFL-215",
+    "entityType": "Inventory",
+    "entityId": "RT-1091",
+    "entityLabel": "Voltara HX-90",
+    "field": "quantity",
+    "values": [
+      {
+        "system": "Manhattan Active WMS",
+        "value": "4",
+        "observedAt": "2026-11-19T14:48:00.000Z"
+      },
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "4.0",
+        "observedAt": "2026-11-19T14:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-19T15:00:00.000Z",
+    "severity": "low",
+    "status": "auto_resolved",
+    "resolution": {
+      "system": "SAP S/4HANA ERP",
+      "value": "4.0",
+      "reason": "Rule: numeric equivalence after normalisation",
+      "by": "Survivorship rules",
+      "at": "2026-11-19T16:00:00.000Z"
+    },
+    "history": [
+      {
+        "at": "2026-11-19T15:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on quantity"
+      },
+      {
+        "at": "2026-11-19T16:00:00.000Z",
+        "actor": "Survivorship rules",
+        "action": "Auto-resolved",
+        "note": "SAP S/4HANA ERP value \"4.0\" kept. Rule: numeric equivalence after normalisation"
+      }
+    ]
+  },
+  {
+    "id": "CFL-216",
+    "entityType": "Emission Factor",
+    "entityId": "RT-1097",
+    "entityLabel": "Halden Electric HX-90",
+    "field": "emission_factor_kg",
+    "values": [
+      {
+        "system": "PTC Windchill PLM",
+        "value": "182.4",
+        "observedAt": "2026-11-18T11:48:00.000Z"
+      },
+      {
+        "system": "SAP S/4HANA ERP",
+        "value": "176.0",
+        "observedAt": "2026-11-18T11:24:00.000Z"
+      }
+    ],
+    "detectedAt": "2026-11-18T12:00:00.000Z",
+    "severity": "low",
+    "status": "auto_resolved",
+    "resolution": {
+      "system": "PTC Windchill PLM",
+      "value": "182.4",
+      "reason": "Rule: PLM is system of record for product LCA data",
+      "by": "Survivorship rules",
+      "at": "2026-11-18T13:00:00.000Z"
+    },
+    "history": [
+      {
+        "at": "2026-11-18T12:00:00.000Z",
+        "actor": "Connection Fabric",
+        "action": "Detected",
+        "note": "2 systems disagree on emission_factor_kg"
+      },
+      {
+        "at": "2026-11-18T13:00:00.000Z",
+        "actor": "Survivorship rules",
+        "action": "Auto-resolved",
+        "note": "PTC Windchill PLM value \"182.4\" kept. Rule: PLM is system of record for product LCA data"
+      }
+    ]
+  }
+]

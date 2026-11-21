@@ -1,0 +1,62 @@
+[
+  {
+    "id": "IMP-0412",
+    "modelId": "asset_condition",
+    "fileName": "eam_grades_wk46.csv",
+    "rows": 214,
+    "committed": 209,
+    "rejected": 5,
+    "by": "Dev Kapoor",
+    "at": "2026-11-19T16:12:00Z",
+    "status": "partial",
+    "records": []
+  },
+  {
+    "id": "IMP-0411",
+    "modelId": "market_observation",
+    "fileName": "broker_prices_nov.csv",
+    "rows": 86,
+    "committed": 86,
+    "rejected": 0,
+    "by": "Elena Rostova",
+    "at": "2026-11-18T10:40:00Z",
+    "status": "committed",
+    "records": []
+  },
+  {
+    "id": "IMP-0410",
+    "modelId": "inventory",
+    "fileName": "wh2_cycle_count.csv",
+    "rows": 412,
+    "committed": 398,
+    "rejected": 14,
+    "by": "Grace Mensah",
+    "at": "2026-11-15T08:05:00Z",
+    "status": "partial",
+    "records": []
+  },
+  {
+    "id": "IMP-0409",
+    "modelId": "emission_factor",
+    "fileName": "lca_factors_2026.csv",
+    "rows": 40,
+    "committed": 40,
+    "rejected": 0,
+    "by": "Helen Brandt",
+    "at": "2026-11-12T09:44:00Z",
+    "status": "committed",
+    "records": []
+  },
+  {
+    "id": "IMP-0408",
+    "modelId": "physical_asset",
+    "fileName": "legacy_assets_customer_c.csv",
+    "rows": 128,
+    "committed": 120,
+    "rejected": 8,
+    "by": "Sam Okafor",
+    "at": "2026-11-04T14:30:00Z",
+    "status": "partial",
+    "records": []
+  }
+]

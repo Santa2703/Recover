@@ -1,0 +1,251 @@
+{
+  "version": "2026.11",
+  "holdingCostPerDay": 12,
+  "costOfCapital": 0.09,
+  "lifeUsedPerMonth": 1.25,
+  "refurbRestoresLife": 25,
+  "servicingPctPerYear": 0.04,
+  "fitForUseThreshold": 50,
+  "certifiedPartFactor": 0.7,
+  "customerWaitCost": 650,
+  "refurbSlots": 8,
+  "transferDays": 2,
+  "relaseMinLife": 40,
+  "preferTolerance": 0.15,
+  "estimateHaircut": 0.92,
+  "channelCommission": 0.08,
+  "directCommission": 0.03,
+  "testCertifyShare": 0.35,
+  "recommissionShare": 0.4,
+  "teardownPct": 0.06,
+  "externalPartsFactor": 0.85,
+  "marketplacePartsFactor": 0.6,
+  "partsHandlingPct": 0.05,
+  "carcassMaterialShare": 0.6,
+  "materialIndexPerKg": {
+    "motor": 1.05,
+    "pump": 0.9,
+    "control": 1.6,
+    "drill": 0.8,
+    "batch": 0.7,
+    "it": 2.2
+  },
+  "materialEstimateFactor": 0.85,
+  "classes": {
+    "motor": {
+      "weightKg": 420,
+      "holdingSpace": 1,
+      "freight": 260,
+      "disposalFee": 180,
+      "decommissionFee": 120
+    },
+    "pump": {
+      "weightKg": 160,
+      "holdingSpace": 0.7,
+      "freight": 180,
+      "disposalFee": 120,
+      "decommissionFee": 80
+    },
+    "control": {
+      "weightKg": 18,
+      "holdingSpace": 0.25,
+      "freight": 90,
+      "disposalFee": 45,
+      "decommissionFee": 35
+    },
+    "drill": {
+      "weightKg": 2.1,
+      "holdingSpace": 0.05,
+      "freight": 25,
+      "disposalFee": 6,
+      "decommissionFee": 3
+    },
+    "batch": {
+      "weightKg": 2.4,
+      "holdingSpace": 0.5,
+      "freight": 140,
+      "disposalFee": 4,
+      "decommissionFee": 2
+    },
+    "it": {
+      "weightKg": 2.2,
+      "holdingSpace": 0.08,
+      "freight": 40,
+      "disposalFee": 18,
+      "decommissionFee": 12
+    }
+  },
+  "routes": {
+    "redeploy": {
+      "name": "Internal Redeploy",
+      "leadDays": 3,
+      "owner": "Asset planner",
+      "executesIn": "ERP stock transfer"
+    },
+    "resale": {
+      "name": "Whole-Asset Resale",
+      "leadDays": 9,
+      "owner": "Remarketing lead",
+      "executesIn": "Remarketing channel / ERP sales orders"
+    },
+    "intparts": {
+      "name": "Internal Parts Harvest",
+      "leadDays": 5,
+      "owner": "Service parts planner",
+      "executesIn": "Teardown work order + ERP spare parts"
+    },
+    "relase": {
+      "name": "Secondary Re-lease",
+      "leadDays": 7,
+      "owner": "Repair center lead",
+      "executesIn": "Repair work order, then lease contract system"
+    },
+    "material": {
+      "name": "Material Recovery",
+      "leadDays": 6,
+      "owner": "Sustainability lead",
+      "executesIn": "Recycler portal + circularity ledger"
+    },
+    "extparts": {
+      "name": "External Parts Sale",
+      "leadDays": 6,
+      "owner": "Parts sales lead",
+      "executesIn": "Teardown + parts sales channel"
+    },
+    "exit": {
+      "name": "Responsible Exit",
+      "leadDays": 6,
+      "owner": "Sustainability lead",
+      "executesIn": "Certified disposal provider"
+    }
+  },
+  "sources": {
+    "sale_order": {
+      "system": "ERP sales orders (SAP SD)",
+      "method": "Confirmed sales order price",
+      "freshness": "Live, synced every 15 minutes"
+    },
+    "buyer_bid": {
+      "system": "Remarketing channel",
+      "method": "Highest open bid that accepts this grade",
+      "freshness": "Bids refreshed hourly"
+    },
+    "market_estimate": {
+      "system": "Resale price model v1.3",
+      "method": "Median of comparable sales in the last 90 days, adjusted for grade",
+      "freshness": "Market feed last refreshed 3 days ago"
+    },
+    "commission": {
+      "system": "Remarketing contract",
+      "method": "Agreed commission rate on the sale price",
+      "freshness": "Contract rate, reviewed yearly",
+      "approvedBy": "Remarketing lead"
+    },
+    "test_certify": {
+      "system": "Repair centre standard costs",
+      "method": "Share of the refurbishment estimate for test, clean and certify",
+      "freshness": "Standard costs, updated quarterly",
+      "approvedBy": "Repair center lead"
+    },
+    "lease_income": {
+      "system": "Lease contract system",
+      "method": "Monthly fee × term, discounted at the 9 % cost of capital",
+      "freshness": "Live order book",
+      "approvedBy": "Finance"
+    },
+    "residual_value": {
+      "system": "Residual value model",
+      "method": "Predicted resale scaled by remaining life at end of term, discounted",
+      "freshness": "Model v1.3, back-tested monthly",
+      "approvedBy": "Finance"
+    },
+    "servicing": {
+      "system": "Lease cost model",
+      "method": "Servicing allowance as a share of replacement value per year",
+      "freshness": "Policy rate",
+      "approvedBy": "Finance"
+    },
+    "refurbishment": {
+      "system": "Repair centre standard costs",
+      "method": "Full refurbishment estimate for this model and grade",
+      "freshness": "Standard costs, updated quarterly",
+      "approvedBy": "Repair center lead"
+    },
+    "avoided_purchase": {
+      "system": "ERP purchase requisitions",
+      "method": "What the requesting site would pay for an equivalent unit",
+      "freshness": "Live requisition",
+      "approvedBy": "Asset planner"
+    },
+    "recommission": {
+      "system": "Repair centre standard costs",
+      "method": "Share of the refurbishment estimate to test and recommission",
+      "freshness": "Standard costs, updated quarterly"
+    },
+    "freight": {
+      "system": "Logistics rate card",
+      "method": "Site-to-site freight for this product class",
+      "freshness": "Rate card, updated monthly"
+    },
+    "part_value": {
+      "system": "ERP spare-parts price list",
+      "method": "New part price × 70 % certified used-part factor",
+      "freshness": "Price list, updated weekly",
+      "approvedBy": "Service parts planner"
+    },
+    "parts_estimate": {
+      "system": "Parts marketplace index",
+      "method": "Certified part price × marketplace price share",
+      "freshness": "Index refreshed weekly"
+    },
+    "wait_cost_avoided": {
+      "system": "Service level agreements",
+      "method": "Agreed cost of a customer waiting on a backordered part",
+      "freshness": "Policy rate",
+      "approvedBy": "Finance"
+    },
+    "teardown": {
+      "system": "Repair centre standard costs",
+      "method": "Teardown and part certification as a share of replacement value",
+      "freshness": "Standard costs, updated quarterly"
+    },
+    "parts_handling": {
+      "system": "Parts sales channel",
+      "method": "Listing, packing and shipping as a share of parts value",
+      "freshness": "Contract rate"
+    },
+    "carcass_material": {
+      "system": "Recycler portal",
+      "method": "Share of the material value left after teardown",
+      "freshness": "Rate cards, updated weekly"
+    },
+    "recycler_quote": {
+      "system": "Recycler portal",
+      "method": "Certified recycler rate card per kg",
+      "freshness": "Quote on file, see validity",
+      "approvedBy": "Sustainability lead"
+    },
+    "material_estimate": {
+      "system": "Metals price index",
+      "method": "Index rate per kg less a no-quote discount",
+      "freshness": "Index refreshed daily"
+    },
+    "decommission": {
+      "system": "EHS register",
+      "method": "Decommission and hazardous-material handling fee per unit",
+      "freshness": "Policy rate"
+    },
+    "disposal_fee": {
+      "system": "Certified disposal provider",
+      "method": "Disposal fee per unit, certificate on file",
+      "freshness": "Contract rate",
+      "approvedBy": "Sustainability lead"
+    },
+    "holding": {
+      "system": "Finance policy",
+      "method": "Holding cost per bay per day × floor-space factor × days",
+      "freshness": "Policy rate (GR-04)",
+      "approvedBy": "Finance"
+    }
+  }
+}

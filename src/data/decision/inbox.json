@@ -1,0 +1,640 @@
+[
+  {
+    "case": {
+      "id": "RT-1129",
+      "assetTag": "MTR-05903",
+      "serialNumber": "HA620079",
+      "productClass": "motor",
+      "productName": "Halden Electric HX-90",
+      "category": "Industrial motor",
+      "manufacturer": "Halden Electric",
+      "model": "HX-90",
+      "quantity": 1,
+      "location": "Warehouse 1",
+      "tenant": "Customer A",
+      "owner": "Priya Raman",
+      "ownerId": "u-planner-a",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-12-02",
+      "dueInDays": 12,
+      "condition": "B",
+      "residualLifeMonths": 36,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 4780,
+      "predictedResale": 6310,
+      "refurbishmentCost": 1530,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 150,
+      "priority": "low",
+      "evidenceCompleteness": 89,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 11800,
+        "ageYears": 4,
+        "lastServiceDate": "2026-01-08",
+        "warrantyStatus": "expired",
+        "wmsBinLocation": "W1-B21-3"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 6310,
+        "refurbishmentCost": 1530,
+        "resaleDemandScore": 0.92,
+        "failureRiskScore": 0.3
+      }
+    },
+    "context": {
+      "intakeChannel": "lease_end",
+      "lifePct": 71,
+      "parts": [
+        {
+          "name": "Stator winding",
+          "newPrice": 3780,
+          "lifePct": 56
+        },
+        {
+          "name": "Rotor and shaft",
+          "newPrice": 2600,
+          "lifePct": 57
+        },
+        {
+          "name": "Bearings (DE / NDE)",
+          "newPrice": 940,
+          "lifePct": 89
+        },
+        {
+          "name": "Terminal box",
+          "newPrice": 710,
+          "lifePct": 54
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "id": "RT-1130",
+      "assetTag": "CTL-05910",
+      "serialNumber": "OR595095",
+      "productClass": "control",
+      "productName": "Orbis Control OC-7 PLC",
+      "category": "Control unit",
+      "manufacturer": "Orbis Control",
+      "model": "OC-7 PLC",
+      "quantity": 1,
+      "location": "Warehouse 2",
+      "tenant": "Customer B",
+      "owner": "Tomás Herrera",
+      "ownerId": "u-planner-b",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-11-24",
+      "dueInDays": 4,
+      "condition": "C",
+      "residualLifeMonths": 15,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 1180,
+      "predictedResale": 1850,
+      "refurbishmentCost": 670,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 40,
+      "priority": "medium",
+      "evidenceCompleteness": 100,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 4300,
+        "ageYears": 6.5,
+        "lastServiceDate": "2025-11-01",
+        "warrantyStatus": "expired",
+        "wmsBinLocation": "W2-A12-2"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 1850,
+        "refurbishmentCost": 670,
+        "resaleDemandScore": 0.62,
+        "failureRiskScore": 0.37
+      }
+    },
+    "context": {
+      "intakeChannel": "field_return",
+      "lifePct": 42,
+      "parts": [
+        {
+          "name": "CPU module",
+          "newPrice": 1630,
+          "lifePct": 62
+        },
+        {
+          "name": "I/O cards",
+          "newPrice": 1030,
+          "lifePct": 71
+        },
+        {
+          "name": "Power supply",
+          "newPrice": 520,
+          "lifePct": 28
+        },
+        {
+          "name": "Comms module",
+          "newPrice": 600,
+          "lifePct": 35
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "id": "RT-1131",
+      "assetTag": "PMP-05917",
+      "serialNumber": "HA684417",
+      "productClass": "pump",
+      "productName": "Halden Hydraulics PMP-200",
+      "category": "Hydraulic pump",
+      "manufacturer": "Halden Hydraulics",
+      "model": "PMP-200",
+      "quantity": 1,
+      "location": "Repair centre",
+      "tenant": "Customer C",
+      "owner": "Aiko Tanaka",
+      "ownerId": "u-planner-c",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-12-01",
+      "dueInDays": 11,
+      "condition": "A",
+      "residualLifeMonths": 29,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 3100,
+      "predictedResale": 3790,
+      "refurbishmentCost": 690,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 100,
+      "priority": "low",
+      "evidenceCompleteness": 99,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 6400,
+        "ageYears": 6.1,
+        "lastServiceDate": "2026-04-20",
+        "warrantyStatus": "expired",
+        "wmsBinLocation": "RC-A5-4"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 3790,
+        "refurbishmentCost": 690,
+        "resaleDemandScore": 0.67,
+        "failureRiskScore": 0.24
+      }
+    },
+    "context": {
+      "intakeChannel": "excess",
+      "lifePct": 82,
+      "parts": [
+        {
+          "name": "Piston assembly",
+          "newPrice": 1920,
+          "lifePct": 100
+        },
+        {
+          "name": "Swash plate",
+          "newPrice": 1150,
+          "lifePct": 79
+        },
+        {
+          "name": "Valve block",
+          "newPrice": 1280,
+          "lifePct": 90
+        },
+        {
+          "name": "Shaft seal kit",
+          "newPrice": 320,
+          "lifePct": 100
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "id": "RT-1132",
+      "assetTag": "ITE-05924",
+      "serialNumber": "LU795485",
+      "productClass": "it",
+      "productName": "Lumeo Devices LD Pro 13",
+      "category": "IT electronics",
+      "manufacturer": "Lumeo Devices",
+      "model": "LD Pro 13",
+      "quantity": 1,
+      "location": "Repair centre",
+      "tenant": "Customer A",
+      "owner": "Priya Raman",
+      "ownerId": "u-planner-a",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-12-02",
+      "dueInDays": 12,
+      "condition": "B",
+      "residualLifeMonths": 25,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 230,
+      "predictedResale": 340,
+      "refurbishmentCost": 110,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 10,
+      "priority": "low",
+      "evidenceCompleteness": 95,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 820,
+        "ageYears": 5.8,
+        "lastServiceDate": "2026-04-29",
+        "warrantyStatus": "expired",
+        "wmsBinLocation": "RC-A22-2"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 340,
+        "refurbishmentCost": 110,
+        "resaleDemandScore": 0.86,
+        "failureRiskScore": 0.3
+      }
+    },
+    "context": {
+      "intakeChannel": "trade_in",
+      "lifePct": 64,
+      "parts": [
+        {
+          "name": "Mainboard",
+          "newPrice": 300,
+          "lifePct": 68
+        },
+        {
+          "name": "SSD",
+          "newPrice": 120,
+          "lifePct": 53
+        },
+        {
+          "name": "Display",
+          "newPrice": 170,
+          "lifePct": 47
+        },
+        {
+          "name": "Battery",
+          "newPrice": 70,
+          "lifePct": 54
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "id": "RT-1133",
+      "assetTag": "MTR-05931",
+      "serialNumber": "KE298907",
+      "productClass": "motor",
+      "productName": "Kestrel Drives KD-55",
+      "category": "Industrial motor",
+      "manufacturer": "Kestrel Drives",
+      "model": "KD-55",
+      "quantity": 1,
+      "location": "Repair centre",
+      "tenant": "Customer B",
+      "owner": "Tomás Herrera",
+      "ownerId": "u-planner-b",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-11-25",
+      "dueInDays": 5,
+      "condition": "D",
+      "residualLifeMonths": 18,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 520,
+      "predictedResale": 2690,
+      "refurbishmentCost": 2170,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 60,
+      "priority": "medium",
+      "evidenceCompleteness": 88,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 11800,
+        "ageYears": 2.6,
+        "lastServiceDate": "2025-09-02",
+        "warrantyStatus": "active",
+        "wmsBinLocation": "RC-C11-1"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 2690,
+        "refurbishmentCost": 2170,
+        "resaleDemandScore": 0.4,
+        "failureRiskScore": 0.45
+      }
+    },
+    "context": {
+      "intakeChannel": "field_return",
+      "lifePct": 30,
+      "parts": [
+        {
+          "name": "Stator winding",
+          "newPrice": 3780,
+          "lifePct": 62
+        },
+        {
+          "name": "Rotor and shaft",
+          "newPrice": 2600,
+          "lifePct": 71
+        },
+        {
+          "name": "Bearings (DE / NDE)",
+          "newPrice": 940,
+          "lifePct": 12
+        },
+        {
+          "name": "Terminal box",
+          "newPrice": 710,
+          "lifePct": 17
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "id": "RT-1134",
+      "assetTag": "BAT-05938",
+      "serialNumber": "BR251706",
+      "productClass": "batch",
+      "productName": "Brava Fleet lot 40",
+      "category": "Tool-fleet batch",
+      "manufacturer": "Brava",
+      "model": "Fleet lot 40",
+      "quantity": 26,
+      "location": "Repair centre",
+      "tenant": "Customer C",
+      "owner": "Aiko Tanaka",
+      "ownerId": "u-planner-c",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-11-28",
+      "dueInDays": 8,
+      "condition": "B",
+      "residualLifeMonths": 39,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 1280,
+      "predictedResale": 1790,
+      "refurbishmentCost": 510,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 50,
+      "priority": "low",
+      "evidenceCompleteness": 97,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 3900,
+        "ageYears": 3.5,
+        "lastServiceDate": "2026-03-14",
+        "warrantyStatus": "expired",
+        "wmsBinLocation": "RC-C7-2"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 1790,
+        "refurbishmentCost": 510,
+        "resaleDemandScore": 0.5,
+        "failureRiskScore": 0.3
+      }
+    },
+    "context": {
+      "intakeChannel": "lease_end",
+      "lifePct": 65,
+      "parts": [
+        {
+          "name": "Tool bodies",
+          "newPrice": 1640,
+          "lifePct": 66
+        },
+        {
+          "name": "Battery packs",
+          "newPrice": 1090,
+          "lifePct": 75
+        },
+        {
+          "name": "Chargers",
+          "newPrice": 550,
+          "lifePct": 81
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "id": "RT-1135",
+      "assetTag": "PMP-05945",
+      "serialNumber": "NO730241",
+      "productClass": "pump",
+      "productName": "Norvik Fluid NF-40",
+      "category": "Hydraulic pump",
+      "manufacturer": "Norvik Fluid",
+      "model": "NF-40",
+      "quantity": 1,
+      "location": "Warehouse 1",
+      "tenant": "Customer A",
+      "owner": "Priya Raman",
+      "ownerId": "u-planner-a",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-12-03",
+      "dueInDays": 13,
+      "condition": "C",
+      "residualLifeMonths": 32,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 1130,
+      "predictedResale": 2120,
+      "refurbishmentCost": 990,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 60,
+      "priority": "low",
+      "evidenceCompleteness": 90,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 6400,
+        "ageYears": 2.7,
+        "lastServiceDate": "2026-08-28",
+        "warrantyStatus": "active",
+        "wmsBinLocation": "W1-B24-1"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 2120,
+        "refurbishmentCost": 990,
+        "resaleDemandScore": 0.49,
+        "failureRiskScore": 0.37
+      }
+    },
+    "context": {
+      "intakeChannel": "trade_in",
+      "lifePct": 58,
+      "parts": [
+        {
+          "name": "Piston assembly",
+          "newPrice": 1920,
+          "lifePct": 78
+        },
+        {
+          "name": "Swash plate",
+          "newPrice": 1150,
+          "lifePct": 55
+        },
+        {
+          "name": "Valve block",
+          "newPrice": 1280,
+          "lifePct": 58
+        },
+        {
+          "name": "Shaft seal kit",
+          "newPrice": 320,
+          "lifePct": 43
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "id": "RT-1136",
+      "assetTag": "CTL-05952",
+      "serialNumber": "KE292175",
+      "productClass": "control",
+      "productName": "Kestrel Automation KA-300",
+      "category": "Control unit",
+      "manufacturer": "Kestrel Automation",
+      "model": "KA-300",
+      "quantity": 1,
+      "location": "Warehouse 1",
+      "tenant": "Customer B",
+      "owner": "Tomás Herrera",
+      "ownerId": "u-planner-b",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-12-02",
+      "dueInDays": 12,
+      "condition": "A",
+      "residualLifeMonths": 60,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 2430,
+      "predictedResale": 2900,
+      "refurbishmentCost": 470,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 65,
+      "priority": "low",
+      "evidenceCompleteness": 99,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 4300,
+        "ageYears": 2,
+        "lastServiceDate": "2026-06-17",
+        "warrantyStatus": "active",
+        "wmsBinLocation": "W1-B3-5"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 2900,
+        "refurbishmentCost": 470,
+        "resaleDemandScore": 0.89,
+        "failureRiskScore": 0.24
+      }
+    },
+    "context": {
+      "intakeChannel": "field_return",
+      "lifePct": 86,
+      "parts": [
+        {
+          "name": "CPU module",
+          "newPrice": 1630,
+          "lifePct": 98
+        },
+        {
+          "name": "I/O cards",
+          "newPrice": 1030,
+          "lifePct": 100
+        },
+        {
+          "name": "Power supply",
+          "newPrice": 520,
+          "lifePct": 100
+        },
+        {
+          "name": "Comms module",
+          "newPrice": 600,
+          "lifePct": 69
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "id": "RT-1137",
+      "assetTag": "DRL-05959",
+      "serialNumber": "NO340980",
+      "productClass": "drill",
+      "productName": "Norvik Power NP-Drive",
+      "category": "Power tool",
+      "manufacturer": "Norvik Power",
+      "model": "NP-Drive",
+      "quantity": 1,
+      "location": "Warehouse 1",
+      "tenant": "Customer C",
+      "owner": "Aiko Tanaka",
+      "ownerId": "u-planner-c",
+      "receivedDate": "2026-11-20",
+      "dueDate": "2026-12-01",
+      "dueInDays": 11,
+      "condition": "C",
+      "residualLifeMonths": 19,
+      "stage": "awaiting_approval",
+      "recommendedRoute": "resale",
+      "estimatedNetRecovery": 90,
+      "predictedResale": 140,
+      "refurbishmentCost": 50,
+      "valueAtRisk": 0,
+      "riskReason": null,
+      "carbonAvoidedKg": 5,
+      "priority": "low",
+      "evidenceCompleteness": 95,
+      "blockedReason": null,
+      "facts": {
+        "originalPrice": 340,
+        "ageYears": 5.7,
+        "lastServiceDate": "2026-01-22",
+        "warrantyStatus": "expired",
+        "wmsBinLocation": "W1-D7-4"
+      },
+      "predictions": {
+        "secondaryMarketPrice": 140,
+        "refurbishmentCost": 50,
+        "resaleDemandScore": 0.56,
+        "failureRiskScore": 0.37
+      }
+    },
+    "context": {
+      "intakeChannel": "excess",
+      "lifePct": 41,
+      "parts": [
+        {
+          "name": "Brushless motor",
+          "newPrice": 120,
+          "lifePct": 44
+        },
+        {
+          "name": "Gearbox",
+          "newPrice": 70,
+          "lifePct": 36
+        },
+        {
+          "name": "Battery pack",
+          "newPrice": 90,
+          "lifePct": 31
+        }
+      ]
+    }
+  }
+]
