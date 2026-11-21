@@ -92,7 +92,7 @@ export function NodePropertiesPanel({ node, onChange, onDuplicate, onDelete, onC
     onChange({ config: d.config.map((c, idx) => (idx === i ? { ...c, ...patch } : c)) }, `config-${i}`);
 
   return (
-    <div className="min-w-0 xl:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-4">
+    <div className="min-w-0 lg:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-4">
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="text-sm font-bold text-[#141416] tracking-tight m-0">Node properties</h2>

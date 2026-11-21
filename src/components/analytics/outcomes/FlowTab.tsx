@@ -114,7 +114,7 @@ export function FlowTab({ registerExport }: { registerExport: RegisterExport }) 
           </span>
           <div className="min-w-0">
             <span className="block text-xs font-bold text-[#141416]">{s.label}</span>
-            <span className="hidden truncate text-[11px] text-[#64748B] xl:block">{s.description}</span>
+            <span className="hidden truncate text-[11px] text-[#64748B] lg:block">{s.description}</span>
           </div>
         </div>
       ),

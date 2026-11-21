@@ -161,9 +161,9 @@ export function NextBestActionCard({
       )}
 
       {/* ≥1280px: summary (steps + proof) left, route ladder right. Narrower: the ladder comes first, right under the headline. */}
-      <div className="grid grid-cols-1 gap-5 border-t border-amber-200/70 pt-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+      <div className="grid grid-cols-1 gap-5 border-t border-amber-200/70 pt-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
         {best.viable && (
-          <div className="order-last min-w-0 space-y-4 xl:order-none">
+          <div className="order-last min-w-0 space-y-4 lg:order-none">
             <div>
               <h3 className="m-0 mb-1.5 text-[11px] font-bold uppercase tracking-wider text-[#475569]">Steps</h3>
               <ol className="m-0 list-none space-y-1 p-0">
@@ -216,7 +216,7 @@ export function NextBestActionCard({
           </div>
         )}
         {ladder && (
-          <div className={`min-w-0 ${best.viable ? '' : 'xl:col-span-2'}`}>
+          <div className={`min-w-0 ${best.viable ? '' : 'lg:col-span-2'}`}>
             <div className="mb-1.5 flex flex-wrap items-baseline justify-between gap-x-3">
               <h3 className="m-0 text-[11px] font-bold uppercase tracking-wider text-[#475569]">Route ladder</h3>
               {ladderDescription && <span className="text-[11px] text-[#64748B]">{ladderDescription}</span>}

@@ -244,7 +244,7 @@ export default function CallLogPage() {
         actions={<PageActions secondary={[{ key: 'export', label: 'Export CSV', icon: <Download />, onClick: exportCsv }]} />}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <MetricCard label="Calls in 24h" icon={<Activity />} iconTone="green" loading={!s} value={s?.calls24h ?? ''} context="All agents, all tenants" />
         <MetricCard
           label="Held at gate"

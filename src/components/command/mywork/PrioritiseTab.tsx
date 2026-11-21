@@ -156,7 +156,7 @@ export function PrioritiseTab() {
       {q.initialLoading ? (
         <KpiSkeletonRow />
       ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="Backlog to Prioritise" value={rows.length} unit="cases" icon={<Hourglass />} context={`${kpis.urgent} cases scored 60 or more`} />
           <MetricCard label="Daily Value Decay" value={`${fmtMoney(kpis.decay)}/day`} icon={<TrendingDown />} iconTone="red" context="Value at risk spread over days to due date" />
           <MetricCard label="Value at Risk" value={fmtMoney(kpis.risk)} icon={<ListOrdered />} context="Across the ranked backlog" />

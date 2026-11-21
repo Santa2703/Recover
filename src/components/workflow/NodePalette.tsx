@@ -83,7 +83,7 @@ export function NodePalette({ onAdd, disabled }: Props) {
   })).filter((c) => !q || c.systems.length);
 
   return (
-    <div className="min-w-0 xl:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-4">
+    <div className="min-w-0 lg:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-4">
       {/* Search components */}
       <div className="relative">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />

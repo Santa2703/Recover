@@ -38,7 +38,7 @@ interface IntTableProps<T> {
 }
 
 const ALIGN = { left: 'text-left', center: 'text-center', right: 'text-right' } as const;
-const VIS = { 1: '', 2: 'hidden md:table-cell', 3: 'hidden xl:table-cell' } as const;
+const VIS = { 1: '', 2: 'hidden md:table-cell', 3: 'hidden lg:table-cell' } as const;
 
 /**
  * Plain table in the Exceptions page style, with skeleton, empty and no-results states.

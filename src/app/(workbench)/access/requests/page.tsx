@@ -154,7 +154,7 @@ export default function AccessRequestsPage() {
       {q.initialLoading ? (
         <KpiSkeletonRow count={1} />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <MetricCard label="Pending" value={data?.counts.pending ?? 0} icon={<Clock />} context="Waiting for a decision" />
         </div>
       )}

@@ -138,18 +138,18 @@ export function OverridesTab({ registerExport }: { registerExport: RegisterExpor
       ) : initialLoading || !data ? (
         <>
           <KpiSkeletonRow count={4} />
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
-            <Panel className="xl:col-span-2" title="Overrides by reason">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+            <Panel className="lg:col-span-2" title="Overrides by reason">
               <ChartSkeleton height={180} />
             </Panel>
-            <Panel className="xl:col-span-3" title="Override log">
+            <Panel className="lg:col-span-3" title="Override log">
               <DataTable<DecisionHistoryRecord> columns={columns} initialLoading />
             </Panel>
           </div>
         </>
       ) : (
         <div className={`space-y-6 transition-opacity ${loading ? 'opacity-70' : ''}`}>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <MetricCard label="Owner overrides" value={data.overrides.length} unit="decisions" icon={<UserCheck />} context={`${fmtPct(data.share, 0)} of ${data.closed} closed decisions`} />
             <MetricCard
               label="Forecast accuracy, overrides"
@@ -174,8 +174,8 @@ export function OverridesTab({ registerExport }: { registerExport: RegisterExpor
             />
           </div>
 
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
-            <Panel className="xl:col-span-2" title="Overrides by reason" description="Click a reason to see its decisions and how they turned out." icon={<MessageSquareWarning />}>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+            <Panel className="lg:col-span-2" title="Overrides by reason" description="Click a reason to see its decisions and how they turned out." icon={<MessageSquareWarning />}>
               <HorizontalBarChart
                 data={data.byReason.map((r) => ({ id: r.reason, label: r.reason, value: r.n }))}
                 seriesName="Overrides"
@@ -205,7 +205,7 @@ export function OverridesTab({ registerExport }: { registerExport: RegisterExpor
               <p className="m-0 mt-2 text-[11px] text-[#94A3B8]">Per reason: forecast accuracy · realised gain over the standard route.</p>
             </Panel>
 
-            <Panel className="xl:col-span-3" title="Override log" description="Open a row for the decision's forecast, realised value, standard route and reason." icon={<Users />}>
+            <Panel className="lg:col-span-3" title="Override log" description="Open a row for the decision's forecast, realised value, standard route and reason." icon={<Users />}>
               <div className="space-y-4">
                 <FilterRow>
                   <SearchBox value={search} onChange={setSearch} placeholder="Search case, asset, owner or reason" />

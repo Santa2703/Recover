@@ -140,7 +140,7 @@ export default function KeyFiguresPage() {
       ) : loading || !k || !p || !ds ? (
         <KpiSkeletonRow count={4} />
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <KpiCard
             label="Awaiting approval"
             value={p.awaitingApproval.count}
@@ -183,15 +183,15 @@ export default function KeyFiguresPage() {
       )}
 
       {/* Where the gain comes from + queue plan */}
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <ChannelGapPanel className="xl:col-span-7" data={ds} scope={scope} />
-        <QueuePlanPanel className="xl:col-span-5" data={ds} scope={scope} />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <ChannelGapPanel className="lg:col-span-7" data={ds} scope={scope} />
+        <QueuePlanPanel className="lg:col-span-5" data={ds} scope={scope} />
       </div>
 
       {/* Value realisation + value at risk */}
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         <SectionCard
-          className="xl:col-span-7"
+          className="lg:col-span-7"
           title="Value Realisation"
           icon={<BarChart2 />}
           actions={
@@ -248,7 +248,7 @@ export default function KeyFiguresPage() {
         </SectionCard>
 
         <SectionCard
-          className="xl:col-span-5"
+          className="lg:col-span-5"
           title="Value at risk by reason"
           icon={<AlertTriangle />}
           actions={p ? <span className="rounded-full bg-[#FEE2E2] px-2 py-0.5 text-[10px] font-bold text-[#B91C1C]">{formatMoney(p.valueAtRisk)} total</span> : undefined}
@@ -275,8 +275,8 @@ export default function KeyFiguresPage() {
       </div>
 
       {/* Channel opportunity + lifecycle */}
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <SectionCard className="xl:col-span-7" title="Channel Opportunity" icon={<Package />} actions={topRoute ? <span className="text-[11px] font-semibold text-[#64748B]">Top: {topRoute.label}</span> : undefined}>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <SectionCard className="lg:col-span-7" title="Channel Opportunity" icon={<Package />} actions={topRoute ? <span className="text-[11px] font-semibold text-[#64748B]">Top: {topRoute.label}</span> : undefined}>
           {loading || !p ? (
             <ChartSkeleton height={240} />
           ) : (
@@ -291,7 +291,7 @@ export default function KeyFiguresPage() {
           )}
         </SectionCard>
 
-        <SectionCard className="xl:col-span-5" title="Lifecycle Portfolio" icon={<Layers />} actions={p ? <span className="text-[11px] font-semibold text-[#64748B]">{p.assetsInScope} assets</span> : undefined}>
+        <SectionCard className="lg:col-span-5" title="Lifecycle Portfolio" icon={<Layers />} actions={p ? <span className="text-[11px] font-semibold text-[#64748B]">{p.assetsInScope} assets</span> : undefined}>
           {loading || !p ? (
             <ListSkeleton rows={5} />
           ) : (

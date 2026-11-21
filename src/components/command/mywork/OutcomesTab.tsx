@@ -154,7 +154,7 @@ export function OutcomesTab() {
       {q.initialLoading ? (
         <KpiSkeletonRow />
       ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="Outcomes Listed" value={rows.length} unit="cases" icon={<ClipboardCheck />} context={`${kpis.pendingInvoice} awaiting final invoices`} />
           <MetricCard label="Predicted Recovery" value={fmtMoney(kpis.predicted)} icon={<Landmark />} iconTone="slate" context="What the model expected" />
           <MetricCard label="Total Realized Recovery" value={fmtMoney(kpis.actual)} icon={<TrendingUp />} iconTone="green" context="Reported by the executing systems" />

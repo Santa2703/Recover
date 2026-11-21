@@ -369,15 +369,15 @@ function IntegrationStudio() {
       {/* MODE 1: VISUAL CANVAS STUDIO (IMAGE 1)                  */}
       {/* ======================================================== */}
       {viewMode === 'canvas' && allQ.initialLoading && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 items-start" aria-busy="true">
-          <div className="xl:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-start" aria-busy="true">
+          <div className="lg:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-3">
             <Skeleton className="h-8 w-full" />
             <Skeleton className="h-3 w-20" />
             {Array.from({ length: 6 }).map((_, i) => (
               <Skeleton key={i} className="h-9 w-full" />
             ))}
           </div>
-          <div className="order-first md:col-span-2 xl:order-none xl:col-span-6 bg-white border border-[#E2E8F0] rounded-2xl shadow-2xs overflow-hidden">
+          <div className="order-first md:col-span-2 lg:order-none lg:col-span-6 bg-white border border-[#E2E8F0] rounded-2xl shadow-2xs overflow-hidden">
             <div className="p-3 border-b border-[#E2E8F0] flex gap-3">
               <Skeleton className="h-7 w-1/2" />
               <Skeleton className="h-7 w-1/3" />
@@ -388,7 +388,7 @@ function IntegrationStudio() {
               ))}
             </div>
           </div>
-          <div className="xl:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-3">
+          <div className="lg:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-3">
             <Skeleton className="h-4 w-32" />
             <Skeleton className="h-10 w-full" />
             <Skeleton className="h-16 w-full" />
@@ -425,13 +425,13 @@ function IntegrationStudio() {
 
       {viewMode === 'canvas' && currentWorkflow && tone && lastRun && (
         <ReactFlowProvider>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-start">
             {/* LEFT PANEL: Component Palette & Sources (col-span-3) */}
             {!isExpandedCanvas && <NodePalette onAdd={(t) => canvasApi.current?.addAtCenter(t)} disabled={running} />}
 
             {/* CENTER CANVAS PANEL: Interactive Node Graph (col-span-6 or 9) */}
             <div
-              className={`order-first md:col-span-2 xl:order-none ${isExpandedCanvas ? 'xl:col-span-9' : 'xl:col-span-6'
+              className={`order-first md:col-span-2 lg:order-none ${isExpandedCanvas ? 'lg:col-span-9' : 'lg:col-span-6'
                 } min-w-0 bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-2xs flex flex-col`}
             >
               <WorkflowCanvas
@@ -458,7 +458,7 @@ function IntegrationStudio() {
                 onClose={() => editor.selectOnly(null)}
               />
             ) : selectedNodes.length > 1 ? (
-              <div className="min-w-0 xl:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-4">
+              <div className="min-w-0 lg:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-4">
                 <h2 className="text-sm font-bold text-[#141416] tracking-tight m-0">{selectedNodes.length} nodes selected</h2>
                 <div className="flex flex-wrap gap-1.5">
                   {selectedNodes.map((n) => (
@@ -482,7 +482,7 @@ function IntegrationStudio() {
                 </button>
               </div>
             ) : (
-              <div className="min-w-0 xl:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-4">
+              <div className="min-w-0 lg:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-5 shadow-2xs space-y-4">
                 <div className="flex items-center justify-between gap-2">
                   <h2 className="text-sm font-bold text-[#141416] tracking-tight m-0">Workflow details</h2>
                   {editor.dirty && <span className="text-[10px] font-bold text-[#D97706]">Unsaved changes</span>}

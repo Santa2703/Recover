@@ -40,7 +40,7 @@ export function SystemsTree({ sources, categories, selectedId, onSelect, loading
   const tableCount = (sources ?? []).reduce((n, s) => n + s.tables.length, 0);
 
   return (
-    <section className="flex min-w-0 flex-col rounded-2xl border border-[#E2E8F0] bg-white shadow-2xs max-xl:max-h-[440px] xl:max-h-[760px]">
+    <section className="flex min-w-0 flex-col rounded-2xl border border-[#E2E8F0] bg-white shadow-2xs max-lg:max-h-[440px] lg:max-h-[760px]">
       <div className="flex gap-4 border-b border-[#F1F5F9] px-4 pt-3" role="tablist">
         {(
           [

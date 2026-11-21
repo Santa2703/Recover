@@ -141,7 +141,7 @@ export default function AgentRegistryPage() {
         actions={<PageActions primary={{ key: 'playground', label: 'Open playground', icon: <Play />, onClick: () => router.push('/mcp?playground=1') }} />}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <MetricCard label="Running" icon={<CircleCheck />} iconTone="green" loading={!all} value={running ?? ''} context={all ? `of ${all.length} registered` : ''} />
         <MetricCard
           label="Paused or degraded"

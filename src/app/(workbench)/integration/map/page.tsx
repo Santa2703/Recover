@@ -129,7 +129,7 @@ export default function SourcesPage() {
           <ErrorState onRetry={list.refetch} />
         </div>
       ) : (
-        <div className={`grid grid-cols-1 gap-4 ${view === 'graph' ? 'xl:grid-cols-[250px_minmax(0,1fr)]' : ''}`}>
+        <div className={`grid grid-cols-1 gap-4 ${view === 'graph' ? 'lg:grid-cols-[250px_minmax(0,1fr)]' : ''}`}>
           {/* The list and matrix already name every system, so the tree only accompanies the graph. */}
           {view === 'graph' && <SystemsTree sources={list.data} categories={categories} selectedId={selectedId} onSelect={select} loading={firstLoad} />}
 
@@ -194,7 +194,7 @@ export default function SourcesPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <MetricCard
           label="Connected sources"
           value={sum?.connected ?? 0}

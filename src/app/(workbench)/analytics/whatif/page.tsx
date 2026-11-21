@@ -217,7 +217,7 @@ const WhatIfResults = React.memo(function WhatIfResults({ data, loading, initial
       </div>
     ) : (
       <div className={`space-y-6 transition-opacity ${loading ? 'opacity-70' : ''}`}>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="Queue value · scenario" value={fmtMoney(r.scenario)} icon={<Wallet />} context={`Today ${fmtMoney(r.today)} · ${plan?.openCases ?? 0} open decisions`} />
           <MetricCard
             label="If the standard route decides"
@@ -243,9 +243,9 @@ const WhatIfResults = React.memo(function WhatIfResults({ data, loading, initial
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
           <Panel
-            className="xl:col-span-2"
+            className="lg:col-span-2"
             title="Route mix, today and in the scenario"
             description="Click a route to list the decisions that move into or out of it."
             icon={<Layers />}
@@ -278,7 +278,7 @@ const WhatIfResults = React.memo(function WhatIfResults({ data, loading, initial
           </Panel>
 
           <Panel
-            className="xl:col-span-3"
+            className="lg:col-span-3"
             title="Decisions that change"
             description="Open cases whose route or net value differs from today's plan under these levers."
             icon={<GitCompareArrows />}
@@ -453,7 +453,7 @@ export default function PortfolioWhatIfPage() {
           </>
         }
       >
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {LEVERS.map((l) => (
             <LeverControl key={l.key} lever={l} value={params[l.key]} base={base[l.key]} onChange={(v) => setLever(l.key, v)} />
           ))}

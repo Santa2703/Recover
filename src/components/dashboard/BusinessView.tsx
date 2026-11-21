@@ -225,14 +225,14 @@ export function BusinessView() {
       <InboxPanel />
       <KpiStrip strip={d?.strip} />
 
-      {/* 60/40 split only from 1280px; below that the attention table gets the full width
-          (at 1024px the Issue column was truncated to two words) and the side cards pair up. */}
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <div className="min-w-0 space-y-6 xl:col-span-7">
+      {/* 60/40 split from 1024px so the layout stays the same across browsers whose usable width differs
+          (Edge's sidebar/zoom often leaves < 1280px). Below 1024px the columns stack. */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div className="min-w-0 space-y-6 lg:col-span-7">
           <AttentionTable items={d?.attention ?? []} loading={q.initialLoading || !d} total={d?.attentionTotal ?? 0} />
           <MyWork />
         </div>
-        <div className="grid min-w-0 grid-cols-1 content-start gap-6 md:grid-cols-2 xl:col-span-5 xl:grid-cols-1">
+        <div className="grid min-w-0 grid-cols-1 content-start gap-6 md:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
           <OperationalPerformance />
           <QuickActions />
         </div>

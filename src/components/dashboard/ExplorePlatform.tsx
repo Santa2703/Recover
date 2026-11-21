@@ -102,7 +102,7 @@ export function ExplorePlatform() {
       <h2 id="explore-title" className="m-0 mb-4 text-[11px] font-bold uppercase tracking-[1.2px] text-[#94A3B8]">
         Explore the Platform
       </h2>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {modules.map((m) => (
           <div key={m.id} className="min-w-0">
             <div className="flex items-center gap-2 text-xs font-bold text-[#141416]">

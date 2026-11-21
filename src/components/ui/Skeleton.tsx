@@ -6,7 +6,7 @@ export function Skeleton({ className = '' }: { className?: string }) {
 
 export function KpiSkeletonRow({ count = 4 }: { count?: number }) {
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4" aria-busy="true">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-busy="true">
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="rounded-xl border border-line bg-surface p-4">
           <Skeleton className="h-3.5 w-24" />

@@ -58,7 +58,7 @@ export default function McpServersPage() {
         }
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <MetricCard label="Connected servers" icon={<PlugZap />} iconTone="green" loading={!servers.data} value={servers.data ? `${connected.length} of ${list.length}` : ''} context="Including degraded" />
         <MetricCard label="Tools exposed" icon={<Wrench />} loading={!servers.data} value={toolsExposed} context="From connected servers" />
         <MetricCard label="Need attention" icon={<CircleAlert />} iconTone="red" loading={!servers.data} value={attention} context="Degraded or disconnected" />

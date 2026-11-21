@@ -326,7 +326,7 @@ export default function DataModelPage() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
           label="Canonical entities"
           value={models.length}
@@ -371,7 +371,7 @@ export default function DataModelPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[280px_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
         <Panel title="Entities" icon={<Boxes />} flush>
           <div className="border-b border-[#F1F5F9] p-3">
             <div className="relative">
@@ -385,7 +385,7 @@ export default function DataModelPage() {
               />
             </div>
           </div>
-          <div className="max-h-[320px] overflow-y-auto p-2 xl:max-h-[680px]">
+          <div className="max-h-[320px] overflow-y-auto p-2 lg:max-h-[680px]">
             {all.initialLoading ? (
               Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="space-y-1.5 px-2 py-2.5">

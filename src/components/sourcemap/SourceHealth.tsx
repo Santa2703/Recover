@@ -185,7 +185,7 @@ export function SourceHealth({ onOpen }: { onOpen: (id: string) => void }) {
         )}
       </SectionCard>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <SectionCard title="Workflow health" icon={<Zap className="fill-[#F59E0B]" />} actions={<CardLink href="/integration/studio">Workflows</CardLink>}>
           {q.initialLoading || !d || !wf ? (
             <ListSkeleton rows={3} />

@@ -266,7 +266,7 @@ function GraphInner({ sources, models, steps, selectedId, showFieldLinks, onSele
       className={
         expanded
           ? 'fixed inset-0 z-[1100] flex flex-col bg-white p-4'
-          : 'flex h-[560px] min-w-0 flex-col md:h-[680px] xl:h-[760px]'
+          : 'flex h-[560px] min-w-0 flex-col md:h-[680px] lg:h-[760px]'
       }
       role={expanded ? 'dialog' : undefined}
       aria-label={expanded ? 'Source map, expanded' : undefined}
@@ -333,7 +333,7 @@ function GraphInner({ sources, models, steps, selectedId, showFieldLinks, onSele
   // Render the expanded map on <body> so no ancestor's overflow or transform can clip it.
   return (
     <>
-      <div className="flex h-[560px] items-center justify-center text-xs text-[#94A3B8] md:h-[680px] xl:h-[760px]">Map is open in full screen. Press Esc to close.</div>
+      <div className="flex h-[560px] items-center justify-center text-xs text-[#94A3B8] md:h-[680px] lg:h-[760px]">Map is open in full screen. Press Esc to close.</div>
       {createPortal(view, document.body)}
     </>
   );

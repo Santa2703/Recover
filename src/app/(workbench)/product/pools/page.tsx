@@ -181,7 +181,7 @@ export default function PoolOptimizerPage() {
       {poolsQ.initialLoading || !k || !poolsQ.data ? (
         <KpiSkeletonRow count={4} />
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="Allocation rate" value={fmtPct(k.allocationRate, 1)} icon={<Scale />} context={`${k.allocated} of ${k.available} available units allocated`} />
           <MetricCard
             label="Mean fulfilment"

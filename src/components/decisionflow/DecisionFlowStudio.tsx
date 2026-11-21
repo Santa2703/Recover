@@ -80,9 +80,9 @@ function StudioSkeleton() {
   return (
     <div className="space-y-4" aria-busy="true">
       <Skeleton className="h-24 w-full rounded-2xl" />
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
-        <Skeleton className="h-[640px] xl:col-span-8 rounded-2xl" />
-        <Skeleton className="h-[420px] xl:col-span-4 rounded-2xl" />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <Skeleton className="h-[640px] lg:col-span-8 rounded-2xl" />
+        <Skeleton className="h-[420px] lg:col-span-4 rounded-2xl" />
       </div>
     </div>
   );
@@ -98,11 +98,11 @@ export function DecisionFlowStudio() {
     <ReactFlowProvider>
       <div className="space-y-4">
         <GovernanceBar flow={flow} />
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-start">
-          <div className="xl:col-span-8 min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+          <div className="lg:col-span-8 min-w-0">
             <DecisionCanvas flow={flow} />
           </div>
-          <div className="xl:col-span-4 min-w-0">
+          <div className="lg:col-span-4 min-w-0">
             <AssistantPanel flow={flow} />
           </div>
         </div>

@@ -80,7 +80,7 @@ export function AccuracyTab({ registerExport, onShowOverrides }: { registerExpor
         </>
       ) : (
         <div className={`space-y-6 transition-opacity ${loading ? 'opacity-70' : ''}`}>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <MetricCard label="Forecast accuracy" value={fmtPct(a.accuracy, 1)} icon={<Target />} context="1 − total miss ÷ total forecast" />
             <MetricCard
               label="Within 5 % of forecast"
@@ -127,9 +127,9 @@ export function AccuracyTab({ registerExport, onShowOverrides }: { registerExpor
               />
           </Panel>
 
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
             <Panel
-              className="xl:col-span-3"
+              className="lg:col-span-3"
               title="Forecast and realised by week"
               description="Net value of decisions closed each week. Click a week to see its decisions."
               icon={<CalendarRange />}
@@ -152,7 +152,7 @@ export function AccuracyTab({ registerExport, onShowOverrides }: { registerExpor
               />
             </Panel>
             <Panel
-              className="xl:col-span-2"
+              className="lg:col-span-2"
               title="Within 5 % by route"
               description="Share of decisions on each executed route that landed within 5 % of the forecast. Click a route to see its decisions."
               icon={<Route />}

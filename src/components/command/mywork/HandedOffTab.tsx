@@ -181,7 +181,7 @@ export function HandedOffTab() {
       {q.initialLoading ? (
         <KpiSkeletonRow count={1} />
       ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="SLA Adherence" value={`${adherence.toFixed(1)}%`} icon={<Gauge />} iconTone={overdue ? 'red' : 'green'} context={`${overdue} past target date`} />
         </div>
       )}

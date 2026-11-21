@@ -450,7 +450,7 @@ export default function CaseDecisionWorkbenchPage({ params }: { params: Promise<
           </button>
           {journeyOpen && (
             <div id="case-journey" className="mt-3">
-              <ol className="m-0 grid list-none grid-cols-2 gap-1.5 p-0 sm:grid-cols-5 xl:grid-cols-10">
+              <ol className="m-0 grid list-none grid-cols-2 gap-1.5 p-0 sm:grid-cols-5 lg:grid-cols-10">
                 {meta.journey.map((st) => {
                   const done = st.id < detail.journeyStep;
                   const active = st.id === detail.journeyStep;
@@ -608,7 +608,7 @@ export default function CaseDecisionWorkbenchPage({ params }: { params: Promise<
           </Card>
           <Card>
             <CardTitle icon={<ShieldCheck />} title="Enterprise System Facts" description="From EAM, ERP and WMS records." />
-            <dl className="m-0 grid grid-cols-1 gap-x-6 gap-y-3 text-xs sm:grid-cols-2 xl:grid-cols-3">
+            <dl className="m-0 grid grid-cols-1 gap-x-6 gap-y-3 text-xs sm:grid-cols-2 lg:grid-cols-3">
               {[
                 ['Original acquisition cost', money(record.facts.originalPrice), 'SAP FI'],
                 ['In-service age', `${record.facts.ageYears} years`, 'Maximo EAM'],

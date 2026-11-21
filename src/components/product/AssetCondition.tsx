@@ -15,7 +15,7 @@ const scoreTone = (score: number) => (score > 75 ? 'success' : score > 50 ? 'war
 export function AssetCondition({ record, detail, compact }: { record: CaseRecord; detail: AssetDetail; compact?: boolean }) {
   const { signals, telemetry, components } = detail;
   return (
-    <div className={`grid grid-cols-1 gap-6 ${compact ? '' : 'xl:grid-cols-2'}`}>
+    <div className={`grid grid-cols-1 gap-6 ${compact ? '' : 'lg:grid-cols-2'}`}>
       <div className="min-w-0">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <h3 className="m-0 flex items-center gap-1.5 text-xs font-extrabold text-[#141416]">
