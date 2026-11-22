@@ -315,6 +315,8 @@ export interface RouteTiming {
   neededBy: string | null;
   /** neededBy − ready in days (negative = late), null without a demand. */
   bufferDays: number | null;
+  /** Days from approval until the route's value is realised: lead + transfer + settle days (engine.SETTLE_DAYS). */
+  cycleDays: number;
 }
 
 export interface RouteValue {
@@ -544,10 +546,15 @@ export interface RouteProposal {
   reason: OverrideReason | null;
   note: string;
   proposedBy: string;
+  /** User id and role of the proposer (self-approval check; the demo display name is shared by every role). */
+  proposedById?: string;
+  proposedByRole?: string;
   /** ISO time. */
   proposedAt: string;
   /** Stage before the proposal moved the case to "Awaiting approval" (restored on withdraw). */
   fromStage?: CaseRecord['stage'];
+  /** Evidence snapshot the proposal was submitted on ("EVS-XXXXXXXX"). */
+  snapshotId?: string;
 }
 
 export interface OverrideRecord {
@@ -641,4 +648,167 @@ export interface RunAgentsResult {
   decided: { caseId: string; decision: CaseDecision; trail: AgentStep[] }[];
   gainOverStandard: number;
   net: number;
+  /** Returns left in the inbox because the run hit the "max items per bulk plan" limit. */
+  remaining?: number;
+}
+
+/* ------------------------------------------------------------ eligibility, ranges, hand-off */
+
+/** The six eligibility gates every route passes through (decision/insights.ts). */
+export type GateId = 'condition' | 'intervention' | 'policy' | 'demand' | 'economics' | 'sustainability';
+/** 'na' = not checked because an earlier gate already withheld the route. */
+export type GateStatus = 'ok' | 'warning' | 'failed' | 'na';
+
+export interface GateResult {
+  id: GateId;
+  /** "Condition & life", "Post-intervention", … */
+  name: string;
+  status: GateStatus;
+  /** One-line reason with the numbers behind it. */
+  reason: string;
+}
+
+/** Eligible = all gates pass; Conditional = passes with a warning to verify; Restricted = withheld by a failed gate. */
+export type RouteStatus = 'Eligible' | 'Conditional' | 'Restricted';
+export type Confidence = 'High' | 'Medium' | 'Low';
+
+/** P10–P90 net range of a route from the uncertainty of its value and cost lines. */
+export interface ValueRange {
+  p10: number;
+  p90: number;
+  /** Lines that drive most of the spread, largest first, with their volatility. */
+  drivers: { label: string; volatility: number; share: number }[];
+}
+
+export interface RouteInsight {
+  route: RouteId;
+  status: RouteStatus;
+  /** Why the route is Conditional or Restricted (null when Eligible). */
+  statusReason: string | null;
+  gates: GateResult[];
+  /** Null when the route is not viable. */
+  range: ValueRange | null;
+  cycleDays: number;
+}
+
+/** "Why not the runner-up?": the constraints that put it second. */
+export interface WhyNot {
+  route: RouteId;
+  routeName: string;
+  summary: string;
+  constraints: { label: 'Value gap' | 'Cycle time' | 'Gate status' | 'Demand certainty' | 'Range overlap'; detail: string; favoursBest: boolean }[];
+}
+
+export interface DecisionInsights {
+  caseId: string;
+  routes: Record<RouteId, RouteInsight>;
+  best: RouteId;
+  confidence: Confidence;
+  confidenceReason: string;
+  whyNot: WhyNot | null;
+  /** Deterministic id of the evidence the decision rests on, "EVS-XXXXXXXX". */
+  snapshotId: string;
+  /** Policy version and published rule-set version, "2026.11 · rules v3". */
+  modelVersion: string;
+}
+
+/** One enterprise instruction approval sends to an owning system. */
+export interface Instruction {
+  /** Stable id within the case, e.g. "RT-1048-I2". */
+  id: string;
+  /** Source system name as in src/data/sources.json, e.g. "IBM Maximo EAM". */
+  system: string;
+  /** "EAM · work order". */
+  module: string;
+  instruction: string;
+  detail: string;
+  /** Document reference(s), e.g. "WO-2026-8848". */
+  doc: string;
+  /** True when approval creates the document (false when it already exists, e.g. a sales order). */
+  docNew: boolean;
+  /** Role / team that owns the instruction in the target system. */
+  owner: string;
+  /** Time limit in working hours (Mon–Fri 08:00–17:00 UTC; 1 working day = 9 h). */
+  timeLimitHours: number;
+  /** "4 working h", "2 working days". */
+  timeLimit: string;
+}
+
+export interface InstructionPreview {
+  caseId: string;
+  route: RouteId;
+  routeName: string;
+  instructions: Instruction[];
+  systems: string[];
+  /** Spend approval commits: Σ cost lines of the route. */
+  spend: number;
+  /** "Approval sends 5 instructions to … and commits up to $1,800 of spend." */
+  summary: string;
+}
+
+export type InstructionStatus = 'not_sent' | 'sent' | 'acknowledged' | 'done';
+
+/** An instruction after approval, with its due time (approval time + time limit in working hours). */
+export interface HandoffInstruction extends Instruction {
+  caseId: string;
+  approvalRef: string;
+  status: InstructionStatus;
+  /** ISO time the instruction was sent (= approval time), null before approval. */
+  sentAt: string | null;
+  /** ISO due time, null before approval. */
+  dueAt: string | null;
+  overdue: boolean;
+  /** Working hours past due (0 when not overdue). */
+  overdueHours: number;
+  /** ISO time the executing system acknowledged the instruction (null when not yet, or unknown). */
+  ackAt?: string | null;
+  /** ISO time the step was reported done. */
+  doneAt?: string | null;
+  /** Times the same instruction was sent again (Resend instruction; same id, never a duplicate). */
+  resends?: number;
+  lastSentAt?: string | null;
+}
+
+/** Frozen at approval: what was approved, on which evidence. */
+export interface ApprovalRecord {
+  caseId: string;
+  /** "APR-2026-1048". */
+  ref: string;
+  /** ISO time of approval. */
+  at: string;
+  actor: string;
+  route: RouteId;
+  routeName: string;
+  net: number;
+  p10: number | null;
+  p90: number | null;
+  status: RouteStatus;
+  confidence: Confidence;
+  snapshotId: string;
+  modelVersion: string;
+  gates: GateResult[];
+  /** True for cases approved before this session (deterministic record from the seed data). */
+  seeded: boolean;
+}
+
+/** Case page edge-case presets. */
+export type PresetId = 'demand_cancelled' | 'parts_cost_up' | 'resale_down' | 'cert_short' | 'part_unavailable' | 'new_unit';
+
+export interface ScenarioPreset {
+  id: PresetId;
+  label: string;
+  description: string;
+}
+
+/** What a preset does to a case's ranking. */
+export interface PresetFlip {
+  preset: PresetId;
+  label: string;
+  flips: boolean;
+  from: RouteId;
+  to: RouteId | null;
+  toName: string | null;
+  toNet: number | null;
+  /** "Ranking flips if demand is cancelled: Whole-Asset Resale ($4,800) moves to first." */
+  text: string;
 }

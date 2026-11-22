@@ -63,8 +63,8 @@ export function MyWork() {
           <li
             key={t.id}
             onClick={() => {
-              rememberQueue('Dashboard', '/dashboard', rows.slice(0, MAX_ROWS).map((x) => x.caseId));
-              router.push(`/product/case/${t.caseId}`);
+              rememberQueue('Dashboard', '/dashboard', rows.slice(0, MAX_ROWS).filter((x) => x.caseId).map((x) => x.caseId));
+              router.push(t.href ?? `/product/case/${t.caseId}`);
             }}
             className="group flex cursor-pointer items-center gap-3 py-2.5 first:pt-0 last:pb-0"
           >

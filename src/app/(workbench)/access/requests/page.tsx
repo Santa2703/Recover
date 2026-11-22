@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Modal, Drawer, Input, message } from 'antd';
 import { Inbox, CheckCircle2, XCircle, Building2, Clock, Network, ArrowRight } from 'lucide-react';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
-import { governanceService, type AccessRequestRow, type RequestStatus } from '@/services/governanceService';
+import { GRANT_DURATION_LABEL, governanceService, type AccessRequestRow, type RequestStatus } from '@/services/governanceService';
 import { useAuth } from '@/store/authContext';
 import { PageHeader, MetricCard, KpiSkeletonRow, DataTable, ErrorState, type DataColumn } from '@/components/ui';
 import { Card, SearchBox, FilterPick, ClearFilters, FilterRow } from '@/components/governance/Filters';
@@ -227,6 +227,20 @@ export default function AccessRequestsPage() {
               </dd>
               <dt className="text-[#94A3B8]">Requested</dt>
               <dd className="m-0 font-mono text-[11px]">{fmtDateTime(viewing.requestedAt)}</dd>
+              {viewing.duration && (
+                <>
+                  <dt className="text-[#94A3B8]">Duration</dt>
+                  <dd className="m-0">
+                    {GRANT_DURATION_LABEL[viewing.duration]}
+                    {viewing.expiresAt && (
+                      <span className="text-[#94A3B8]">
+                        {' '}
+                        · until <span className="font-mono">{fmtDateTime(viewing.expiresAt)}</span>
+                      </span>
+                    )}
+                  </dd>
+                </>
+              )}
               <dt className="text-[#94A3B8]">Risk</dt>
               <dd className="m-0">
                 <Pill tone={RISK[viewing.risk]}>{viewing.risk[0].toUpperCase() + viewing.risk.slice(1)}</Pill>
@@ -283,6 +297,12 @@ export default function AccessRequestsPage() {
               <div>
                 Requested by <strong className="text-[#141416]">{deciding.row.requesterName}</strong> · risk {deciding.row.risk}
               </div>
+              {deciding.row.duration && (
+                <div>
+                  Duration: <strong className="text-[#141416]">{GRANT_DURATION_LABEL[deciding.row.duration]}</strong>
+                  {deciding.decision === 'approved' && deciding.row.duration !== 'session' && ', counted from approval'}
+                </div>
+              )}
             </div>
             <div>
               <span className="block text-[11px] font-bold text-[#64748B] mb-1">Comment {deciding.decision === 'declined' ? '(required)' : '(optional)'}</span>

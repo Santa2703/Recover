@@ -6,7 +6,7 @@ import type { UserRole } from '@/models/user.model';
  */
 
 /** Live counts a sidebar entry can show as a badge. */
-export type NavBadgeKey = 'exceptions' | 'actions' | 'approvals' | 'sources';
+export type NavBadgeKey = 'exceptions' | 'actions' | 'approvals' | 'sources' | 'alerts';
 
 /** Badge colours: red for problems, yellow for work waiting on the user. */
 export const NAV_BADGE_COLOR: Record<NavBadgeKey, string> = {
@@ -14,6 +14,7 @@ export const NAV_BADGE_COLOR: Record<NavBadgeKey, string> = {
   actions: '#FFD600',
   approvals: '#FFD600',
   sources: '#FFD600',
+  alerts: '#DC2626',
 };
 
 export interface NavChild {
@@ -58,6 +59,7 @@ export const NAV_SECTIONS: NavSection[] = [
         children: [
           { key: 'kpis', label: 'Key figures', path: '/command' },
           { key: 'exceptions', label: 'Exceptions', path: '/command/exceptions', badgeKey: 'exceptions' },
+          { key: 'alerts', label: 'Alerts', path: '/command/alerts', badgeKey: 'alerts' },
           {
             key: 'mywork',
             label: 'My work',
@@ -84,7 +86,7 @@ export const NAV_SECTIONS: NavSection[] = [
           { key: 'received', label: 'Returned assets', path: '/product/received', aliases: ['/product/case'] },
           { key: 'expected', label: 'Expected returns', path: '/product/expected' },
           { key: 'pools', label: 'Pool optimizer', path: '/product/pools' },
-          { key: 'rules', label: 'Business rules', path: '/integration/studio?mode=decision' },
+          { key: 'rules', label: 'Business rules', path: '/product/rules' },
         ],
       },
       {
@@ -160,6 +162,7 @@ export const NAV_SECTIONS: NavSection[] = [
           { key: 'accounts', label: 'Users & identity', path: '/access' },
           { key: 'delegations', label: 'Delegations & thresholds', path: '/access/delegations' },
           { key: 'requests', label: 'Access requests', path: '/access/requests' },
+          { key: 'agents', label: 'Agent controls', path: '/access/agents' },
         ],
       },
       { id: 'settings', label: 'Settings', iconName: 'Settings', path: '/settings', pageLabel: 'Settings' },
@@ -176,7 +179,7 @@ export type NavAccess = 'all' | Record<string, 'all' | string[]>;
 
 const PLANNER_ACCESS: Record<string, 'all' | string[]> = {
   dashboard: 'all',
-  command: ['kpis', 'exceptions', 'mywork', 'actions', 'approvals', 'handed-off', 'outcomes', 'prioritise'],
+  command: ['kpis', 'exceptions', 'alerts', 'mywork', 'actions', 'approvals', 'handed-off', 'outcomes', 'prioritise'],
   workbench: 'all',
   analytics: 'all',
 };
@@ -192,28 +195,30 @@ export const NAV_ACCESS: Record<UserRole, NavAccess> = {
   Approver: {
     ...PLANNER_ACCESS,
     audit: 'all',
-    access: ['requests', 'delegations'],
+    access: ['requests', 'delegations', 'agents'],
   },
   'Warehouse Manager': {
     dashboard: 'all',
-    command: ['exceptions', 'mywork', 'actions', 'signals'],
+    command: ['exceptions', 'alerts', 'mywork', 'actions', 'signals'],
     workbench: ['received', 'expected'],
   },
   Engineer: {
     dashboard: 'all',
-    command: ['mywork', 'actions', 'exceptions'],
+    command: ['mywork', 'actions', 'exceptions', 'alerts'],
     workbench: ['received', 'intelligence'],
   },
   Developer: {
     dashboard: 'all',
+    command: ['alerts', 'mywork', 'actions'],
     fabric: 'all',
     mcp: 'all',
     orchestration: 'all',
     audit: 'all',
+    access: ['agents'],
   },
   Finance: {
     dashboard: 'all',
-    command: ['kpis', 'mywork', 'outcomes'],
+    command: ['kpis', 'alerts', 'mywork', 'outcomes'],
     analytics: 'all',
   },
 };

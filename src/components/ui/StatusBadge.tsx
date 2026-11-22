@@ -46,6 +46,7 @@ export function PriorityBadge({ priority }: { priority: Priority }) {
 export const STAGE_META: Record<CaseStageId, { label: string; tone: Tone }> = {
   awaiting_inspection: { label: 'Awaiting inspection', tone: 'warning' },
   needs_information: { label: 'Needs information', tone: 'warning' },
+  ready_for_decision: { label: 'Ready for decision', tone: 'info' },
   awaiting_approval: { label: 'Awaiting approval', tone: 'brand' },
   approved: { label: 'Approved', tone: 'success' },
   handed_off: { label: 'Handed off', tone: 'info' },

@@ -8,6 +8,7 @@ import { useServiceQuery } from '@/hooks/useServiceQuery';
 import { useAuth } from '@/store/authContext';
 import { analyticsService, type PoolResult } from '@/services/analyticsService';
 import { caseService } from '@/services/caseService';
+import { caseLifecycleService, type Actor } from '@/services/caseLifecycleService';
 import type { CaseRecord } from '@/models/domain.model';
 import { DISPOSITION_ROUTES } from '@/constants/routes.constants';
 import {
@@ -36,7 +37,7 @@ const POOL_STAGES: CaseRecord['stage'][] = ['awaiting_approval', 'approved', 'ha
 
 /** Pool optimizer: allocations to act on (Allocations) and how well the optimizer did (Results, formerly Analytics › Pool efficiency). */
 export default function PoolOptimizerPage() {
-  const { scope } = useAuth();
+  const { scope, user, currentRole } = useAuth();
   const [tab, setTab] = useTabParam<TabKey>(TABS, 'allocations');
   const meta = caseService.meta();
   const tenant = scope.tenant ?? 'All';
@@ -88,8 +89,20 @@ export default function PoolOptimizerPage() {
   const handOff = async () => {
     setHandingOff(true);
     try {
-      for (const c of approvedUnits) await caseService.updateStage(c.id, 'handed_off');
-      message.success(`${approvedUnits.length} approved units handed off to execution`);
+      // Same path as My work › Handed off: instruction steps, hand-off register and audit entry per case.
+      const actor: Actor = { id: user.id, name: user.name, role: currentRole };
+      let sent = 0;
+      const failed: string[] = [];
+      for (const c of approvedUnits) {
+        try {
+          await caseLifecycleService.sendInstruction(c.id, actor);
+          sent += 1;
+        } catch (e) {
+          failed.push(`${c.id}: ${(e as Error).message}`);
+        }
+      }
+      if (sent) message.success(`${sent} approved unit${sent === 1 ? '' : 's'} handed off: instructions sent`);
+      if (failed.length) message.warning(`Not handed off: ${failed.join('; ')}`);
     } finally {
       setHandingOff(false);
     }

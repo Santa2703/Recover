@@ -24,6 +24,7 @@ import { useMediaQuery, BREAKPOINTS } from '@/hooks/useMediaQuery';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
 import { commandService, subscribeNav } from '@/services/commandService';
 import { sourceService } from '@/services/sourceService';
+import { alertService } from '@/services/alertService';
 import {
   matchNav,
   navForRole,
@@ -83,9 +84,14 @@ export function AppSidebar({ variant = 'rail' }: AppSidebarProps = {}) {
     { subscribe: subscribeNav },
   );
   const { data: sources } = useServiceQuery(() => sourceService.summary(), [], { subscribe: sourceService.subscribe });
+  // Open alerts for this role: the same count as the header bell and the Alerts page.
+  const { data: alertCount } = useServiceQuery(() => alertService.openCount(currentRole, scope), [currentRole, scope.tenant, scope.site], {
+    subscribe: alertService.subscribe,
+  });
   const countOf = (key: NavBadgeKey | undefined): number => {
     if (!key) return 0;
     if (key === 'sources') return sources?.attention ?? 0;
+    if (key === 'alerts') return alertCount ?? 0;
     return counts?.[key] ?? 0;
   };
 

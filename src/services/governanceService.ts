@@ -5,6 +5,7 @@
  */
 import orchestrationJson from '@/data/orchestration.json';
 import accessJson from '@/data/access.json';
+import agentControlsJson from '@/data/agentControls.json';
 import type { CaseRecord, CaseStageId, UserRecord } from '@/models/domain.model';
 import type { UserRole } from '@/models/user.model';
 import { caseStore, meta, userStore } from './mock/stores';
@@ -92,8 +93,23 @@ let baseThresholds = { ...(accessJson.approvalThresholds as Omit<ApprovalThresho
 const thresholdListeners = new Set<() => void>();
 export const fmtUsd = (n: number) => `$${n.toLocaleString('en-US')}`;
 
-export function currentThresholds(): ApprovalThresholds {
-  return { ...baseThresholds, delegationLimit: delegationStore.get('decisions')?.limit ?? 0 };
+/**
+ * Approval limits beside the value thresholds (edited on /access/delegations, "Approval limits").
+ *  - plannerLimit: Planners may approve up to this value; 0 = Planners cannot approve.
+ *  - allowSelfApproval: a person may approve a decision they submitted (within their limit).
+ *  - maxActionsPerAgentRun / maxItemsPerBulkPlan: caps on agent runs and bulk plans.
+ */
+export interface ApprovalLimits {
+  plannerLimit: number;
+  allowSelfApproval: boolean;
+  maxActionsPerAgentRun: number;
+  maxItemsPerBulkPlan: number;
+}
+let approvalLimits: ApprovalLimits = { ...(agentControlsJson.approvalLimits as ApprovalLimits) };
+
+/** The value thresholds plus the approval limits (the money keys are unchanged for existing callers). */
+export function currentThresholds(): ApprovalThresholds & ApprovalLimits {
+  return { ...baseThresholds, delegationLimit: delegationStore.get('decisions')?.limit ?? 0, ...approvalLimits };
 }
 function fillThresholds(text: string): string {
   const th = currentThresholds();
@@ -110,6 +126,7 @@ export function journeyPosition(c: CaseRecord): { index: number; status: Exclude
     needs_information: { index: 0, status: 'running' },
     reevaluate: { index: 3, status: 'running' },
     no_viable_route: { index: 3, status: 'failed' },
+    ready_for_decision: { index: 3, status: 'waiting' },
     awaiting_approval: { index: 4, status: 'waiting' },
     approved: { index: 5, status: 'running' },
     handed_off: { index: 6 + (n % 3), status: 'running' },
@@ -354,7 +371,14 @@ export interface AccessRequest {
   decidedBy?: string;
   decidedAt?: string;
   comment?: string;
+  /** Tenant requests made from the header: how long the grant lasts once approved. */
+  duration?: TenantGrantDuration;
+  /** Set when a time-boxed tenant request is approved; null = no expiry (session or standing grant). */
+  expiresAt?: string | null;
 }
+export type TenantGrantDuration = 'session' | '7d' | '30d';
+export const GRANT_DURATION_LABEL: Record<TenantGrantDuration, string> = { session: 'This session', '7d': '7 days', '30d': '30 days' };
+const GRANT_DAYS: Record<TenantGrantDuration, number | null> = { session: null, '7d': 7, '30d': 30 };
 const requestStore = createCollection<AccessRequest>(accessJson.requests as AccessRequest[]);
 export interface AccessRequestRow extends AccessRequest {
   requesterName: string;
@@ -607,6 +631,33 @@ export const governanceService = {
     return currentThresholds();
   },
 
+  /* --- Approval limits (Planner limit, self-approval, agent run and bulk plan caps) --- */
+  async getApprovalLimits(): Promise<ApprovalLimits & { approverLimit: number }> {
+    await delay(120);
+    return { ...approvalLimits, approverLimit: currentThresholds().delegationLimit };
+  },
+  async updateApprovalLimits(patch: Partial<ApprovalLimits>, actor: Actor): Promise<ApprovalLimits> {
+    await delay(250);
+    const before = approvalLimits;
+    const next = { ...before, ...patch };
+    const approverLimit = currentThresholds().delegationLimit;
+    if (!(next.plannerLimit >= 0)) throw new Error('The Planner approval limit cannot be negative');
+    if (next.plannerLimit > approverLimit) throw new Error(`The Planner limit (${fmtUsd(next.plannerLimit)}) cannot exceed the Approver delegation limit (${fmtUsd(approverLimit)})`);
+    if (!(Number.isInteger(next.maxActionsPerAgentRun) && next.maxActionsPerAgentRun >= 1)) throw new Error('Max actions per agent run must be at least 1');
+    if (!(Number.isInteger(next.maxItemsPerBulkPlan) && next.maxItemsPerBulkPlan >= 1)) throw new Error('Max items per bulk plan must be at least 1');
+    const changes: string[] = [];
+    if (next.plannerLimit !== before.plannerLimit)
+      changes.push(`Planner approval limit changed from ${fmtUsd(before.plannerLimit)} to ${fmtUsd(next.plannerLimit)}${next.plannerLimit === 0 ? ' (Planners cannot approve)' : ''}`);
+    if (next.allowSelfApproval !== before.allowSelfApproval)
+      changes.push(`Approving a decision you submitted ${next.allowSelfApproval ? 'allowed (within the person’s limit)' : 'no longer allowed'}`);
+    if (next.maxActionsPerAgentRun !== before.maxActionsPerAgentRun) changes.push(`Max actions per agent run changed from ${before.maxActionsPerAgentRun} to ${next.maxActionsPerAgentRun}`);
+    if (next.maxItemsPerBulkPlan !== before.maxItemsPerBulkPlan) changes.push(`Max items per bulk plan changed from ${before.maxItemsPerBulkPlan} to ${next.maxItemsPerBulkPlan}`);
+    approvalLimits = next;
+    changes.forEach((c) => logChange(actor, c));
+    if (changes.length) thresholdListeners.forEach((l) => l());
+    return { ...approvalLimits };
+  },
+
   /* --- Delegations --- */
   subscribeDelegations(listener: () => void) {
     const offs = [delegationStore.subscribe(listener), coverStore.subscribe(listener), changeLogStore.subscribe(listener)];
@@ -678,15 +729,59 @@ export const governanceService = {
   },
   async decideRequest(id: string, decision: 'approved' | 'declined', comment: string, actor: Actor): Promise<AccessRequest> {
     await delay(350);
-    const updated = requestStore.update(id, { status: decision, comment, decidedBy: actor.name, decidedAt: nowIso() });
+    const decidedAt = nowIso();
+    const before = requestStore.get(id);
+    const days = before?.type === 'tenant' && before.duration ? GRANT_DAYS[before.duration] : null;
+    const expiresAt = decision === 'approved' && days ? new Date(Date.parse(decidedAt) + days * 86_400_000).toISOString().replace(/\.\d{3}Z$/, 'Z') : null;
+    const updated = requestStore.update(id, { status: decision, comment, decidedBy: actor.name, decidedAt, ...(before?.duration ? { expiresAt } : {}) });
     auditAccess(
       actor,
       updated.type === 'mcp' ? `MCP · ${updated.target}` : `Tenant · ${updated.target}`,
       `${updated.type === 'mcp' ? 'MCP server proposal' : 'Tenant access request'} ${decision}: ${updated.target}`,
-      `${updated.id} for ${userName(updated.requesterId)}${comment ? `. Comment: ${comment}` : ''}`,
+      `${updated.id} for ${userName(updated.requesterId)}${updated.duration && decision === 'approved' ? ` · ${GRANT_DURATION_LABEL[updated.duration]}${updated.expiresAt ? ` (until ${updated.expiresAt.slice(0, 10)})` : ''}` : ''}${comment ? `. Comment: ${comment}` : ''}`,
       updated.type === 'mcp' ? 'MCP gateway' : 'Identity provider',
       updated.id,
     );
     return updated;
+  },
+  /* --- Tenant access (header tenant selector) --- */
+  requestsVersion: () => requestStore.version(),
+  /** Tenant requests raised by one user, newest first (synchronous; for the request modal and the selector). */
+  tenantRequestsFor(userId: string): AccessRequest[] {
+    return requestStore
+      .all()
+      .filter((r) => r.type === 'tenant' && r.requesterId === userId)
+      .sort((a, b) => (a.requestedAt < b.requestedAt ? 1 : -1));
+  },
+  /** Tenants granted to a user by approved requests that have not expired at `nowMs`. */
+  activeTenantGrants(userId: string, nowMs: number): AccessRequest[] {
+    return requestStore
+      .all()
+      .filter((r) => r.type === 'tenant' && r.requesterId === userId && r.status === 'approved' && (!r.expiresAt || Date.parse(r.expiresAt) > nowMs));
+  },
+  /** Raises a pending tenant access request (shows in the Tenant access queue) and audits it. */
+  async requestTenantAccess(input: { tenant: string; reason: string; duration: TenantGrantDuration; site?: string }, actor: Actor): Promise<AccessRequest> {
+    await delay(300);
+    const reason = input.reason.trim();
+    if (!reason) throw new Error('Add a reason for the request');
+    if (requestStore.all().some((r) => r.type === 'tenant' && r.requesterId === actor.id && r.target === input.tenant && r.status === 'pending')) {
+      throw new Error(`You already have a pending request for ${input.tenant}`);
+    }
+    const maxNo = Math.max(2000, ...requestStore.all().filter((r) => r.id.startsWith('AR-')).map((r) => Number(r.id.slice(3)) || 0));
+    const created = requestStore.insert({
+      id: `AR-${maxNo + 1}`,
+      type: 'tenant',
+      requesterId: actor.id,
+      target: input.tenant,
+      detail: `Read and write on cases${input.site ? `, ${input.site}` : ''} · ${GRANT_DURATION_LABEL[input.duration]}`,
+      justification: reason,
+      requestedAt: nowIso(),
+      status: 'pending',
+      risk: input.duration === '30d' ? 'medium' : 'low',
+      duration: input.duration,
+      expiresAt: null,
+    });
+    auditAccess(actor, `Tenant · ${input.tenant}`, `Tenant access requested: ${input.tenant}`, `${created.id} by ${userName(actor.id)} · ${GRANT_DURATION_LABEL[input.duration]}. Reason: ${reason}`, 'Decision Workbench', created.id);
+    return created;
   },
 };

@@ -4,9 +4,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Checkbox, Form, Input, Modal, Radio, Select, Steps, message } from 'antd';
 import { ArrowRight, CircleCheck, CircleAlert, FileSpreadsheet, Loader2, Search, Circle } from 'lucide-react';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
-import { modelService } from '@/services/integrationService';
+import { importService, modelService } from '@/services/integrationService';
 import { sourceService, type CatalogueEntry, type ConnectionTestResult, type Source, type SourceMeta } from '@/services/sourceService';
 import { EMPTY_FILE_DRAFT, FileImportStep, type FileDraft } from './FileImportStep';
+import { ImportCleanupStep } from './ImportCleanupStep';
 import { SystemMark, fmtNum } from './sourceMeta';
 
 interface Props {
@@ -33,15 +34,16 @@ interface AuthValues {
   privateKey?: string;
 }
 
-type StepKey = 'system' | 'auth' | 'scope' | 'test' | 'file' | 'review' | 'done';
+type StepKey = 'system' | 'auth' | 'scope' | 'test' | 'file' | 'cleanup' | 'review' | 'done';
 const CONNECTOR_FLOW: StepKey[] = ['system', 'auth', 'scope', 'test', 'review', 'done'];
-const FILE_FLOW: StepKey[] = ['system', 'file', 'review', 'done'];
+const FILE_FLOW: StepKey[] = ['system', 'file', 'cleanup', 'review', 'done'];
 const STEP_TITLE: Record<StepKey, string> = {
   system: 'System',
   auth: 'Authentication',
   scope: 'Scope',
   test: 'Test',
   file: 'File',
+  cleanup: 'Clean-up',
   review: 'Review mappings',
   done: 'Done',
 };
@@ -116,6 +118,13 @@ export function ConnectWizard({ open, startWithFile, fileModel, meta, onClose, o
   const flow = isFile ? FILE_FLOW : CONNECTOR_FLOW;
   const cur = flow[step];
 
+  // File / CSV: the clean-up preview and the result that is committed (only its valid rows load).
+  const cleanup = useMemo(
+    () => (isFile && file.result ? importService.cleanupPreview(file.modelId, file.csvText, file.result.mapping, file.rejectedRules) : null),
+    [isFile, file.result, file.modelId, file.csvText, file.rejectedRules],
+  );
+  const finalResult = cleanup?.result ?? null;
+
   const catalogue = useMemo(() => {
     const term = q.trim().toLowerCase();
     return [FILE_ENTRY, ...(meta?.catalogue ?? [])].filter(
@@ -136,9 +145,9 @@ export function ConnectWizard({ open, startWithFile, fileModel, meta, onClose, o
   const reviewRules: ReviewRule[] = !entry
     ? []
     : isFile
-      ? (file.result?.headers ?? [])
-          .filter((h) => file.result?.mapping[h])
-          .map((h) => ({ key: h, sourceField: h, target: `${file.modelId}.${file.result!.mapping[h]}`, note: 'Matched on the File step' }))
+      ? (finalResult?.headers ?? [])
+          .filter((h) => finalResult?.mapping[h])
+          .map((h) => ({ key: h, sourceField: h, target: `${file.modelId}.${finalResult!.mapping[h]}`, note: 'Matched on the File step' }))
       : entry.mappingTemplate
           .filter((m) => tables.includes(m.table))
           .map((m) => ({ key: m.sourceField, sourceField: m.sourceField, target: m.canonicalField, note: modelName(m.canonicalModel) }));
@@ -165,14 +174,14 @@ export function ConnectWizard({ open, startWithFile, fileModel, meta, onClose, o
     setCreating(true);
     try {
       if (isFile) {
-        if (!file.result) return;
+        if (!finalResult) return;
         const { source, import: rec } = await sourceService.createFromFile({
           name: file.name,
           environment: 'Production',
           modelId: file.modelId,
           fileName: file.fileName || 'pasted.csv',
-          result: file.result,
-          rules: keptRules.map((r) => ({ sourceField: r.sourceField, canonicalField: file.result!.mapping[r.key] })),
+          result: finalResult,
+          rules: keptRules.map((r) => ({ sourceField: r.sourceField, canonicalField: finalResult.mapping[r.key] })),
         });
         setCreated({
           source,
@@ -227,7 +236,9 @@ export function ConnectWizard({ open, startWithFile, fileModel, meta, onClose, o
     } else if (cur === 'file') {
       if (!file.name.trim()) return message.warning('Give the source a name');
       if (!file.result) return message.warning('Check the file first');
-      if (!file.result.valid) return message.warning('The file has no valid rows yet');
+      setStep(step + 1);
+    } else if (cur === 'cleanup') {
+      if (!finalResult?.valid) return message.warning('No row passes the checks yet. Accept clean-up rules or fix the file.');
       setStep(step + 1);
     } else if (cur === 'review') {
       await connect();
@@ -235,7 +246,7 @@ export function ConnectWizard({ open, startWithFile, fileModel, meta, onClose, o
   };
 
   const nextDisabled =
-    (cur === 'system' && !entry) || (cur === 'test' && !test?.ok) || (cur === 'file' && (!file.result?.valid || !file.name.trim())) || (cur === 'review' && !keptRules.length);
+    (cur === 'system' && !entry) || (cur === 'test' && !test?.ok) || (cur === 'file' && (!file.result || !file.name.trim())) || (cur === 'cleanup' && !finalResult?.valid) || (cur === 'review' && !keptRules.length);
 
   const footer =
     cur === 'done'
@@ -341,6 +352,16 @@ export function ConnectWizard({ open, startWithFile, fileModel, meta, onClose, o
 
       {/* File (File / CSV only): the manual-import flow */}
       {isFile && cur === 'file' && <FileImportStep value={file} onChange={setFile} models={models.data} />}
+
+      {/* Clean-up (File / CSV only): proposed normalisations and rejected rows before anything is written */}
+      {isFile && cur === 'cleanup' && cleanup && (
+        <ImportCleanupStep
+          preview={cleanup}
+          rejectedRules={file.rejectedRules}
+          fileName={file.fileName}
+          onToggleRule={(id, accept) => setFile((f) => ({ ...f, rejectedRules: accept ? f.rejectedRules.filter((x) => x !== id) : [...new Set([...f.rejectedRules, id])] }))}
+        />
+      )}
 
       {/* Authentication */}
       <div className={cur === 'auth' ? '' : 'hidden'}>
@@ -476,10 +497,10 @@ export function ConnectWizard({ open, startWithFile, fileModel, meta, onClose, o
             </span>
             <span className="text-[#64748B]">They go into the Data model as a draft; publish it there to make them live.</span>
           </div>
-          {isFile && file.result && (
+          {isFile && finalResult && (
             <p className="m-0 mb-2 text-xs text-[#64748B]">
-              {file.result.valid} valid rows will be written to {modelName(file.modelId)}
-              {file.result.invalid ? `; ${file.result.invalid} rows with errors are skipped` : ''}.
+              {finalResult.valid} valid rows (after clean-up) will be written to {modelName(file.modelId)}
+              {finalResult.invalid ? `; ${finalResult.invalid} rejected rows are not loaded` : ''}.
             </p>
           )}
           <div className="max-h-[320px] space-y-1.5 overflow-y-auto pr-1">

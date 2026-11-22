@@ -30,11 +30,12 @@ import { ReplayButton } from '@/components/integration/EventDetail';
 import { Pill } from '@/components/integration/Pills';
 import { CONFLICT_STATUS_PILL, EVENT_STATUS_PILL, SEV_PILL } from '@/components/integration/issueMeta';
 import { fmtClock } from '@/components/integration/format';
+import { CommentThread, useCommentCount } from '@/components/common/CommentThread';
 import { DiagnoseModal } from './DiagnoseModal';
 import { RUN_META, SourceStatusPill, SystemMark, fmtDateTime, fmtNum, relTime } from './sourceMeta';
 
-export type SourcePanel = 'overview' | 'sync' | 'conflicts' | 'mappings' | 'settings';
-export const SOURCE_PANELS: SourcePanel[] = ['overview', 'sync', 'conflicts', 'mappings', 'settings'];
+export type SourcePanel = 'overview' | 'sync' | 'conflicts' | 'mappings' | 'comments' | 'settings';
+export const SOURCE_PANELS: SourcePanel[] = ['overview', 'sync', 'conflicts', 'mappings', 'comments', 'settings'];
 
 interface Props {
   /** Source id; null closes the drawer. */
@@ -261,6 +262,7 @@ export function SourceDrawer({ sourceId, panel, onPanelChange, meta, onClose, on
     { subscribe: conflictService.subscribe },
   );
 
+  const commentCount = useCommentCount('source', s?.id);
   const [testing, setTesting] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [accepting, setAccepting] = useState(false);
@@ -462,6 +464,7 @@ export function SourceDrawer({ sourceId, panel, onPanelChange, meta, onClose, on
           </div>
         ),
       },
+      { key: 'comments', label: `Comments${commentCount ? ` (${commentCount})` : ''}`, children: <CommentThread kind="source" id={s.id} hideHeading /> },
       { key: 'settings', label: 'Settings', children: <SettingsForm key={`${s.id}-${s.syncMethod}-${s.environment}`} source={s} meta={meta} /> },
     ];
 

@@ -31,7 +31,9 @@ const SLA_BADGE: Record<Sla, string> = {
 const SLA_LABEL: Record<Sla, string> = { overdue: 'Overdue', due_today: 'Due today', on_track: 'On track' };
 
 /** Task title without the case ID (it has its own column): "Approve exit for RT-1028" → "Approve exit". */
-const actionText = (r: TaskRow) => r.title.replace(new RegExp(`\\s*(for\\s+)?${r.caseId}\\b`, 'i'), '').trim() || r.title;
+const actionText = (r: TaskRow) => (r.caseId ? r.title.replace(new RegExp(`\\s*(for\\s+)?${r.caseId}\\b`, 'i'), '').trim() || r.title : r.title);
+/** Where a task is worked: its own link (e.g. an escalated source) or the case page. */
+const taskHref = (r: TaskRow) => r.href ?? `/product/case/${r.caseId}`;
 
 /** My work › Tasks: open tasks assigned to the current role. */
 export function TasksTab() {
@@ -52,7 +54,7 @@ export function TasksTab() {
   );
 
   // The Case page offers Back to My work and Previous / Next over the tasks shown (in this order).
-  const fromQueue = () => rememberQueue('My work', myWorkHref('tasks'), rows.map((r) => r.caseId));
+  const fromQueue = () => rememberQueue('My work', myWorkHref('tasks'), rows.filter((r) => r.caseId).map((r) => r.caseId));
 
   const kpis = useMemo(
     () => ({
@@ -86,14 +88,17 @@ export function TasksTab() {
       key: 'case',
       priority: 1,
       ellipsis: false,
-      render: (_, r) => (
-        <Link href={`/product/case/${r.caseId}`} onClick={(e) => {
-            e.stopPropagation();
-            fromQueue();
-          }} className="whitespace-nowrap font-mono font-bold text-[#141416] hover:underline">
-          {r.caseId}
-        </Link>
-      ),
+      render: (_, r) =>
+        r.caseId ? (
+          <Link href={`/product/case/${r.caseId}`} onClick={(e) => {
+              e.stopPropagation();
+              fromQueue();
+            }} className="whitespace-nowrap font-mono font-bold text-[#141416] hover:underline">
+            {r.caseId}
+          </Link>
+        ) : (
+          <span className="text-[11px] text-[#94A3B8]">No case</span>
+        ),
     },
     {
       title: 'Equipment / SKU',
@@ -101,7 +106,7 @@ export function TasksTab() {
       priority: 2,
       render: (_, r) => (
         <div className="min-w-0">
-          <div className="line-clamp-2 break-words font-semibold text-[#141416]">{r.case?.productName ?? '—'}</div>
+          <div className="line-clamp-2 break-words font-semibold text-[#141416]">{r.case?.productName ?? r.subject ?? '—'}</div>
           <div className="line-clamp-2 break-words font-mono text-[11px] text-[#64748B]">{r.case?.assetTag}</div>
         </div>
       ),
@@ -113,7 +118,11 @@ export function TasksTab() {
       render: (_, r) => (
         <div className="min-w-0">
           <div className="line-clamp-2 break-words text-[#334155]">{actionText(r)}</div>
-          <div className="text-[11px] text-[#94A3B8]">{TASK_TYPE_LABEL[r.type]}</div>
+          <div className="text-[11px] text-[#94A3B8]">
+            {TASK_TYPE_LABEL[r.type]}
+            {r.createdBy ? ` · from ${r.createdBy}` : ''}
+          </div>
+          {r.note && <div className="line-clamp-2 whitespace-pre-line break-words text-[11px] text-[#64748B]">{r.note}</div>}
         </div>
       ),
     },
@@ -155,12 +164,12 @@ export function TasksTab() {
       ellipsis: false,
       render: (_, r) => (
         // Outline (not yellow): the whole row opens the case too. Styles sit on the inner span because of antd's `a` reset.
-        <Link href={`/product/case/${r.caseId}`} onClick={(e) => {
+        <Link href={taskHref(r)} onClick={(e) => {
             e.stopPropagation();
             fromQueue();
           }} className="inline-flex">
           <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-lg border border-[#E2E8F0] bg-white px-3 py-1 text-xs font-semibold text-[#141416] shadow-2xs transition-all hover:border-gray-400">
-            Open case <ArrowRight size={12} />
+            {r.href ? (r.hrefLabel ?? 'Open') : 'Open case'} <ArrowRight size={12} />
           </span>
         </Link>
       ),
@@ -239,7 +248,7 @@ export function TasksTab() {
             rowKey="id"
             onRowClick={(r) => {
               fromQueue();
-              router.push(`/product/case/${r.caseId}`);
+              router.push(taskHref(r));
             }}
             columns={columns.map((c) => ({ ...c, ellipsis: false }))}
             dataSource={rows}

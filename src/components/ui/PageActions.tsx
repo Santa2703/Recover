@@ -10,6 +10,8 @@ export interface PageAction {
   icon?: React.ReactNode;
   onClick: () => void;
   disabled?: boolean;
+  /** Why the action is disabled (shown on hover / focus through AutoTooltip). */
+  tip?: string;
 }
 
 interface PageActionsProps {
@@ -29,18 +31,28 @@ export function PageActions({ primary, secondary = [], meta }: PageActionsProps)
   return (
     <div className="flex flex-wrap items-center justify-end gap-2">
       {meta && <span className="hidden text-[11px] font-medium text-[#64748B] md:inline">{meta}</span>}
-      {secondary.map((a) => (
-        <button
-          key={a.key}
-          type="button"
-          onClick={a.onClick}
-          disabled={a.disabled}
-          className="hidden items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-semibold text-[#141416] shadow-2xs transition-all hover:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50 md:inline-flex cursor-pointer"
-        >
-          {a.icon && <span className="[&>svg]:h-3.5 [&>svg]:w-3.5">{a.icon}</span>}
-          {a.label}
-        </button>
-      ))}
+      {secondary.map((a) => {
+        const btn = (
+          <button
+            key={a.key}
+            type="button"
+            onClick={a.onClick}
+            disabled={a.disabled}
+            className="hidden items-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-semibold text-[#141416] shadow-2xs transition-all hover:border-gray-400 disabled:cursor-not-allowed disabled:opacity-50 md:inline-flex cursor-pointer"
+          >
+            {a.icon && <span className="[&>svg]:h-3.5 [&>svg]:w-3.5">{a.icon}</span>}
+            {a.label}
+          </button>
+        );
+        // A disabled button fires no hover events, so the reason hangs on a focusable wrapper.
+        return a.disabled && a.tip ? (
+          <span key={a.key} tabIndex={0} data-tip={a.tip} className="hidden md:inline-flex">
+            {btn}
+          </span>
+        ) : (
+          btn
+        );
+      })}
       {!!secondary.length && (
         <Dropdown
           trigger={['click']}
@@ -56,15 +68,17 @@ export function PageActions({ primary, secondary = [], meta }: PageActionsProps)
         </Dropdown>
       )}
       {primary && (
-        <button
-          type="button"
-          onClick={primary.onClick}
-          disabled={primary.disabled}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-[#FFD600] px-3.5 py-1.5 text-xs font-extrabold text-[#141416] shadow-2xs transition-all hover:bg-[#FACC15] disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
-        >
-          {primary.icon && <span className="[&>svg]:h-3.5 [&>svg]:w-3.5">{primary.icon}</span>}
-          {primary.label}
-        </button>
+        <span className="inline-flex" tabIndex={primary.disabled && primary.tip ? 0 : undefined} data-tip={primary.disabled ? primary.tip : undefined}>
+          <button
+            type="button"
+            onClick={primary.onClick}
+            disabled={primary.disabled}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[#FFD600] px-3.5 py-1.5 text-xs font-extrabold text-[#141416] shadow-2xs transition-all hover:bg-[#FACC15] disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+          >
+            {primary.icon && <span className="[&>svg]:h-3.5 [&>svg]:w-3.5">{primary.icon}</span>}
+            {primary.label}
+          </button>
+        </span>
       )}
     </div>
   );

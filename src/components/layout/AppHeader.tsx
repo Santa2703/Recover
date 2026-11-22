@@ -6,6 +6,7 @@ import { Layout } from 'antd';
 import { Menu } from 'lucide-react';
 import { TenantSelector } from './TenantSelector';
 import { RoleSwitcher } from './RoleSwitcher';
+import { AlertBell } from './AlertBell';
 import { useAuth, SESSION_USER } from '@/store/authContext';
 import { breadcrumbFor } from '@/constants/navigation.constants';
 
@@ -54,6 +55,7 @@ export function AppHeader({ onOpenMenu }: { onOpenMenu?: () => void } = {}) {
       <div className="flex items-center gap-2 md:gap-3 shrink-0">
         <TenantSelector />
         <RoleSwitcher />
+        <AlertBell />
 
         {/* User Initials Avatar Circle */}
         <div

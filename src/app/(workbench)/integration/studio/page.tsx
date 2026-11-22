@@ -20,9 +20,9 @@ import {
   Pause,
 } from 'lucide-react';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
-import { GitBranch, Workflow as WorkflowIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useQueryParam } from '@/components/integration/useQueryParam';
-import { DecisionFlowStudio } from '@/components/decisionflow/DecisionFlowStudio';
 import { ProgressBar, Skeleton } from '@/components/ui';
 import { IntTable } from '@/components/integration/IntTable';
 import { FilterField, MoreFilters, SearchField } from '@/components/integration/Filters';
@@ -846,41 +846,29 @@ function IntegrationStudio() {
   );
 }
 
-type StudioMode = 'integration' | 'decision';
 
-/** Workflow Studio: integration workflows (unchanged) or the decision flow (?mode=decision). */
+/**
+ * Workflow Studio: integration workflows. The decision flow (business rules) lives in the
+ * Decision Workbench at /product/rules; old ?mode=decision links are sent there.
+ */
 export default function WorkflowStudioPage() {
   const fromUrl = useQueryParam('mode');
-  const [picked, setPicked] = useState<StudioMode | null>(null);
-  const mode: StudioMode = picked ?? (fromUrl === 'decision' ? 'decision' : 'integration');
-
-  const changeMode = (m: StudioMode) => {
-    setPicked(m);
-    const url = new URL(window.location.href);
-    if (m === 'decision') url.searchParams.set('mode', 'decision');
-    else url.searchParams.delete('mode');
-    window.history.replaceState(window.history.state, '', url);
-  };
+  const router = useRouter();
+  useEffect(() => {
+    if (fromUrl === 'decision') router.replace('/product/rules');
+  }, [fromUrl, router]);
+  if (fromUrl === 'decision') return null;
 
   return (
     <div className="space-y-4 w-full min-w-0">
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1">
-        <Segmented<StudioMode>
-          value={mode}
-          onChange={changeMode}
-          options={[
-            { value: 'integration', label: <span className="inline-flex items-center gap-1.5 text-xs font-semibold"><WorkflowIcon size={14} />Integration workflows</span> },
-            { value: 'decision', label: <span className="inline-flex items-center gap-1.5 text-xs font-semibold"><GitBranch size={14} />Decision flow</span> },
-          ]}
-          aria-label="Studio mode"
-        />
-        <p className="text-xs text-[#64748B] min-w-0">
-          {mode === 'decision'
-            ? 'Business rules around the fixed decision core: edit a draft, check it, simulate it on open cases, then get it approved and published.'
-            : 'Data integrations between source systems and Circularity.'}
-        </p>
-      </div>
-      {mode === 'decision' ? <DecisionFlowStudio /> : <IntegrationStudio />}
+      <p className="pt-1 text-xs text-[#64748B] min-w-0">
+        Data integrations between source systems and Circularity. Business rules for decisions are in{' '}
+        <Link href="/product/rules" className="font-semibold text-[#141416] underline hover:no-underline">
+          Decision Workbench › Business rules
+        </Link>
+        .
+      </p>
+      <IntegrationStudio />
     </div>
   );
 }

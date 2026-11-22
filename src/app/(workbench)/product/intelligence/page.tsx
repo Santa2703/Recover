@@ -24,6 +24,7 @@ import {
 } from '@/components/ui';
 import { downloadCsv } from '@/components/analytics/AnalyticsControls';
 import { AssetCondition } from '@/components/product/AssetCondition';
+import { SimilarAssets } from '@/components/product/SimilarAssets';
 import { Card, CardTitle, ProductHeader, ClearFilters, FilterPick, FilterRow, ListPagination, SearchBox, useUrlFilters } from '@/components/product/ui';
 import type { Tone } from '@/theme/tokens';
 import { dateTime, money, num, pct } from '@/utils/format';
@@ -268,6 +269,7 @@ export default function AssetIntelligencePage() {
               </div>
             </div>
             <AssetCondition record={asset.record} detail={asset.detail} compact />
+            <SimilarAssets caseId={asset.record.id} scope={scope} onSelect={setAssetId} />
           </div>
         )}
       </Drawer>

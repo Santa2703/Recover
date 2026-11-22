@@ -19,6 +19,7 @@ import { setQueryParams, useQueryParam } from '@/components/integration/useQuery
 import { ConflictResolver } from '@/components/integration/ConflictResolver';
 import { EventDetail, ReplayButton } from '@/components/integration/EventDetail';
 import { EventLog } from '@/components/integration/EventLog';
+import { CommentThread } from '@/components/common/CommentThread';
 
 type Tab = 'open' | 'events';
 type Kind = 'conflict' | 'event';
@@ -300,7 +301,10 @@ export default function IssuesPage() {
         {!current ? (
           <Skeleton className="h-40 w-full" />
         ) : current.conflict ? (
-          <ConflictResolver key={current.id} conflict={current.conflict} onDone={() => setOpenKey(null)} />
+          <div className="space-y-5">
+            <ConflictResolver key={current.id} conflict={current.conflict} onDone={() => setOpenKey(null)} />
+            <CommentThread key={`c-${current.id}`} kind="conflict" id={current.conflict.id} className="border-t border-[#F1F5F9] pt-4" />
+          </div>
         ) : (
           current.event && (
             <div className="space-y-3">
@@ -308,6 +312,7 @@ export default function IssuesPage() {
               <Link href={sourceHref(idOf.get(current.event.source) ?? current.event.source, 'sync')} className="inline-block text-xs font-semibold text-[#0284C7] hover:underline">
                 Open {current.event.source} to fix the cause
               </Link>
+              <CommentThread key={`e-${current.id}`} kind="event" id={current.event.id} className="border-t border-[#F1F5F9] pt-4" />
             </div>
           )
         )}

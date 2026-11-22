@@ -114,6 +114,7 @@ export interface AttentionItem {
 const STAGE_ISSUE: Record<CaseStageId, string> = {
   awaiting_inspection: 'Waiting for inspection and condition grade',
   needs_information: 'Evidence missing before the case can be routed',
+  ready_for_decision: 'Decision prepared; the Planner reviews and sends it to the approver',
   awaiting_approval: 'Decision waiting for approval',
   approved: 'Approved; hand-off instruction not yet sent',
   handed_off: 'Handed off; awaiting outcome',

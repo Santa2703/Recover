@@ -8,13 +8,14 @@ import approvalsJson from '@/data/commandApprovals.json';
 import handoffsJson from '@/data/commandHandoffs.json';
 import outcomesJson from '@/data/commandOutcomes.json';
 import inboundJson from '@/data/commandInbound.json';
-import type { CapacityRecord, CaseRecord, Priority } from '@/models/domain.model';
+import type { CapacityRecord, CaseRecord, Priority, TaskRecord } from '@/models/domain.model';
 import type { UserRole } from '@/models/user.model';
 import type { RouteProposal } from '@/models/decision.model';
-import { capacity, caseStore, exceptionStore, meta, taskStore } from './mock/stores';
+import { capacity, caseStore, exceptionStore, meta, taskStore, userStore } from './mock/stores';
 import { createCollection, delay, queryList, sum } from './mock/mockUtils';
 import { scopeCases } from './caseService';
-import { decide } from './decisionService';
+import { decide, handoffInstructions, handoffStage, realisedNetFor } from './decisionService';
+import type { HandoffInstruction } from '@/models/decision.model';
 import { taskService } from './taskService';
 import { exceptionService } from './exceptionService';
 import { currentThresholds } from './governanceService';
@@ -52,11 +53,27 @@ export interface ApprovalRow {
   proposedNet: number | null;
 }
 
-/** Approval tier from the shared thresholds (edited on Access → Delegations; governanceService). */
+/**
+ * Approval tier from the shared thresholds (edited on Access → Delegations; governanceService).
+ * Executive = above the Approver's delegation limit: an Approver cannot sign it off (caseLifecycleService
+ * enforces it and offers "Escalate to Executive"); Level 1 / Level 2 are signed off by an Approver.
+ */
 export const tierFor = (value: number): ApprovalTier => {
   const t = currentThresholds();
-  return value > t.delegationLimit ? 'Executive' : value >= t.level2Above ? 'Level 2' : 'Level 1';
+  return value > t.delegationLimit ? 'Executive' : value > t.level2Above ? 'Level 2' : 'Level 1';
 };
+
+const usdK = (n: number) => (n >= 1000 && n % 1000 === 0 ? `$${n / 1000}k` : n >= 1000 ? `$${(n / 1000).toFixed(1)}k` : `$${n}`);
+
+/** Tier filter labels with the live thresholds, e.g. "Level 2 ($5k–$25k)". */
+export function tierLabels(): Record<ApprovalTier, string> {
+  const t = currentThresholds();
+  return {
+    'Level 1': `Level 1 (up to ${usdK(t.level2Above)})`,
+    'Level 2': `Level 2 (${usdK(t.level2Above)}–${usdK(t.delegationLimit)})`,
+    Executive: `Executive (above ${usdK(t.delegationLimit)})`,
+  };
+}
 
 const approvalStore = createCollection<ApprovalMeta>(approvalsJson as ApprovalMeta[]);
 
@@ -79,6 +96,11 @@ interface HandoffRecord {
 export interface HandoffRow extends HandoffRecord {
   case: CaseRecord;
   overdue: boolean;
+  /** The instruction steps behind the row (decisionService.handoffInstructions, same as the Case page). */
+  steps: HandoffInstruction[];
+  done: number;
+  /** First step that is not done yet (null when delivered or nothing sent). */
+  next: HandoffInstruction | null;
 }
 
 const handoffStore = createCollection<HandoffRecord>(handoffsJson as HandoffRecord[]);
@@ -95,6 +117,13 @@ interface OutcomeRecord {
   erpRef: string;
   reportedAt: string;
   status: OutcomeStatus;
+  /** Cost lines of the approved route (created in this session from the decision). */
+  costLines?: { label: string; amount: number }[];
+  /** Approval reference and evidence snapshot the outcome closes. */
+  approvalRef?: string;
+  snapshotId?: string;
+  /** Decision history record written when the outcome was reconciled (learning). */
+  historyId?: string;
 }
 
 export interface OutcomeRow extends OutcomeRecord {
@@ -103,6 +132,50 @@ export interface OutcomeRow extends OutcomeRecord {
 }
 
 const outcomeStore = createCollection<OutcomeRecord>(outcomesJson as OutcomeRecord[]);
+
+/** Settlement document by route (what the executing system reports the realised value on). */
+const EVIDENCE_DOC: Record<string, string> = {
+  redeploy: 'Internal transfer confirmation',
+  relase: 'Lease schedule activation',
+  resale: 'Remarketing settlement statement',
+  intparts: 'Parts goods receipt',
+  extparts: 'Parts marketplace settlement',
+  material: 'Certified recycler weight slip',
+  exit: 'Certificate of destruction',
+};
+
+/*
+ * Seeded consistency: a case delivered before this session without an outcome row closed its outcome
+ * earlier (reconciled), so "delivered ⇔ outcome row exists" holds for every case.
+ */
+let seededClosed = false;
+/** The reconciled outcome a seeded delivered case would have; null when it has none. Pure: writes nothing. */
+function seededOutcomeFor(id: string): OutcomeRecord | null {
+  const h = (handoffsJson as HandoffRecord[]).find((x) => x.id === id);
+  if (!h || h.status !== 'delivered') return null;
+  const c = caseStore.get(h.id);
+  if (!c) return null;
+  const predicted = c.estimatedNetRecovery;
+  return {
+    id: h.id,
+    predicted,
+    actual: realisedNetFor(h.id, predicted),
+    evidenceDoc: EVIDENCE_DOC[c.recommendedRoute] ?? 'Settlement statement',
+    erpRef: `SAP-FI-${1400 + (Number(h.id.replace(/\D/g, '')) % 600)}`,
+    reportedAt: h.targetDate,
+    status: 'reconciled',
+  };
+}
+/** Writes the seeded rows into the store. Only from async calls and actions, never during a render. */
+function ensureSeededOutcomes() {
+  if (seededClosed) return;
+  seededClosed = true;
+  for (const h of handoffsJson as HandoffRecord[]) {
+    if (outcomeStore.get(h.id)) continue;
+    const row = seededOutcomeFor(h.id);
+    if (row) outcomeStore.insert(row);
+  }
+}
 
 /* ------------------------------------------------------------------- priority */
 
@@ -165,7 +238,8 @@ const inboundStore = createCollection<InboundRecord>(inboundJson as InboundRecor
 
 /* -------------------------------------------------------------------- helpers */
 
-function completeTasks(caseId: string, type: 'approve' | 'confirm_outcome', status: 'done' | 'waiting' = 'done') {
+/** Completes (or parks) the open tasks of a type for a case. */
+export function completeTasks(caseId: string, type: TaskRecord['type'], status: 'done' | 'waiting' = 'done') {
   taskStore
     .all()
     .filter((t) => t.caseId === caseId && t.type === type && t.status !== 'done')
@@ -178,6 +252,87 @@ const combine =
     const offs = subs.map((s) => s(l));
     return () => offs.forEach((o) => o());
   };
+
+function handoffRow(c: CaseRecord): HandoffRow {
+  const steps = handoffInstructions(c.id);
+  const status = handoffStage(steps);
+  const base: HandoffRecord = handoffStore.get(c.id) ?? {
+    id: c.id,
+    instructionId: null,
+    system: steps[0]?.system ?? 'SAP S/4 PM',
+    destination: `${c.location} dispatch`,
+    carrier: null,
+    trackingRef: null,
+    sentAt: null,
+    targetDate: c.dueDate,
+    status: 'staged',
+  };
+  const lastDue = steps.reduce<string | null>((m, i) => (i.dueAt && (!m || i.dueAt > m) ? i.dueAt : m), null);
+  const sent = steps.find((i) => i.sentAt)?.sentAt ?? null;
+  return {
+    ...base,
+    status,
+    sentAt: sent ?? (status === 'staged' ? null : base.sentAt),
+    targetDate: lastDue ? lastDue.slice(0, 10) : base.targetDate,
+    case: c,
+    overdue: steps.some((i) => i.overdue),
+    steps,
+    done: steps.filter((i) => i.status === 'done').length,
+    next: steps.find((i) => i.status !== 'done' && i.status !== 'not_sent') ?? null,
+  };
+}
+
+/* ------------------------------------------------------------------ lifecycle writes (caseLifecycleService) */
+
+/** Approval meta: note on the approval (Approvals inbox). */
+export function noteApproval(id: string, note: string) {
+  if (approvalStore.get(id)) approvalStore.update(id, { note });
+}
+
+/** Makes sure an approved case has its Handed off row (staged until the instruction is sent). */
+export function stageHandoff(id: string) {
+  if (handoffStore.get(id)) return;
+  const c = caseStore.get(id);
+  const steps = handoffInstructions(id);
+  const target = new Date(asOfDate().getTime() + 5 * DAY).toISOString().slice(0, 10);
+  handoffStore.insert({ id, instructionId: null, system: steps[0]?.system ?? 'SAP S/4 PM', destination: c ? `${c.location} dispatch` : 'Dispatch', carrier: null, trackingRef: null, sentAt: null, targetDate: target, status: 'staged' });
+}
+
+/** Dispatch reference on the Handed off row when the instructions are sent (same id when sent again). */
+export function recordDispatch(id: string, sentAt: string): { instructionId: string; trackingRef: string } {
+  stageHandoff(id);
+  const h = handoffStore.get(id);
+  if (h?.instructionId && h.trackingRef) return { instructionId: h.instructionId, trackingRef: h.trackingRef };
+  const nextNo = 8800 + handoffStore.all().filter((x) => x.instructionId).length + 100;
+  const patch = { instructionId: `INS-${nextNo}`, carrier: 'Internal fleet', trackingRef: `TRK-${nextNo}0`, sentAt, status: 'in_transit' as const };
+  handoffStore.update(id, patch);
+  return { instructionId: patch.instructionId, trackingRef: patch.trackingRef };
+}
+
+/** Creates the Outcomes-to-confirm row when a case is delivered (idempotent: one row per case). */
+export function createOutcome(input: { id: string; predicted: number; actual: number; route: string; reportedAt: string; costLines: { label: string; amount: number }[]; approvalRef: string; snapshotId: string }): OutcomeRecord {
+  ensureSeededOutcomes();
+  const hit = outcomeStore.get(input.id);
+  if (hit) return hit;
+  return outcomeStore.insert({
+    id: input.id,
+    predicted: input.predicted,
+    actual: input.actual,
+    evidenceDoc: EVIDENCE_DOC[input.route] ?? 'Settlement statement',
+    erpRef: `SAP-FI-${1400 + (Number(input.id.replace(/\D/g, '')) % 600)}`,
+    reportedAt: input.reportedAt,
+    status: 'pending_invoice',
+    costLines: input.costLines,
+    approvalRef: input.approvalRef,
+    snapshotId: input.snapshotId,
+  });
+}
+
+export function setOutcomeStatus(id: string, status: OutcomeStatus, patch: Partial<OutcomeRecord> = {}) {
+  ensureSeededOutcomes();
+  if (!outcomeStore.get(id)) throw new Error(`${id} has no outcome to confirm`);
+  outcomeStore.update(id, { ...patch, status });
+}
 
 export const commandService = {
   subscribe: combine(caseStore.subscribe, approvalStore.subscribe, handoffStore.subscribe, outcomeStore.subscribe, inboundStore.subscribe, taskStore.subscribe),
@@ -216,51 +371,16 @@ export const commandService = {
     }).items;
   },
 
-  async approve(id: string, note: string): Promise<void> {
-    await delay(350);
-    caseStore.update(id, { stage: 'approved', riskReason: null, valueAtRisk: 0 });
-    if (approvalStore.get(id)) approvalStore.update(id, { note });
-    if (!handoffStore.get(id)) {
-      const c = caseStore.get(id);
-      const target = new Date(asOfDate().getTime() + 5 * DAY).toISOString().slice(0, 10);
-      handoffStore.insert({ id, instructionId: null, system: 'SAP S/4 PM', destination: c ? `${c.location} dispatch` : 'Dispatch', carrier: null, trackingRef: null, sentAt: null, targetDate: target, status: 'staged' });
-    }
-    completeTasks(id, 'approve');
-  },
-
-  async decline(id: string, note: string): Promise<void> {
-    await delay(350);
-    caseStore.update(id, { stage: 'reevaluate' });
-    if (approvalStore.get(id)) approvalStore.update(id, { note });
-    completeTasks(id, 'approve');
-  },
-
-  async requestEvidence(id: string): Promise<void> {
-    await delay(300);
-    caseStore.update(id, { stage: 'needs_information' });
-    completeTasks(id, 'approve', 'waiting');
-  },
-
-  /* Handed off: instructions sent to executing systems for approved cases. */
+  /*
+   * Handed off: approved cases and their hand-off. The status comes from the instruction steps
+   * (decisionService.handoffInstructions, the same steps as the Case page Execution tab):
+   * nothing sent → staged; sent → in transit; some done → in execution; all done → delivered.
+   */
   async handoffs(q: { search?: string; status?: HandoffStatus | 'all' } = {}, scope: Scope = {}): Promise<HandoffRow[]> {
     await delay();
-    const today = meta.asOf.slice(0, 10);
     const rows: HandoffRow[] = scopeCases(caseStore.all(), scope)
       .filter((c) => c.stage === 'approved' || c.stage === 'handed_off')
-      .map((c) => {
-        const h: HandoffRecord = handoffStore.get(c.id) ?? {
-          id: c.id,
-          instructionId: null,
-          system: 'SAP S/4 PM',
-          destination: `${c.location} dispatch`,
-          carrier: null,
-          trackingRef: null,
-          sentAt: null,
-          targetDate: c.dueDate,
-          status: 'staged',
-        };
-        return { ...h, case: c, overdue: h.status !== 'delivered' && h.targetDate < today };
-      });
+      .map((c) => handoffRow(c));
     return queryList(rows, {
       search: q.search,
       searchFields: ['id', 'destination', 'system', 'trackingRef', 'instructionId', (r) => r.case.productName],
@@ -270,18 +390,10 @@ export const commandService = {
     }).items;
   },
 
-  /** Sends the hand-off instruction for a staged (approved) case. */
-  async sendInstruction(id: string): Promise<void> {
-    await delay(350);
-    const nextNo = 8800 + handoffStore.all().filter((h) => h.instructionId).length + 100;
-    const patch = { instructionId: `INS-${nextNo}`, carrier: 'Internal fleet', trackingRef: `TRK-${nextNo}0`, sentAt: meta.asOf, status: 'in_transit' as const };
-    if (handoffStore.get(id)) handoffStore.update(id, patch);
-    caseStore.update(id, { stage: 'handed_off' });
-  },
-
   /* Outcomes to confirm: realised value reported back for handed-off cases. */
   async outcomes(q: { search?: string; status?: OutcomeStatus | 'open' | 'all' } = {}, scope: Scope = {}): Promise<OutcomeRow[]> {
     await delay();
+    ensureSeededOutcomes();
     const inScope = new Set(scopeCases(caseStore.all(), scope).map((c) => c.id));
     const rows: OutcomeRow[] = outcomeStore
       .all()
@@ -298,17 +410,18 @@ export const commandService = {
     }).items;
   },
 
-  /** Records that the invoice / receipt evidence has arrived. */
-  async confirmReceipt(id: string): Promise<void> {
-    await delay(250);
-    outcomeStore.update(id, { status: 'confirmed' });
+  /** The outcome row of a case (synchronous; null when none was reported). */
+  outcomeOf(id: string): OutcomeRow | null {
+    // Called while rendering: read only (the seeded row is derived, not inserted, so no subscriber fires mid-render).
+    const o = outcomeStore.get(id) ?? (seededClosed ? undefined : seededOutcomeFor(id) ?? undefined);
+    const c = caseStore.get(id);
+    return o && c ? { ...o, case: c, variance: o.actual - o.predicted } : null;
   },
 
-  /** Closes the outcome against the ledger and completes the Finance task. */
-  async reconcile(id: string): Promise<void> {
-    await delay(300);
-    outcomeStore.update(id, { status: 'reconciled' });
-    completeTasks(id, 'confirm_outcome');
+  /** The Handed off row of one approved / handed-off case (synchronous). */
+  handoffOf(id: string): HandoffRow | null {
+    const c = caseStore.get(id);
+    return c && (c.stage === 'approved' || c.stage === 'handed_off') ? handoffRow(c) : null;
   },
 
   /* Actions to prioritise: open cases ranked by urgency, value at risk and recovery. */
@@ -351,6 +464,50 @@ export const commandService = {
       actions: taskService.openCount(role, tenant),
       approvals: scopeCases(caseStore.all(), scope).filter((c) => c.stage === 'awaiting_approval').length,
     };
+  },
+
+  /**
+   * Adds a My work › Tasks item for a role (escalations and other hand-written tasks). The task
+   * shows for that role (and Admin) with a link to `href`, or to the case when `caseId` is set.
+   * The assignee defaults to the first user with the role (the case tenant's Planner for Planners).
+   */
+  async addTask(input: {
+    title: string;
+    role: UserRole;
+    type?: TaskRecord['type'];
+    caseId?: string | null;
+    assigneeId?: string;
+    priority?: Priority;
+    /** YYYY-MM-DD; defaults to the data's "as of" day. */
+    dueDate?: string;
+    href?: string;
+    hrefLabel?: string;
+    subject?: string;
+    note?: string;
+    createdBy?: string;
+  }): Promise<TaskRecord> {
+    await delay(200);
+    const caseId = input.caseId ?? '';
+    const tenant = caseId ? caseStore.get(caseId)?.tenant : undefined;
+    const users = userStore.all().filter((u) => u.role === input.role);
+    const assignee = input.assigneeId ?? (users.find((u) => !tenant || u.tenant === tenant || u.tenant === 'All') ?? users[0])?.id ?? '';
+    const seq = Math.max(0, ...taskStore.all().map((t) => Number(t.id.replace(/\D/g, '')) || 0)) + 1;
+    return taskStore.insert({
+      id: `TSK-${String(seq).padStart(4, '0')}`,
+      type: input.type ?? 'escalation',
+      title: input.title,
+      caseId,
+      assigneeId: assignee,
+      role: input.role,
+      dueDate: input.dueDate ?? meta.asOf.slice(0, 10),
+      priority: input.priority ?? 'high',
+      status: 'todo',
+      ...(input.href ? { href: input.href, hrefLabel: input.hrefLabel ?? 'Open' } : {}),
+      ...(input.subject ? { subject: input.subject } : {}),
+      ...(input.note ? { note: input.note } : {}),
+      ...(input.createdBy ? { createdBy: input.createdBy } : {}),
+      createdAt: new Date().toISOString(),
+    });
   },
 };
 

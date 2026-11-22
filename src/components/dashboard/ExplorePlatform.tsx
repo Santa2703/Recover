@@ -4,6 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { BrainCircuit, ChevronRight, LayoutDashboard, Link as LinkIcon, Monitor, Network, PlayCircle, ShieldCheck, Zap } from 'lucide-react';
 import { useAuth } from '@/store/authContext';
+import { useServiceQuery } from '@/hooks/useServiceQuery';
+import { caseService } from '@/services/caseService';
 import type { UserRole } from '@/models/user.model';
 import { canOpen, type ModuleId } from './roleAccess';
 import { SectionCard } from './SectionCard';
@@ -17,27 +19,44 @@ interface QuickAction {
   module: ModuleId;
 }
 
+/** Returned assets ready to evaluate with no decision yet: inspected, evidence in, stage Re-evaluate. */
+const DECIDE_HREF = '/product/received?stage=reevaluate';
+const NOTHING_TO_DECIDE_HREF = '/product/expected';
+
 const QUICK_ACTIONS: QuickAction[] = [
-  { key: 'decision', label: 'Create a decision', href: '/product/received', icon: <BrainCircuit size={16} />, module: 'intelligence', roles: ['Planner', 'Engineer', 'Approver', 'Admin'] },
+  // href is resolved at render: cases ready for a decision, or Expected returns when there are none.
+  { key: 'decision', label: 'Decide a returned asset', href: DECIDE_HREF, icon: <BrainCircuit size={16} />, module: 'intelligence', roles: ['Planner', 'Engineer', 'Approver', 'Admin'] },
   { key: 'studio', label: 'Open Workflow Studio', href: '/integration/studio', icon: <PlayCircle size={16} />, module: 'integrations' },
   { key: 'source', label: 'Connect a source', href: '/integration/map', icon: <LinkIcon size={16} />, module: 'integrations' },
-  { key: 'checks', label: 'Run data checks', href: '/audit?tab=gaps', icon: <ShieldCheck size={16} />, module: 'governance' },
+  { key: 'checks', label: 'Run data checks', href: '/audit?tab=checks', icon: <ShieldCheck size={16} />, module: 'governance' },
   { key: 'command', label: 'Open Command Center', href: '/command', icon: <Monitor size={16} />, module: 'operations' },
 ];
 
 /** Vertical list of role-filtered shortcuts. */
 export function QuickActions() {
-  const { currentRole } = useAuth();
+  const { currentRole, scope } = useAuth();
   const items = QUICK_ACTIONS.filter((a) => canOpen(currentRole, a.module) && (!a.roles || a.roles.includes(currentRole)));
+  const showsDecide = items.some((a) => a.key === 'decision');
+  const readyQ = useServiceQuery(
+    () => (showsDecide ? caseService.list({ stage: 'reevaluate', pageSize: 1 }, scope).then((r) => r.total) : Promise.resolve(0)),
+    [showsDecide, scope.tenant, scope.site],
+    { subscribe: caseService.subscribe },
+  );
+  const ready = readyQ.data;
+  const resolve = (a: QuickAction) =>
+    a.key !== 'decision' || ready === undefined || ready > 0
+      ? { ...a, meta: a.key === 'decision' && ready ? `${ready} ready` : undefined }
+      : { ...a, label: 'Decide a returned asset', href: NOTHING_TO_DECIDE_HREF, meta: 'None ready' };
   return (
     <SectionCard title="Quick Actions" icon={<Zap />} flush>
       <ul className="m-0 list-none divide-y divide-[#F1F5F9] p-0">
-        {items.map((a) => (
+        {items.map(resolve).map((a) => (
           <li key={a.key}>
             <Link href={a.href} className="group block text-inherit no-underline">
               <span className="flex items-center gap-3 px-5 py-3 transition-colors group-hover:bg-[#F8FAFC]">
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#FEF3C7] bg-[#FFFBEB] text-[#D97706]">{a.icon}</span>
                 <span className="min-w-0 flex-1 truncate text-xs font-semibold text-[#141416]">{a.label}</span>
+                {a.meta && <span className="shrink-0 font-mono text-[11px] text-[#64748B]">{a.meta}</span>}
                 <ChevronRight size={16} className="shrink-0 text-[#94A3B8] group-hover:text-[#141416]" />
               </span>
             </Link>
@@ -57,7 +76,7 @@ const MODULES: { id: ModuleId; title: string; icon: React.ReactNode; links: { la
       { label: 'Command Center', href: '/command' },
       { label: 'My work', href: '/command/actions' },
       { label: 'Exceptions', href: '/command/exceptions' },
-      { label: 'Data Checks', href: '/audit?tab=gaps' },
+      { label: 'Data Checks', href: '/audit?tab=checks' },
     ],
   },
   {

@@ -6,7 +6,8 @@ import dayjs, { type Dayjs } from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { UserCheck, CalendarClock, History, Plus, Trash2, Gavel, Network, Building2, Scale } from 'lucide-react';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
-import { governanceService, fmtUsd, type ApprovalThresholds, type DelegationSetting, type CoverRecord } from '@/services/governanceService';
+import { governanceService, fmtUsd, type DelegationSetting, type CoverRecord } from '@/services/governanceService';
+import { ApprovalLimitsCard } from '@/components/governance/ApprovalLimitsCard';
 import { useAuth } from '@/store/authContext';
 import { PageHeader, PageActions, ListSkeleton, DataTable, ErrorState, type DataColumn } from '@/components/ui';
 import { Card } from '@/components/governance/Filters';
@@ -151,7 +152,7 @@ canManage ? (
     <div className="space-y-6 w-full pb-16 font-sans text-[#141416]">
       <PageHeader
         title="Delegations & thresholds"
-        description="Approval value thresholds and workflow rules, what the Admin delegates to the Approver, and who covers when an approver is away. Changes save as you make them."
+        description="Approval value thresholds, approval limits and workflow rules, what the Admin delegates to the Approver, and who covers when an approver is away. Changes save as you make them."
         actions={
           <PageActions
             primary={{ key: 'new', label: 'New cover', icon: <Plus />, onClick: () => setCreating(true), disabled: !canManage }}
@@ -179,6 +180,8 @@ canManage ? (
           )}
         </div>
       </Card>
+
+      <ApprovalLimitsCard canManage={canManage} actor={actor} />
 
       <WorkflowRulesCard />
 
@@ -366,10 +369,10 @@ function DelegationRow({ setting, actor, canManage }: { setting: DelegationSetti
 
 const GATE = 'Admins and Approvers only';
 
-type ThresholdKey = keyof ApprovalThresholds;
+type ThresholdKey = 'autoApproveBelow' | 'level2Above' | 'delegationLimit';
 const THRESHOLD_FIELDS: { key: ThresholdKey; label: string; help: string }[] = [
   { key: 'autoApproveBelow', label: 'Auto-approve below', help: 'Grade A plans under this value skip manual approval.' },
-  { key: 'level2Above', label: 'Level 2 sign-off above', help: 'Plans over this value need a second (level 2) sign-off.' },
+  { key: 'level2Above', label: 'Level 2 sign-off above', help: 'Plans over this value are Level 2 in the Approvals inbox (an Approver signs off).' },
   { key: 'delegationLimit', label: 'Approver delegation limit', help: 'Approvers sign off up to this value; above it, Executive sign-off.' },
 ];
 

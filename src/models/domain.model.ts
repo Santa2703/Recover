@@ -9,6 +9,7 @@ import type { RouteProposal } from './decision.model';
 export type CaseStageId =
   | 'awaiting_inspection'
   | 'needs_information'
+  | 'ready_for_decision'
   | 'awaiting_approval'
   | 'approved'
   | 'handed_off'
@@ -70,6 +71,13 @@ export interface CaseRecord {
    * Present on open cases while the proposal stands; kept on the record when the case is approved.
    */
   proposal?: RouteProposal;
+  /** Inspection result recorded by the Engineer (caseLifecycleService.recordInspection). */
+  inspection?: InspectionResult;
+  /**
+   * How many times the case was re-decided on new evidence (inspection recorded, re-evaluated).
+   * Part of the evidence snapshot id, so each re-evaluation gets a new snapshot.
+   */
+  evaluationRound?: number;
   facts: {
     originalPrice: number;
     ageYears: number;
@@ -106,7 +114,20 @@ export interface ExceptionRecord {
   resolutionNote?: string;
 }
 
-export type TaskType = 'request_evidence' | 'inspect' | 'approve' | 'prepare_decision' | 'confirm_outcome' | 'acknowledge';
+/** Inspection and grading result (Engineer, "Record inspection result" on the Case page). */
+export interface InspectionResult {
+  grade: 'A' | 'B' | 'C' | 'D';
+  test: 'pass' | 'fail' | 'conditional';
+  /** Remaining-life estimate, % of design life. */
+  lifePct: number;
+  notes: string;
+  photosReceived: boolean;
+  by: string;
+  /** ISO time. */
+  at: string;
+}
+
+export type TaskType = 'request_evidence' | 'inspect' | 'approve' | 'prepare_decision' | 'confirm_outcome' | 'acknowledge' | 'escalation';
 export type TaskStatus = 'todo' | 'in_progress' | 'waiting' | 'done';
 
 export interface TaskRecord {
@@ -119,6 +140,15 @@ export interface TaskRecord {
   dueDate: string;
   priority: Priority;
   status: TaskStatus;
+  /** Where the task is worked (defaults to the case page). Escalations about a source link to its drawer. */
+  href?: string;
+  hrefLabel?: string;
+  /** What the task is about when it is not a case (e.g. a source name). */
+  subject?: string;
+  /** Message from whoever created the task (escalation text). Plain text. */
+  note?: string;
+  createdBy?: string;
+  createdAt?: string;
 }
 
 export interface AlertRecord {

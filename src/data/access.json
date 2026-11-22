@@ -26,7 +26,7 @@
     { "id": "gm-2", "group": "CIRC-Planners-CustomerB", "objectId": "91be…04df", "role": "Planner", "tenant": "Customer B", "site": "Warehouse 2" },
     { "id": "gm-3", "group": "CIRC-Planners-CustomerC", "objectId": "27aa…c9e1", "role": "Planner", "tenant": "Customer C", "site": "Warehouse 1" },
     { "id": "gm-4", "group": "CIRC-Approvers", "objectId": "d402…7b3a", "role": "Approver", "tenant": "All", "site": "Head office" },
-    { "id": "gm-5", "group": "CIRC-Engineering", "objectId": "5c0e…88f2", "role": "Engineer", "tenant": "All", "site": "Repair centre" },
+    { "id": "gm-5", "group": "CIRC-Engineering", "objectId": "5c0e…88f2", "role": "Engineer", "tenant": "Customer B", "site": "Repair centre" },
     { "id": "gm-6", "group": "FIN-Asset-Recovery", "objectId": "a7d3…1e60", "role": "Finance", "tenant": "All", "site": "Head office" },
     { "id": "gm-7", "group": "IT-Integration-Devs", "objectId": "3e9f…b5c4", "role": "Developer", "tenant": "All", "site": "Head office" },
     { "id": "gm-8", "group": "EXEC-Leadership", "objectId": "0b6d…f37e", "role": "Executive", "tenant": "All", "site": "Head office" },

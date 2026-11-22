@@ -15,8 +15,9 @@ import { fmtDateTime } from '@/components/integration/format';
 import { sourceHref } from '@/components/integration/issueMeta';
 import { setQueryParams, useQueryParam } from '@/components/integration/useQueryParam';
 import Link from 'next/link';
+import { ModelLinksTab } from '@/components/integration/ModelLinksTab';
 
-type Tab = 'fields' | 'mappings' | 'versions';
+type Tab = 'fields' | 'mappings' | 'links' | 'versions';
 const ALL = 'all';
 
 const STATUS_PILL: Record<ModelStatus, { tone: PillTone; label: string }> = {
@@ -63,7 +64,7 @@ export default function DataModelPage() {
   const selectedId = modelParam === ALL || models.some((m) => m.id === modelParam) ? modelParam : fallbackModel;
   const model = models.find((m) => m.id === selectedId);
   const isAll = selectedId === ALL;
-  const tab: Tab = isAll ? 'mappings' : tabParam === 'mappings' || tabParam === 'versions' ? tabParam : 'fields';
+  const tab: Tab = isAll ? 'mappings' : tabParam === 'mappings' || tabParam === 'versions' || tabParam === 'links' ? tabParam : 'fields';
   const source = sourceParam ?? ALL;
 
   const rules = useServiceQuery(
@@ -76,7 +77,7 @@ export default function DataModelPage() {
   const drafts = models.filter((m) => m.draft);
   const s = summary.data;
 
-  const selectModel = (id: string) => setQueryParams({ model: id, tab: id === ALL ? 'mappings' : tab === 'fields' || tab === 'versions' ? tab : 'mappings' });
+  const selectModel = (id: string) => setQueryParams({ model: id, tab: id === ALL ? 'mappings' : tab });
   // Keep the selected entity in the URL: "?tab=mappings" alone means "all entities' mappings".
   const setTab = (t: string) => setQueryParams({ model: selectedId, tab: t === 'fields' ? null : t });
   const setSource = (v: string) => setQueryParams({ source: v === ALL ? null : v });
@@ -468,6 +469,7 @@ export default function DataModelPage() {
                   items={[
                     ...(model ? [{ key: 'fields', label: `Fields (${model.fieldCount})`, children: <IntTable columns={fieldColumns} rows={model.fields} rowKey={(f) => f.name} /> }] : []),
                     { key: 'mappings', label: `Mappings${rules.data ? ` (${rules.data.total})` : ''}`, children: mappingsTab },
+                    ...(model ? [{ key: 'links', label: `Links (${model.links?.length ?? 0})`, children: <ModelLinksTab key={model.id} entity={model.id} entityName={model.name} /> }] : []),
                     ...(model ? [{ key: 'versions', label: `Versions (${model.versions.length})`, children: versionsTab }] : []),
                   ]}
                 />

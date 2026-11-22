@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { message } from 'antd';
 import { CheckCircle2, ClipboardCheck, Landmark, Receipt, TrendingUp } from 'lucide-react';
 import { useAuth } from '@/store/authContext';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
 import { commandService, type OutcomeRow, type OutcomeStatus } from '@/services/commandService';
+import { caseLifecycleService, type Actor } from '@/services/caseLifecycleService';
 import { DataTable, ErrorState, KpiSkeletonRow, MetricCard, StatusBadge, type DataColumn } from '@/components/ui';
 import type { Tone } from '@/theme/tokens';
 import { CommandFilters, CommandSelect, RoutePill, SectionCard } from '@/components/command/CommandUi';
@@ -21,10 +22,18 @@ const STATUS_META: Record<OutcomeStatus, { label: string; tone: Tone }> = {
   reconciled: { label: 'Audited & Closed', tone: 'success' },
 };
 
+const FINANCE = ['Finance', 'Admin'];
+const noSubscribe = () => () => {};
+/** `?case=RT-1234` (the Case page "Confirm outcome" link) pre-fills the search. */
+const readCaseParam = () => new URLSearchParams(window.location.search).get('case') ?? '';
+
 /** My work › Outcomes to confirm: reported outcomes to confirm and reconcile against the ledger. */
 export function OutcomesTab() {
-  const { scope } = useAuth();
-  const [search, setSearch] = useState('');
+  const { scope, currentRole, user } = useAuth();
+  const actor: Actor = { id: user.id, name: user.name, role: currentRole };
+  const caseParam = useSyncExternalStore(noSubscribe, readCaseParam, () => '');
+  const [typed, setSearch] = useState<string | null>(null);
+  const search = typed ?? caseParam;
   const [status, setStatus] = useState<StatusFilter>('open');
   const [busy, setBusy] = useState<string | null>(null);
 
@@ -47,14 +56,14 @@ export function OutcomesTab() {
     setBusy(r.id);
     try {
       if (r.status === 'pending_invoice') {
-        await commandService.confirmReceipt(r.id);
+        await caseLifecycleService.confirmReceipt(r.id, actor);
         message.success(`Receipt confirmed for ${r.id}. It is ready to reconcile.`);
       } else {
-        await commandService.reconcile(r.id);
-        message.success(`${r.id} reconciled with the ledger and closed.`);
+        const { historyId } = await caseLifecycleService.reconcile(r.id, actor);
+        message.success(`${r.id} reconciled and closed. Learning record ${historyId} now counts in Forecast quality.`);
       }
-    } catch {
-      message.error('That did not work. Nothing was changed.');
+    } catch (e) {
+      message.error(e instanceof Error ? e.message : 'That did not work. Nothing was changed.');
     } finally {
       setBusy(null);
     }
@@ -106,7 +115,19 @@ export function OutcomesTab() {
             <Receipt size={13} className="shrink-0 text-[#64748B]" />
             <span className="line-clamp-2 break-words">{r.evidenceDoc}</span>
           </div>
-          <div className="font-mono text-[10px] text-[#64748B]">{r.erpRef}</div>
+          <div className="font-mono text-[10px] text-[#64748B]">
+            {r.erpRef}
+            {r.approvalRef ? ` · ${r.approvalRef}` : ''}
+          </div>
+          {!!r.costLines?.length && (
+            <div
+              tabIndex={0}
+              className="line-clamp-1 text-[10px] text-[#64748B] underline decoration-dotted underline-offset-2"
+              data-tip={r.costLines.map((l) => `${l.label} ${fmtUsd(l.amount)}`).join(' · ')}
+            >
+              {r.costLines.length} cost lines · {fmtUsd(r.costLines.reduce((s, l) => s + l.amount, 0))}
+            </div>
+          )}
         </div>
       ),
     },
@@ -119,9 +140,11 @@ export function OutcomesTab() {
       ellipsis: false,
       render: (_, r) =>
         r.status === 'reconciled' ? (
-          <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs font-semibold text-[#059669]">
+          <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs font-semibold text-[#059669]" data-tip={r.historyId ? `Learning record ${r.historyId}` : undefined}>
             <CheckCircle2 size={14} /> Audited
           </span>
+        ) : !FINANCE.includes(currentRole) ? (
+          <span className="whitespace-nowrap text-[11px] text-[#64748B]">Finance confirms</span>
         ) : (
           <button
             type="button"

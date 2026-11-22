@@ -3,13 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { message } from 'antd';
+import { Segmented, message } from 'antd';
 import type { SorterResult } from 'antd/es/table/interface';
-import { AlertTriangle, ChevronRight, Clock, Download, Package } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ChevronRight, Download, FileQuestion, Layers, List, ScanSearch } from 'lucide-react';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
 import { useAuth } from '@/store/authContext';
 import { caseService, type CaseQuery } from '@/services/caseService';
-import { CONDITION_LABEL, PRODUCT_CLASS_LABEL, productService } from '@/services/productService';
+import { CONDITION_LABEL, PRODUCT_CLASS_LABEL, evidenceStatus, productService, type ProductGroup } from '@/services/productService';
 import type { CaseRecord, CaseStageId } from '@/models/domain.model';
 import type { DispositionRouteId } from '@/models/treatment.model';
 import { DISPOSITION_ROUTES } from '@/constants/routes.constants';
@@ -44,9 +44,11 @@ export default function ReturnedAssetsPage() {
   const [sortBy, setSortBy] = useState<SortKey>('dueInDays');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
   const [page, setPage] = useState(1);
+  const [view, setView] = useState<'list' | 'product'>('list');
 
   const sortParam = sortBy === 'dueInDays' && sortDir === 'asc' ? '' : `${sortBy}:${sortDir}`;
-  useUrlFilters({ q: search, site: location, cls: productClass, stage, route, priority, sort: sortParam, page }, (p) => {
+  useUrlFilters({ q: search, site: location, cls: productClass, stage, route, priority, sort: sortParam, page, view: view === 'list' ? '' : view }, (p) => {
+    setView(p.get('view') === 'product' ? 'product' : 'list');
     setSearch(p.get('q') ?? '');
     setLocation(p.get('site') ?? 'all');
     setProductClass(p.get('cls') ?? 'all');
@@ -75,6 +77,11 @@ export default function ReturnedAssetsPage() {
     subscribe: caseService.subscribe,
   });
   const summaryQ = useServiceQuery(() => productService.receivedSummary(scope), [scopeKey], { subscribe: caseService.subscribe });
+  const groupsQ = useServiceQuery(
+    () => (view === 'product' ? productService.receivedGroups(query, scope) : Promise.resolve(null)),
+    [view, query, scopeKey],
+    { subscribe: caseService.subscribe },
+  );
 
   const withReset = (fn: (v: string) => void) => (v: string) => {
     fn(v);
@@ -95,7 +102,7 @@ export default function ReturnedAssetsPage() {
     const { items } = await caseService.list(query, scope);
     downloadCsv(
       `returned-assets-${meta.asOf.slice(0, 10)}.csv`,
-      ['Case ID', 'Product', 'Serial', 'Asset tag', 'Equipment class', 'Grade', 'Residual (months)', 'Location', 'Tenant', 'Optimal route', 'Est. value ($)', 'Stage', 'Received', 'Due'],
+      ['Case ID', 'Product', 'Serial', 'Asset tag', 'Equipment class', 'Grade', 'Residual (months)', 'Location', 'Tenant', 'Optimal route', 'Est. value ($)', 'Stage', 'Evidence', 'Received', 'Due'],
       items.map((c) => [
         c.id,
         c.productName,
@@ -109,6 +116,7 @@ export default function ReturnedAssetsPage() {
         DISPOSITION_ROUTES[c.recommendedRoute].name,
         c.estimatedNetRecovery,
         STAGE_META[c.stage].label,
+        evidenceStatus(c).label,
         c.receivedDate,
         c.dueDate,
       ]),
@@ -129,31 +137,31 @@ export default function ReturnedAssetsPage() {
       ellipsis: false,
       render: (_: unknown, c: CaseRecord) => (
         <div className="min-w-0">
-          <div className="flex min-w-0 flex-wrap items-baseline gap-x-1.5">
+          <div className="flex min-w-0 items-baseline gap-x-1.5">
             <Link href={`/product/case/${c.id}`} tabIndex={-1} onClick={(e) => {
               e.stopPropagation();
               fromQueue();
-            }} className="shrink-0 font-mono font-bold text-[#141416] hover:underline">
+            }} className="shrink-0 whitespace-nowrap font-mono font-bold text-[#141416] hover:underline">
               {c.id}
             </Link>
-            <span className="font-semibold text-[#141416]">{c.productName}</span>
+            <span className="min-w-0 truncate font-semibold text-[#141416]">{c.productName}</span>
           </div>
-          <div className="text-[11px] text-[#64748B]">
+          <div className="truncate text-[11px] text-[#64748B]">
             {c.category} · <span className="font-mono">{c.serialNumber}</span>
           </div>
         </div>
       ),
     },
     {
-      title: 'Grade / Residual',
+      title: 'Grade',
       key: 'grade',
       dataIndex: 'residualLifeMonths',
-      priority: 2,
-      width: 140,
+      priority: 3,
+      width: 112,
       sorter: true,
       sortOrder: sortOrder('residualLifeMonths'),
       render: (_: unknown, c: CaseRecord) => (
-        <div className="flex flex-wrap items-center gap-1.5">
+        <div className="flex flex-col items-start gap-0.5">
           <span className={`rounded border px-1.5 py-0.5 text-[11px] font-bold ${GRADE_CLS[c.condition]}`} title={CONDITION_LABEL[c.condition]}>
             {c.condition === 'Scrap' ? 'Scrap' : `Grade ${c.condition}`}
           </span>
@@ -162,10 +170,10 @@ export default function ReturnedAssetsPage() {
       ),
     },
     {
-      title: 'Location & Tenant',
+      title: 'Location',
       key: 'location',
       priority: 3,
-      width: 150,
+      width: 120,
       render: (_: unknown, c: CaseRecord) => (
         <div className="min-w-0">
           <div className="truncate font-medium text-[#141416]">{c.location}</div>
@@ -174,33 +182,28 @@ export default function ReturnedAssetsPage() {
       ),
     },
     {
-      title: 'Optimal Route',
-      key: 'route',
-      priority: 2,
-      width: 130,
-      render: (_: unknown, c: CaseRecord) => (
-        <span className="rounded-full border border-[#E2E8F0] bg-[#F1F5F9] px-2.5 py-0.5 text-[11px] font-semibold text-[#1E293B]">
-          {DISPOSITION_ROUTES[c.recommendedRoute].shortLabel}
-        </span>
-      ),
-    },
-    {
-      title: 'Est. Value',
+      // Value and the route that earns it, merged so the case column keeps its width.
+      title: 'Value / Route',
       key: 'value',
       dataIndex: 'estimatedNetRecovery',
       priority: 1,
       align: 'right',
-      width: 110,
+      width: 128,
       sorter: true,
       sortOrder: sortOrder('estimatedNetRecovery'),
-      render: (v: number) => <span className="font-mono text-xs font-bold text-emerald-700">{money(v)}</span>,
+      render: (v: number, c: CaseRecord) => (
+        <div className="min-w-0">
+          <div className="font-mono text-xs font-bold text-emerald-700">{money(v)}</div>
+          <div className="truncate text-[11px] text-[#64748B]">{DISPOSITION_ROUTES[c.recommendedRoute].shortLabel}</div>
+        </div>
+      ),
     },
     {
       title: 'Lifecycle Stage',
       key: 'stage',
       dataIndex: 'dueInDays',
       priority: 2,
-      width: 170,
+      width: 150,
       sorter: true,
       sortOrder: sortOrder('dueInDays'),
       render: (_: unknown, c: CaseRecord) => (
@@ -211,6 +214,67 @@ export default function ReturnedAssetsPage() {
           </div>
         </div>
       ),
+    },
+    {
+      title: 'Evidence',
+      key: 'evidence',
+      priority: 2,
+      width: 96,
+      render: (_: unknown, c: CaseRecord) => {
+        const ev = evidenceStatus(c);
+        const [count, ...rest] = ev.label.split(' · ');
+        return (
+          <div className="min-w-0" data-tip={ev.complete ? undefined : `Missing: ${ev.missing.map((m) => `${m.label} (${m.source})`).join(', ')}`}>
+            <div className={`font-mono font-bold ${ev.complete ? 'text-[#047857]' : 'text-[#B45309]'}`}>{count}</div>
+            <div className="truncate text-[11px] text-[#64748B]">{rest.join(' · ')}</div>
+          </div>
+        );
+      },
+    },
+    {
+      title: '',
+      key: 'open',
+      priority: 2,
+      width: 36,
+      align: 'right',
+      render: () => <ChevronRight size={16} aria-hidden className="text-[#94A3B8]" />,
+    },
+  ];
+
+  // Group by product: one row per equipment class for the current filters; a row opens the list filtered to it.
+  const openGroup = (g: ProductGroup) => {
+    setProductClass(g.key);
+    setView('list');
+    setPage(1);
+  };
+  const countCell = (v: number) => <span className={`font-mono ${v ? 'font-semibold text-[#141416]' : 'text-[#94A3B8]'}`}>{v}</span>;
+  const groupColumns: DataColumn<ProductGroup>[] = [
+    {
+      title: 'Product',
+      key: 'product',
+      priority: 1,
+      ellipsis: false,
+      render: (_: unknown, g: ProductGroup) => (
+        <div className="min-w-0">
+          <div className="truncate font-semibold text-[#141416]">{g.label}</div>
+          <div className="truncate text-[11px] text-[#64748B]">
+            <span className="font-mono">{g.cases}</span> {g.cases === 1 ? 'case' : 'cases'} · <span className="font-mono">{g.units}</span> {g.units === 1 ? 'unit' : 'units'}
+          </div>
+        </div>
+      ),
+    },
+    { title: 'Ready', key: 'ready', dataIndex: 'ready', priority: 2, align: 'right', width: 90, render: countCell },
+    { title: 'Inspection', key: 'inspection', dataIndex: 'awaitingInspection', priority: 2, align: 'right', width: 100, render: countCell },
+    { title: 'Need info', key: 'info', dataIndex: 'needInformation', priority: 3, align: 'right', width: 100, render: countCell },
+    { title: 'Approval', key: 'approval', dataIndex: 'awaitingApproval', priority: 2, align: 'right', width: 100, render: countCell },
+    {
+      title: 'Est. Value',
+      key: 'value',
+      dataIndex: 'value',
+      priority: 1,
+      align: 'right',
+      width: 120,
+      render: (v: number) => <span className="font-mono text-xs font-bold text-emerald-700">{money(v)}</span>,
     },
     {
       title: '',
@@ -252,18 +316,37 @@ export default function ReturnedAssetsPage() {
       />
 
       {summaryQ.initialLoading || !sm ? (
-        <KpiSkeletonRow count={3} />
+        <KpiSkeletonRow count={4} />
       ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <MetricCard label="Total Inbound Returns" value={sm.total} icon={<Package />} context={`${moneyK(sm.totalValue)} potential value`} />
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <MetricCard
+            label="Ready to Evaluate"
+            value={sm.ready}
+            unit={`of ${sm.total}`}
+            icon={<CheckCircle2 />}
+            iconTone="green"
+            context={`Evidence gate passed · ${moneyK(sm.readyValue)} est. value`}
+          />
+          <MetricCard
+            label="Awaiting Inspection"
+            value={sm.awaitingInspection}
+            icon={<ScanSearch />}
+            iconTone="blue"
+            context={`No route evaluated yet · avg ${sm.inspectionAvgDays} days since receipt`}
+          />
+          <MetricCard
+            label="Need Information"
+            value={sm.needInformation}
+            icon={<FileQuestion />}
+            context={`Exception or missing evidence · ${sm.needInfoMissingEvidence} with evidence gaps`}
+          />
           <MetricCard
             label="Awaiting Plan Approval"
             value={sm.awaitingApproval}
             icon={<AlertTriangle />}
-            context={`${moneyK(sm.awaitingValue)} value retention`}
+            context={`A person decides (step 5) · ${moneyK(sm.awaitingValue)}`}
             href="/command/actions?tab=approvals"
           />
-          <MetricCard label="Avg. Days in Triage" value={sm.avgTriageDays} unit="days" icon={<Clock />} iconTone="green" context={`${sm.inTriage} cases still awaiting inspection or information`} />
         </div>
       )}
 
@@ -326,8 +409,51 @@ export default function ReturnedAssetsPage() {
             />
           </MoreFilters>
           <ClearFilters onClick={clear} disabled={!filtered} />
+          <Segmented
+            className="ml-auto"
+            size="small"
+            value={view}
+            onChange={(v) => setView(v as 'list' | 'product')}
+            aria-label="View"
+            options={[
+              { value: 'list', label: <span className="text-xs font-semibold">List</span>, icon: <List size={13} aria-hidden /> },
+              { value: 'product', label: <span className="text-xs font-semibold">Group by product</span>, icon: <Layers size={13} aria-hidden /> },
+            ]}
+          />
         </FilterRow>
 
+        {view === 'product' ? (
+          <div className="pt-4">
+            <p className="sr-only">Select a product row, or focus it and press Enter, to list its cases.</p>
+            {groupsQ.error && !groupsQ.data ? (
+              <ErrorState onRetry={groupsQ.refetch} compact />
+            ) : (
+              <DataTable<ProductGroup>
+                rowKey="key"
+                columns={groupColumns}
+                dataSource={groupsQ.data ?? []}
+                initialLoading={groupsQ.initialLoading || (groupsQ.loading && !groupsQ.data)}
+                refreshing={groupsQ.loading}
+                filtered={filtered}
+                onClearFilters={clear}
+                emptyTitle="No returned assets in your scope"
+                onRowClick={openGroup}
+                rowClassName="focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#141416]"
+                onRow={(g) => ({
+                  tabIndex: 0,
+                  'aria-label': `List the ${g.cases} ${g.label} cases`,
+                  onKeyDown: (e: React.KeyboardEvent) => {
+                    if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
+                      e.preventDefault();
+                      openGroup(g);
+                    }
+                  },
+                })}
+                pagination={false}
+              />
+            )}
+          </div>
+        ) : (
         <div className="pt-4">
           <p className="sr-only">Select a row, or focus it and press Enter, to open the case.</p>
           {listQ.error && !listQ.data ? (
@@ -366,6 +492,7 @@ export default function ReturnedAssetsPage() {
             </>
           )}
         </div>
+        )}
       </Card>
     </div>
   );

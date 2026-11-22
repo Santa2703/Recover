@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { message } from 'antd';
-import { ClipboardList, FileUp, ListChecks, RotateCcw } from 'lucide-react';
+import { ClipboardList, FileUp, ListChecks, RotateCcw, Shuffle } from 'lucide-react';
 import { Skeleton } from '@/components/ui';
 import { importService, type CanonicalModelRow, type ColumnMapping, type ValidationResult } from '@/services/integrationService';
 import { Pill } from '@/components/integration/Pills';
@@ -17,9 +17,11 @@ export interface FileDraft {
   csvText: string;
   fileName: string;
   result: ValidationResult | null;
+  /** Clean-up rules the user rejected on the Clean-up step (rule ids). */
+  rejectedRules: string[];
 }
 
-export const EMPTY_FILE_DRAFT: FileDraft = { name: '', modelId: 'physical_asset', csvText: '', fileName: '', result: null };
+export const EMPTY_FILE_DRAFT: FileDraft = { name: '', modelId: 'physical_asset', csvText: '', fileName: '', result: null, rejectedRules: [] };
 
 interface Props {
   value: FileDraft;
@@ -155,6 +157,9 @@ export function FileImportStep({ value: v, onChange, models }: Props) {
             </button>
             <button type="button" onClick={() => loadText(importService.sampleCsv(v.modelId), `sample_${v.modelId}.csv`)} className={BTN_GHOST}>
               <ClipboardList className="h-3.5 w-3.5" /> Load sample
+            </button>
+            <button type="button" onClick={() => loadText(importService.messySampleCsv(v.modelId), `messy_${v.modelId}.csv`)} className={BTN_GHOST}>
+              <Shuffle className="h-3.5 w-3.5" /> Load messy sample
             </button>
             <button type="button" onClick={() => fileInput.current?.click()} className={BTN_GHOST}>
               <FileUp className="h-3.5 w-3.5" /> Upload .csv

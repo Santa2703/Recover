@@ -48,6 +48,10 @@ export interface Source {
   statusNote: string | null;
   environment: string;
   authType: string;
+  /** When the current credential (OAuth client secret, API key, service-account key) expires. File sources have none. */
+  credentialExpiresAt?: string;
+  /** Freshness target: the newest data must be at most this many minutes old. null = no SLA (manual uploads). */
+  slaMinutes?: number | null;
   instanceUrl: string;
   connectedBy: string;
   lastSyncAt: string;
@@ -248,6 +252,222 @@ function subscribeAll(listener: () => void) {
   };
 }
 
+/* ------------------------------------------------------------ SLA monitor */
+
+const DAY_MS = 864e5;
+const HOUR_MS = 36e5;
+/** New and rotated credentials are valid for a year. */
+const CREDENTIAL_LIFETIME_DAYS = 365;
+
+/** Minutes between scheduled syncs, from the sync method label (null = manual / no schedule). */
+export function syncIntervalMinutes(method: string): number | null {
+  const m = method.toLowerCase();
+  if (/manual/.test(m)) return null;
+  if (/real-time|webhook|streaming/.test(m)) return 5;
+  const n = /every\s+(\d+)\s*(min|hour)/.exec(m);
+  if (n) return Number(n[1]) * (n[2] === 'hour' ? 60 : 1);
+  if (/hourly/.test(m)) return 60;
+  if (/daily/.test(m)) return 1440;
+  if (/weekly/.test(m)) return 10080;
+  return null;
+}
+
+/** Default freshness target for a sync method: twice the interval for frequent syncs, interval plus a grace period otherwise. */
+export function slaForSyncMethod(method: string): number | null {
+  const i = syncIntervalMinutes(method);
+  if (i == null) return null;
+  return i < 60 ? i * 2 : i + Math.max(30, Math.round(i / 12));
+}
+
+/** "Within 15 min", "Within 1.5 h", "Within 26 h", "Within 8 d". */
+export function slaLabel(min: number | null | undefined): string {
+  if (min == null) return 'No SLA';
+  if (min < 60) return `Within ${min} min`;
+  if (min < 2 * 1440) return `Within ${Math.round((min / 60) * 10) / 10} h`;
+  return `Within ${Math.round(min / 1440)} d`;
+}
+
+/** "just now", "4 min", "3 h", "2 d". */
+export function durationLabel(min: number): string {
+  if (min < 1) return 'just now';
+  if (min < 60) return `${Math.round(min)} min`;
+  if (min < 2 * 1440) return `${Math.round(min / 60)} h`;
+  return `${Math.round(min / 1440)} d`;
+}
+
+export type MonitorRunStatus = 'success' | 'warning' | 'failed';
+
+export interface SourceSlaRow {
+  id: string;
+  name: string;
+  status: SourceStatus;
+  slaMinutes: number | null;
+  /** Time of the newest successful (or partial) sync. */
+  lastSuccessAt: string;
+  /** Minutes since lastSuccessAt, measured at the dataset's "as of" time (session syncs count as fresh). */
+  freshnessMin: number;
+  /** null when the source has no SLA or is paused. */
+  withinSla: boolean | null;
+  runs24h: number;
+  /** Successful runs / all runs in the last 24 hours (partial runs count as warnings, not successes). */
+  successPct24h: number | null;
+  failedRecords7d: number;
+  latencyMs: number | null;
+}
+
+export interface SyncHourBucket {
+  /** Start of the hour, "14:00" (UTC). */
+  hour: string;
+  successful: number;
+  warnings: number;
+  failures: number;
+}
+
+export interface SyncMonitor {
+  asOf: string;
+  rows: SourceSlaRow[];
+  kpis: {
+    runs24h: number;
+    successful24h: number;
+    warnings24h: number;
+    failures24h: number;
+    syncSuccessPct: number;
+    avgLatencyMs: number;
+    failedRecords7d: number;
+    freshWithinSla: number;
+    slaSources: number;
+  };
+  hourly: SyncHourBucket[];
+}
+
+/** Deterministic 0..1 generator from a string seed (mulberry32 over an FNV-1a hash). */
+function seeded(seed: string) {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) h = Math.imul(h ^ seed.charCodeAt(i), 16777619);
+  let a = h >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Newest sync that delivered data (successful or partial). */
+export const lastSuccessOf = (s: Pick<Source, 'syncHistory' | 'lastSyncAt'>) => s.syncHistory.find((r) => r.status !== 'failed')?.at ?? s.lastSyncAt;
+
+interface MonitorRun {
+  at: number;
+  status: MonitorRunStatus;
+  latencyMs: number;
+}
+
+/**
+ * The last 24 hours of sync runs for one source. Seeded, so the same dataset always gives the same history:
+ * runs step back from the last sync at the source's own cadence; runs recorded in syncHistory keep their real
+ * status; auth failures fail every run after the last success; other runs fail or warn at a rate derived from
+ * the source's 30-day clean rate. Runs made in this session (after the "as of" time) are added as they happen.
+ */
+function runsOf(s: Source): MonitorRun[] {
+  const end = AS_OF_MS;
+  const start = end - 24 * HOUR_MS;
+  const rand = seeded(s.id);
+  const baseLatency = 260 + Math.round(rand() * 560);
+  const latency = (failed: boolean) => (failed ? 1400 + Math.round(rand() * 900) : Math.round(baseLatency * (0.75 + rand() * 0.5)));
+  const runs: MonitorRun[] = [];
+  const recorded = new Map(s.syncHistory.map((r) => [Math.round(Date.parse(r.at) / 6e4), r.status]));
+  const toStatus = (st: SyncRunStatus): MonitorRunStatus => (st === 'partial' ? 'warning' : st);
+
+  if (s.status !== 'paused' && !isFileSource(s)) {
+    const seededRuns = s.syncHistory.filter((r) => Date.parse(r.at) <= end);
+    const gap = seededRuns.length > 1 ? (Date.parse(seededRuns[0].at) - Date.parse(seededRuns[1].at)) / 6e4 : (syncIntervalMinutes(s.syncMethod) ?? 60);
+    const step = Math.max(5, gap) * 6e4;
+    const lastSuccess = Date.parse(lastSuccessOf(s));
+    const errRate = Math.max(0, 100 - s.successRate) / 100;
+    const pFail = Math.min(0.06, errRate * 0.4);
+    const pWarn = Math.min(0.12, errRate * 0.9);
+    const seedLast = Math.min(Date.parse(seededRuns[0]?.at ?? s.lastSyncAt), end);
+    for (let t = seedLast; t > start; t -= step) {
+      const known = recorded.get(Math.round(t / 6e4));
+      let status: MonitorRunStatus;
+      if (known) status = toStatus(known);
+      else if (s.issue === 'auth_failed' && t > lastSuccess) status = 'failed';
+      else {
+        const r = rand();
+        status = r < pFail ? 'failed' : r < pFail + pWarn ? 'warning' : 'success';
+      }
+      runs.push({ at: t, status, latencyMs: latency(status === 'failed') });
+    }
+  }
+  // Session runs (Sync now / Sync all) land in the newest hour.
+  for (const r of s.syncHistory) {
+    if (Date.parse(r.at) > end) runs.push({ at: end, status: toStatus(r.status), latencyMs: Math.max(120, r.durationSec * 20) });
+  }
+  return runs;
+}
+
+function buildMonitor(sources: Source[]): SyncMonitor {
+  const end = AS_OF_MS;
+  const start = end - 24 * HOUR_MS;
+  const hourly: SyncHourBucket[] = Array.from({ length: 24 }, (_, i) => ({
+    hour: new Date(start + i * HOUR_MS).toISOString().slice(11, 16),
+    successful: 0,
+    warnings: 0,
+    failures: 0,
+  }));
+  let latencySum = 0;
+  let runCount = 0;
+  let successful24h = 0;
+  let warnings24h = 0;
+  const rows = sources.map<SourceSlaRow>((s) => {
+    const runs = runsOf(s);
+    for (const r of runs) {
+      const b = hourly[Math.min(23, Math.max(0, Math.floor((r.at - start - 1) / HOUR_MS)))];
+      if (r.status === 'success') b.successful += 1;
+      else if (r.status === 'warning') b.warnings += 1;
+      else b.failures += 1;
+      latencySum += r.latencyMs;
+    }
+    runCount += runs.length;
+    const ok = runs.filter((r) => r.status === 'success').length;
+    successful24h += ok;
+    warnings24h += runs.filter((r) => r.status === 'warning').length;
+    const lastSuccessAt = lastSuccessOf(s);
+    const freshnessMin = Math.max(0, (end - Date.parse(lastSuccessAt)) / 6e4);
+    const sla = s.slaMinutes ?? null;
+    return {
+      id: s.id,
+      name: s.name,
+      status: s.status,
+      slaMinutes: sla,
+      lastSuccessAt,
+      freshnessMin,
+      withinSla: sla == null || s.status === 'paused' ? null : freshnessMin <= sla,
+      runs24h: runs.length,
+      successPct24h: runs.length ? Math.round((ok / runs.length) * 1000) / 10 : null,
+      failedRecords7d: Math.round((s.failedRecords * 7) / 30),
+      latencyMs: runs.length ? Math.round(runs.reduce((n, r) => n + r.latencyMs, 0) / runs.length) : null,
+    };
+  });
+  const slaRows = rows.filter((r) => r.withinSla !== null);
+  return {
+    asOf: data.asOf,
+    rows,
+    kpis: {
+      runs24h: runCount,
+      successful24h,
+      warnings24h,
+      failures24h: runCount - successful24h - warnings24h,
+      syncSuccessPct: runCount ? Math.round((successful24h / runCount) * 1000) / 10 : 100,
+      avgLatencyMs: runCount ? Math.round(latencySum / runCount) : 0,
+      failedRecords7d: rows.reduce((n, r) => n + r.failedRecords7d, 0),
+      freshWithinSla: slaRows.filter((r) => r.withinSla).length,
+      slaSources: slaRows.length,
+    },
+    hourly,
+  };
+}
+
 export const sourceService = {
   subscribe: subscribeAll,
 
@@ -276,6 +496,15 @@ export const sourceService = {
       sortDir: 'asc',
     }).items;
   },
+
+  /** Integration SLA monitor: per-source freshness against SLA, 24 h run history, latency and failed records. */
+  async monitor(): Promise<SyncMonitor> {
+    await delay(160);
+    return buildMonitor(store.all());
+  },
+
+  /** Synchronous read of every source (alert derivation). */
+  allNow: (): Source[] => store.all(),
 
   /** By id, or by exact name (links from events and conflicts carry the system name). */
   async get(id: string | null): Promise<Source | null> {
@@ -423,6 +652,7 @@ export const sourceService = {
     const fixes = s.issue === 'auth_failed' || s.issue === 'token_expiring';
     return store.update(id, {
       credentialsRotatedAt: nowIso(),
+      credentialExpiresAt: new Date(clockNow() + CREDENTIAL_LIFETIME_DAYS * DAY_MS).toISOString(),
       ...(fixes ? { issue: null, statusNote: null, ...(s.status === 'paused' ? { pausedFrom: 'healthy' as const } : { status: 'healthy' as const }) } : {}),
     });
   },
@@ -492,6 +722,7 @@ export const sourceService = {
       statusNote: null,
       environment: input.environment,
       authType: 'File upload',
+      slaMinutes: null,
       instanceUrl: `upload://${rec.fileName}`,
       connectedBy: ACTOR,
       lastSyncAt: at,
@@ -535,6 +766,8 @@ export const sourceService = {
       statusNote: null,
       environment: input.environment,
       authType: input.authType,
+      credentialExpiresAt: new Date(clockNow() + CREDENTIAL_LIFETIME_DAYS * DAY_MS).toISOString(),
+      slaMinutes: slaForSyncMethod(entry.syncMethod),
       instanceUrl: input.instanceUrl,
       connectedBy: ACTOR,
       lastSyncAt: at,

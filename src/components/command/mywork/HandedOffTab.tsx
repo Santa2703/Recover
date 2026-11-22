@@ -4,10 +4,11 @@ import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { message } from 'antd';
-import { ExternalLink, Gauge, Send, Truck } from 'lucide-react';
+import { Cpu, ExternalLink, Gauge, RefreshCw, Send, Truck } from 'lucide-react';
 import { useAuth } from '@/store/authContext';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
 import { commandService, type HandoffRow, type HandoffStatus } from '@/services/commandService';
+import { caseLifecycleService, type Actor } from '@/services/caseLifecycleService';
 import { DataTable, ErrorState, KpiSkeletonRow, MetricCard, SearchInput, StatusBadge, type DataColumn } from '@/components/ui';
 import { RoutePill, SectionCard } from '@/components/command/CommandUi';
 import { downloadCsv, formatDay } from '@/components/command/commandUtils';
@@ -17,20 +18,27 @@ import { TabToolbar } from './TabToolbar';
 import { DISPOSITION_ROUTES } from '@/constants/routes.constants';
 import type { Tone } from '@/theme/tokens';
 
+/* Status comes from the instruction steps (same steps as the Case page Execution tab). */
 const STATUS_META: Record<HandoffStatus, { label: string; tone: Tone }> = {
-  staged: { label: 'Staged at Bay', tone: 'neutral' },
-  in_transit: { label: 'In Transit', tone: 'info' },
-  refurbishing: { label: 'Refurbishing', tone: 'warning' },
-  delivered: { label: 'Delivered / Confirmed', tone: 'success' },
+  staged: { label: 'Staged · not sent', tone: 'neutral' },
+  in_transit: { label: 'In transit', tone: 'info' },
+  refurbishing: { label: 'In execution', tone: 'warning' },
+  delivered: { label: 'Delivered', tone: 'success' },
 };
+const SENDERS = ['Planner', 'Approver', 'Admin', 'Warehouse Manager'];
+const SIMULATORS = ['Admin', 'Developer'];
+const RESENDERS = ['Planner', 'Approver', 'Admin', 'Developer', 'Warehouse Manager'];
+const smallBtn =
+  'inline-flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-lg border border-[#E2E8F0] bg-white px-2.5 py-1 text-xs font-semibold text-[#141416] shadow-2xs hover:border-gray-400 disabled:cursor-not-allowed disabled:opacity-60';
 type Filter = HandoffStatus | 'all' | 'overdue';
 const FILTERS: Filter[] = ['all', 'overdue', 'staged', 'in_transit', 'refurbishing', 'delivered'];
-const FILTER_LABEL: Record<Filter, string> = { all: 'All', overdue: 'Overdue', staged: 'Staged', in_transit: 'In transit', refurbishing: 'Refurbishing', delivered: 'Delivered' };
+const FILTER_LABEL: Record<Filter, string> = { all: 'All', overdue: 'Overdue', staged: 'Staged', in_transit: 'In transit', refurbishing: 'In execution', delivered: 'Delivered' };
 
 /** My work › Handed off: approved cases in physical fulfilment. */
 export function HandedOffTab() {
   const router = useRouter();
-  const { scope } = useAuth();
+  const { scope, currentRole, user } = useAuth();
+  const actor: Actor = { id: user.id, name: user.name, role: currentRole };
   const [status, setStatus] = useState<Filter>('all');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -52,17 +60,35 @@ export function HandedOffTab() {
   const overdue = counts.overdue;
   const adherence = all.length ? ((all.length - overdue) / all.length) * 100 : 100;
 
-  const send = async (r: HandoffRow) => {
+  const run = async (r: HandoffRow, fn: () => Promise<string>) => {
     setSending(r.id);
     try {
-      await commandService.sendInstruction(r.id);
-      message.success(`Instruction for ${r.id} sent to ${r.system}.`);
-    } catch {
-      message.error('The instruction could not be sent. Nothing was changed.');
+      message.success(await fn());
+    } catch (e) {
+      message.error(e instanceof Error ? e.message : 'That did not work. Nothing was changed.');
     } finally {
       setSending(null);
     }
   };
+  const send = (r: HandoffRow) =>
+    run(r, async () => {
+      const steps = await caseLifecycleService.sendInstruction(r.id, actor);
+      return `${steps.length} instructions for ${r.id} sent to ${[...new Set(steps.map((i) => i.system))].join(', ')}.`;
+    });
+  const simulate = (r: HandoffRow) =>
+    run(r, async () => {
+      const res = await caseLifecycleService.advance(r.id, actor);
+      if (res.delivered) return `${r.id} delivered: every step is done. The outcome is waiting for Finance in Outcomes to confirm.`;
+      return `Simulated system event: ${res.step.system} ${res.event === 'acknowledged' ? 'acknowledged' : 'completed'} "${res.step.instruction}".`;
+    });
+  const resendable = (r: HandoffRow) => r.steps.find((i) => i.status === 'sent' || (i.overdue && i.status !== 'done')) ?? null;
+  const resend = (r: HandoffRow) =>
+    run(r, async () => {
+      const step = resendable(r);
+      if (!step) throw new Error('No step to resend');
+      const i = await caseLifecycleService.resend(r.id, step.id, actor);
+      return `Instruction ${i.doc} resent to ${i.system} (same instruction, resend ${i.resends}).`;
+    });
 
   const exportCsv = () =>
     downloadCsv(
@@ -107,7 +133,27 @@ export function HandedOffTab() {
           <div className="line-clamp-2 break-words text-xs font-semibold text-[#0F172A]">{r.destination}</div>
           <div className="line-clamp-2 break-words font-mono text-[10px] text-[#64748B]">
             {r.system}
-            {r.trackingRef ? ` · #${r.trackingRef}` : ' · instruction not sent'}
+            {r.status === 'staged' ? ' · instruction not sent' : r.trackingRef ? ` · #${r.trackingRef}` : ''}
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: 'Steps',
+      key: 'steps',
+      priority: 2,
+      ellipsis: false,
+      render: (_, r) => (
+        <div className="min-w-0">
+          <div className="text-xs font-semibold text-[#0F172A]">
+            <span className="font-mono">{r.done}</span> of <span className="font-mono">{r.steps.length}</span> done
+          </div>
+          <div className="line-clamp-2 break-words text-[10px] text-[#64748B]">
+            {r.status === 'staged'
+              ? 'Sent only after Send instruction'
+              : r.next
+                ? `${r.next.system}: ${r.next.status === 'sent' ? 'waiting for acknowledgement' : 'acknowledged, in progress'}${r.next.resends ? ` · resent ${r.next.resends}×` : ''}`
+                : 'Every step done'}
           </div>
         </div>
       ),
@@ -141,38 +187,64 @@ export function HandedOffTab() {
       priority: 1,
       align: 'right',
       ellipsis: false,
-      render: (_, r) =>
-        r.status === 'staged' ? (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              send(r);
-            }}
-            disabled={sending === r.id}
-            className="inline-flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-lg border border-[#E2E8F0] bg-white px-2.5 py-1 text-xs font-semibold text-[#141416] shadow-2xs hover:border-gray-400 disabled:opacity-60"
-          >
-            <Send size={12} /> {sending === r.id ? 'Sending…' : 'Send instruction'}
-          </button>
-        ) : (
+      render: (_, r) => {
+        const busy = sending === r.id;
+        const open = (
           <Link
             href={`/product/case/${r.id}`}
             onClick={(e) => {
               e.stopPropagation();
               fromQueue();
             }}
-            className="inline-flex items-center gap-1 whitespace-nowrap rounded-lg border border-[#E2E8F0] bg-white px-2.5 py-1 text-xs font-semibold text-[#141416] shadow-2xs hover:border-gray-400"
+            className={smallBtn}
           >
             <ExternalLink size={12} /> Open case
           </Link>
-        ),
+        );
+        if (r.status === 'staged') {
+          return SENDERS.includes(currentRole) ? (
+            <button type="button" onClick={(e) => { e.stopPropagation(); send(r); }} disabled={busy} className={smallBtn}>
+              <Send size={12} /> {busy ? 'Sending…' : 'Send instruction'}
+            </button>
+          ) : (
+            open
+          );
+        }
+        const re = r.status !== 'delivered' && RESENDERS.includes(currentRole) ? resendable(r) : null;
+        const sim = r.status !== 'delivered' && SIMULATORS.includes(currentRole) && r.next;
+        if (!re && !sim) return open;
+        return (
+          <div className="flex flex-wrap items-center justify-end gap-1.5">
+            {re && (
+              <button type="button" onClick={(e) => { e.stopPropagation(); resend(r); }} disabled={busy} className={smallBtn} data-tip={`Send ${re.doc} to ${re.system} again (same instruction, no duplicate)`}>
+                <RefreshCw size={12} /> Resend
+              </button>
+            )}
+            {sim && r.next && (
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); simulate(r); }}
+                disabled={busy}
+                className={smallBtn}
+                data-tip={`Demo only: plays the event ${r.next.system} would send back`}
+              >
+                <Cpu size={12} /> {r.next.status === 'sent' ? 'Simulate system acknowledgement' : 'Simulate step done'}
+              </button>
+            )}
+          </div>
+        );
+      },
     },
   ];
 
   return (
     <div className="space-y-6">
       <TabToolbar
-        description="Physical fulfilment tracking across WMS bays, repair centres, secondary remarketers and certified recyclers."
+        description={
+          SIMULATORS.includes(currentRole)
+            ? 'Hand-off steps per approved case, as the executing systems report them. In this demo you play those systems: Simulate system acknowledgement, then Simulate step done; the last step delivers the case and reports its outcome to Finance.'
+            : 'Hand-off steps per approved case, as the executing systems (WMS, SAP PM, remarketing, recyclers) acknowledge and complete them. When every step is done the case is delivered and its outcome goes to Finance.'
+        }
         onExport={exportCsv}
         canExport={!!rows.length}
       />
@@ -228,7 +300,7 @@ export function HandedOffTab() {
               setStatus('all');
             }}
             emptyTitle="Nothing handed off yet"
-            emptyDescription="Approved cases appear here once their instruction is staged."
+            emptyDescription="Approved cases appear here, staged until their instructions are sent."
             pagination={{ current: page, pageSize: 10, onChange: setPage, showSizeChanger: false, hideOnSinglePage: true }}
           />
         )}

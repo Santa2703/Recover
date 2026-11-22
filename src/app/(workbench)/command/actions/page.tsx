@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useSyncExternalStore } from 'react';
 import { Tabs } from 'antd';
 import { ClipboardCheck, ListChecks, ListOrdered, ShieldCheck, Truck } from 'lucide-react';
 import { useAuth } from '@/store/authContext';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
 import { commandService, subscribeNav } from '@/services/commandService';
 import { metricsService } from '@/services/metricsService';
+import { taskService } from '@/services/taskService';
 import { PageActions, PageHeader } from '@/components/ui';
 import { formatAsOf } from '@/components/command/commandUtils';
 import { useMyWorkTab, type MyWorkTab } from '@/components/command/mywork/myWorkTabs';
@@ -35,7 +36,9 @@ function CountPill({ count, label }: { count: number; label: string }) {
  */
 export default function MyWorkPage() {
   const { currentRole, currentTenant, scope } = useAuth();
-  const { tab, tabs, setTab } = useMyWorkTab(currentRole);
+  // A role without a Tasks tab (Finance) still gets one while an escalation is waiting for it.
+  const escalated = useSyncExternalStore(taskService.subscribe, () => taskService.openEscalations(currentRole, currentTenant) > 0, () => false);
+  const { tab, tabs, setTab } = useMyWorkTab(currentRole, escalated);
 
   // Same counts the sidebar badges show, plus the outcomes still to confirm.
   const { data: counts } = useServiceQuery(() => commandService.navCounts(currentRole, currentTenant, scope), [currentRole, currentTenant, scope.tenant, scope.site], {

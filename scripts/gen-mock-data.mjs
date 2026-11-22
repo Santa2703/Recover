@@ -57,7 +57,7 @@ const USERS = [
   { id: 'u-planner-b', name: 'Tomás Herrera', role: 'Planner', tenant: 'Customer B', site: 'Warehouse 2', email: 'planner.b@northfield.example' },
   { id: 'u-planner-c', name: 'Aiko Tanaka', role: 'Planner', tenant: 'Customer C', site: 'Warehouse 1', email: 'planner.c@northfield.example' },
   { id: 'u-approver', name: 'Marcus Vance', role: 'Approver', tenant: 'All', site: 'Head office', email: 'approver@northfield.example' },
-  { id: 'u-engineer', name: 'Dev Kapoor', role: 'Engineer', tenant: 'All', site: 'Repair centre', email: 'engineer@northfield.example' },
+  { id: 'u-engineer', name: 'Dev Kapoor', role: 'Engineer', tenant: 'Customer B', site: 'Repair centre', email: 'engineer@northfield.example' },
   { id: 'u-finance', name: 'Elena Rostova', role: 'Finance', tenant: 'All', site: 'Head office', email: 'finance@northfield.example' },
   { id: 'u-developer', name: 'Sam Okafor', role: 'Developer', tenant: 'All', site: 'Head office', email: 'developer@northfield.example' },
   { id: 'u-executive', name: 'Helen Brandt', role: 'Executive', tenant: 'All', site: 'Head office', email: 'executive@northfield.example' },
@@ -278,6 +278,7 @@ const meta = {
   stages: [
     { id: 'awaiting_inspection', label: 'Awaiting inspection' },
     { id: 'needs_information', label: 'Needs information' },
+    { id: 'ready_for_decision', label: 'Ready for decision' },
     { id: 'awaiting_approval', label: 'Awaiting approval' },
     { id: 'approved', label: 'Approved · handing off' },
     { id: 'handed_off', label: 'Handed off · awaiting outcome' },

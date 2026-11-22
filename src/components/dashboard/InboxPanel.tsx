@@ -9,6 +9,8 @@ import { useServiceQuery } from '@/hooks/useServiceQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useAuth } from '@/store/authContext';
 import { CHANNEL_LABEL, decisionService } from '@/services/decisionService';
+import { caseLifecycleService } from '@/services/caseLifecycleService';
+import { agentControlsService } from '@/services/agentControlsService';
 import { formatKpiValue } from '@/components/ui';
 
 const STEPS: { id: AgentStepId; label: string }[] = [
@@ -62,8 +64,11 @@ function StepChip({ label, state, step }: { label: string; state: 'pending' | 'a
 /** Dashboard inbox: new returns not yet decided → Run agents → decided, with the gain over the standard route. */
 export function InboxPanel() {
   const reduced = useReducedMotion();
-  const { scope } = useAuth();
+  const { scope, user, currentRole } = useAuth();
   const inbox = useServiceQuery(() => decisionService.inbox(scope), [scope.tenant, scope.site], { subscribe: decisionService.subscribe });
+  // Kill switch: Run agents is refused while the agents are stopped (Access › Agent controls).
+  const blockQ = useServiceQuery(() => caseLifecycleService.runAgentsBlock(), [], { subscribe: agentControlsService.subscribe });
+  const blocked = blockQ.data ?? null;
   const [run, setRun] = useState<Run | null>(null);
   const [tick, setTick] = useState(0);
   const [refilling, setRefilling] = useState(false);
@@ -82,12 +87,12 @@ export function InboxPanel() {
     if (!items.length) return;
     setTick(0);
     setRun({ items });
-    decisionService
-      .runAgents(scope)
-      .then((result) => setRun((r) => (r ? { ...r, result } : r)))
-      .catch(() => {
+    caseLifecycleService
+      .runAgents(scope, { id: user.id, name: user.name, role: currentRole })
+      .then((result) => setRun((r) => (r ? { ...r, items: r.items.filter((it) => result.decided.some((d) => d.caseId === it.case.id)), result } : r)))
+      .catch((e: unknown) => {
         setRun(null);
-        message.error('The agents could not run. Try again.');
+        message.error(e instanceof Error ? e.message : 'The agents could not run. Try again.');
       });
   };
 
@@ -112,9 +117,13 @@ export function InboxPanel() {
           <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-[#059669]" aria-hidden />
           <div className="min-w-0 text-xs">
             <div className="font-extrabold text-[#141416]">
-              Decided {n} new {n === 1 ? 'return' : 'returns'} ·{' '}
+              Prepared {n} {n === 1 ? 'decision' : 'decisions'} for the Planner ·{' '}
               <span className="text-[#047857]">{signed(r.gainOverStandard)} over the standard route</span> · <span className="font-mono">{money(r.net)}</span> net
             </div>
+            <p className="m-0 mt-0.5 text-[11px] text-[#475569]">
+              Each waits in the Planner&apos;s My work › Tasks as &quot;Review and send&quot;; nothing goes to the approver until the Planner sends it.
+              {r.remaining ? ` ${r.remaining} more stay in the inbox (max items per bulk plan).` : ''}
+            </p>
             <ul className="m-0 mt-1 flex list-none flex-wrap gap-x-3 gap-y-0.5 p-0 text-[11px] text-[#475569]">
               {r.decided.map((d) => (
                 <li key={d.caseId} className="min-w-0">
@@ -129,10 +138,10 @@ export function InboxPanel() {
         </div>
         <div className="flex shrink-0 items-center gap-2 self-end md:self-auto">
           <Link
-            href={first ? `/product/case/${first}` : '/product/received'}
+            href={first ? '/command/actions' : '/product/received'}
             className="inline-flex items-center rounded-xl border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-semibold text-[#141416] no-underline hover:border-gray-400"
           >
-            Review
+            Open Planner tasks
           </Link>
           <button
             type="button"
@@ -181,19 +190,26 @@ export function InboxPanel() {
               {shown.length} new {shown.length === 1 ? 'return' : 'returns'} received, not yet decided
             </h2>
             <p className="m-0 text-[11px] text-[#64748B]">
-              {running ? 'Agents are grading, finding demand and valuing every route…' : 'Run the agents to grade each return, find demand, value every route and recommend one.'}
+              {running
+                ? 'Agents are grading, finding demand and valuing every route…'
+                : blocked
+                  ? blocked
+                  : 'Run the agents to grade each return, find demand, value every route and prepare a decision for the Planner.'}
             </p>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={start}
-          disabled={running}
-          className="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-xl border-none bg-[#FFD600] px-3.5 text-xs font-extrabold text-[#141416] hover:bg-[#FACC15] disabled:cursor-wait disabled:opacity-70"
-        >
-          {running && <Loader2 size={14} className="animate-spin" aria-hidden />}
-          {running ? 'Running agents' : 'Run agents'}
-        </button>
+        {/* A disabled button fires no hover events, so the reason hangs on a focusable wrapper. */}
+        <span className="inline-flex shrink-0" tabIndex={blocked ? 0 : undefined} data-tip={blocked ?? undefined}>
+          <button
+            type="button"
+            onClick={start}
+            disabled={running || !!blocked || blockQ.initialLoading}
+            className={`inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-xl border-none bg-[#FFD600] px-3.5 text-xs font-extrabold text-[#141416] hover:bg-[#FACC15] disabled:opacity-70 ${running ? 'disabled:cursor-wait' : 'disabled:cursor-not-allowed'}`}
+          >
+            {running && <Loader2 size={14} className="animate-spin" aria-hidden />}
+            {running ? 'Running agents' : blocked ? 'Agents stopped' : 'Run agents'}
+          </button>
+        </span>
       </div>
       <ul className="m-0 list-none divide-y divide-[#F1F5F9] border-t border-[#F1F5F9] p-0">
         {shown.map((it, i) => {

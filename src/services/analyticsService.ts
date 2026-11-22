@@ -498,13 +498,18 @@ export function computeRouteMix(months: number): RouteMixReport {
   const decisions = sum(slice.map((h) => h.decisionsClosed));
   const first = norm[0];
   const last = norm[norm.length - 1];
-  const routes: RouteMixRow[] = meta.routes.map((r) => {
-    const units = sum(slice.map((h, i) => (norm[i][r.id] / 100) * h.decisionsClosed));
+  // Whole decision counts per route via largest remainder, so the routes add up to exactly `decisions`.
+  const units = meta.routes.map((r) => sum(slice.map((h, i) => (norm[i][r.id] / 100) * h.decisionsClosed)));
+  const counts = units.map(Math.floor);
+  const byRem = units.map((v, i) => ({ i, rem: v - counts[i] })).sort((a, b) => b.rem - a.rem);
+  const short = decisions - sum(counts);
+  for (let k = 0; k < short && byRem.length; k++) counts[byRem[k % byRem.length].i] += 1;
+  const routes: RouteMixRow[] = meta.routes.map((r, ri) => {
     return {
       id: r.id,
       label: r.name,
-      share: decisions ? round1((units / decisions) * 100) : 0,
-      decisions: Math.round(units),
+      share: decisions ? round1((units[ri] / decisions) * 100) : 0,
+      decisions: counts[ri],
       target: reports.routeMix.targets[r.id] ?? 0,
       change: first && last ? round1(last[r.id] - first[r.id]) : 0,
     };

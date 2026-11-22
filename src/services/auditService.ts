@@ -209,7 +209,9 @@ export const auditService = {
 
   /** Appends a new chained entry (used by governance actions and evidence requests). */
   record(entry: Omit<AuditEntry, 'id' | 'timestamp' | 'hash' | 'prevHash'>): AuditEntry {
-    const latest = [...auditStore.all()].sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1))[0];
+    // Latest by time, ties broken by id number, so entries written in the same second still chain in order.
+    const idNo = (r: AuditEntry) => Number(r.id.replace('AUD-', '')) || 0;
+    const latest = [...auditStore.all()].sort((a, b) => (a.timestamp === b.timestamp ? idNo(b) - idNo(a) : a.timestamp < b.timestamp ? 1 : -1))[0];
     const prevHash = latest?.hash ?? '0'.repeat(64);
     const timestamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
     const maxId = Math.max(...auditStore.all().map((r) => Number(r.id.replace('AUD-', ''))), 24000);

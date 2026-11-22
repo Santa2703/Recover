@@ -9,6 +9,7 @@ import { auditService, shortHash, AUDIT_ACTION_LABEL, type AuditActionType, type
 import { DataTable, CaseLink, ErrorState, type DataColumn } from '@/components/ui';
 import { Pill, SystemChip, fmtDateTime, downloadText, btnPrimary, type PillTone } from './shared';
 import { Card, SearchBox, FilterPick, MoreFilters, ClearFilters, FilterRow } from './Filters';
+import { CommentThread } from '@/components/common/CommentThread';
 
 const ACTION_TONE: Record<AuditActionType, PillTone> = {
   fetch: 'slate',
@@ -301,6 +302,7 @@ export function AuditLogTab() {
                 ))}
               </div>
             </div>
+            <CommentThread key={selected.id} kind="audit" id={selected.id} />
           </div>
         )}
       </Drawer>

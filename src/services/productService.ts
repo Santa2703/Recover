@@ -12,7 +12,7 @@
 import expectedJson from '@/data/expected.json';
 import type { CaseRecord, CaseStageId, Paged } from '@/models/domain.model';
 import type { DispositionRouteId } from '@/models/treatment.model';
-import { caseService } from './caseService';
+import { caseService, type CaseQuery } from './caseService';
 import type { CaseDecision, NextBestAction } from '@/models/decision.model';
 import { nextBestAction, simulateCase } from './decisionService';
 import { buildNextBestAction } from './decision/explain';
@@ -165,6 +165,7 @@ const JOURNEY_STEP: Record<CaseStageId, number> = {
   needs_information: 1,
   no_viable_route: 2,
   reevaluate: 4,
+  ready_for_decision: 4,
   awaiting_approval: 5,
   approved: 6,
   handed_off: 8,
@@ -197,8 +198,11 @@ export function assetDetail(c: CaseRecord): AssetDetail {
 
   const received = Math.round((c.evidenceCompleteness / 100) * EVIDENCE_TYPES.length);
   const missingFirst = c.stage === 'needs_information' || c.riskReason === 'missing_evidence';
+  // A recorded inspection supplies the test report and hazardous-materials check (and the photos when received).
+  const fromInspection = (id: string) => !!c.inspection && (id === 'test' || id === 'ehs' || (id === 'photos' && c.inspection.photosReceived));
   const evidence: EvidenceItem[] = EVIDENCE_TYPES.map((e, i) => {
-    const ok = missingFirst ? i < Math.min(received, EVIDENCE_TYPES.length - 1) : i < received;
+    // System records (EAM, ERP, WMS) are on file once a unit is inspected.
+    const ok = c.inspection ? i < 3 || fromInspection(e.id) : missingFirst ? i < Math.min(received, EVIDENCE_TYPES.length - 1) : i < received;
     return {
       id: e.id,
       label: e.label,
@@ -280,6 +284,88 @@ export interface ReceivedSummary {
   awaitingApproval: number;
   awaitingValue: number;
   avgTriageDays: number;
+  /** Readiness split (ready + awaitingInspection + needInformation = total). */
+  ready: number;
+  readyValue: number;
+  /** Ready cases with every evidence item received. */
+  readyEvidenceComplete: number;
+  awaitingInspection: number;
+  /** Average days since receipt for cases awaiting inspection. */
+  inspectionAvgDays: number;
+  needInformation: number;
+  /** Cases needing information that also have missing evidence items. */
+  needInfoMissingEvidence: number;
+}
+
+/* ------------------------------------------------------- readiness */
+
+/**
+ * Where a returned asset stands before a route can be evaluated:
+ *  - awaiting_inspection: received, not inspected yet (no route evaluated);
+ *  - need_information: an exception or missing evidence blocks routing (Needs information, No viable route);
+ *  - ready: evidence gate passed, routes can be (or have been) evaluated.
+ */
+export type Readiness = 'ready' | 'awaiting_inspection' | 'need_information';
+
+export const READINESS_LABEL: Record<Readiness, string> = {
+  ready: 'Ready to evaluate',
+  awaiting_inspection: 'Awaiting inspection',
+  need_information: 'Need information',
+};
+
+export function readinessOf(c: CaseRecord): Readiness {
+  if (c.stage === 'awaiting_inspection') return 'awaiting_inspection';
+  if (c.stage === 'needs_information' || c.stage === 'no_viable_route') return 'need_information';
+  return 'ready';
+}
+
+/** Short names for "awaiting …" in the Evidence column. */
+const EVIDENCE_SHORT: Record<string, string> = {
+  eam: 'EAM',
+  erp: 'ERP',
+  wms: 'WMS',
+  photos: 'photos',
+  test: 'test',
+  ehs: 'EHS',
+};
+
+export interface EvidenceStatus {
+  received: number;
+  total: number;
+  complete: boolean;
+  /** "6/6 · ready" or "4/6 · awaiting test report". */
+  label: string;
+  /** Missing items with the system each one comes from. */
+  missing: { label: string; source: string }[];
+}
+
+/** Evidence items received vs expected for a case (from assetDetail; deterministic). */
+export function evidenceStatus(c: CaseRecord): EvidenceStatus {
+  const items = assetDetail(c).evidence;
+  const missing = items.filter((e) => e.status === 'missing');
+  const received = items.length - missing.length;
+  const head = `${received}/${items.length}`;
+  return {
+    received,
+    total: items.length,
+    complete: missing.length === 0,
+    label: missing.length === 0 ? `${head} · ready` : `${head} · awaiting ${EVIDENCE_SHORT[missing[0].id] ?? missing[0].label.toLowerCase()}`,
+    missing: missing.map((e) => ({ label: e.label, source: e.source })),
+  };
+}
+
+export interface ProductGroup {
+  /** productClass */
+  key: ProductClass;
+  label: string;
+  cases: number;
+  units: number;
+  value: number;
+  ready: number;
+  awaitingInspection: number;
+  needInformation: number;
+  awaitingApproval: number;
+  overdue: number;
 }
 
 export interface IntelligenceSummary {
@@ -288,6 +374,19 @@ export interface IntelligenceSummary {
   avgRecovery: number;
   harvestable: number;
   provenanceVerified: number;
+}
+
+export interface SimilarAssets {
+  target: CaseRecord;
+  /** 'product' = same product name; 'class' = same equipment class (fewer than 3 of the product). */
+  basis: 'product' | 'class';
+  basisLabel: string;
+  /** Similar units in scope (all of them, not just `items`). */
+  total: number;
+  medianValue: number;
+  topRoute: { route: DispositionRouteId; count: number } | null;
+  /** Up to `limit` units, highest est. value first. */
+  items: CaseRecord[];
 }
 
 /* ------------------------------------------------------- expected returns */
@@ -347,7 +446,15 @@ const expectedStore = createCollection<ExpectedReturn>(expectedJson as ExpectedR
 const scopeExpected = (rows: ExpectedReturn[], scope: Scope) =>
   rows.filter((r) => (!scope.tenant || scope.tenant === 'All' || r.tenant === scope.tenant) && (!scope.site || r.site === scope.site));
 
-const SITE_CODE: Record<string, string> = { 'Warehouse 1': 'W1', 'Warehouse 2': 'W2', 'Repair centre': 'RC' };
+export const SITE_CODE: Record<string, string> = { 'Warehouse 1': 'W1', 'Warehouse 2': 'W2', 'Repair centre': 'RC' };
+
+function nextFreeBay(site: string): string {
+  const code = SITE_CODE[site] ?? 'XX';
+  const used = new Set(expectedStore.all().filter((r) => r.site === site && r.bay).map((r) => r.bay));
+  let n = 1;
+  while (used.has(`${code}-Bay ${n}`)) n += 1;
+  return `${code}-Bay ${n}`;
+}
 
 /* ------------------------------------------------------- service */
 
@@ -359,15 +466,49 @@ export const productService = {
     const asOf = Date.parse(caseService.meta().asOf);
     const triage = items.filter((c) => c.stage === 'awaiting_inspection' || c.stage === 'needs_information');
     const awaiting = items.filter((c) => c.stage === 'awaiting_approval');
-    const ages = triage.map((c) => (asOf - Date.parse(`${c.receivedDate}T00:00:00Z`)) / 86_400_000);
+    const ageOf = (c: CaseRecord) => (asOf - Date.parse(`${c.receivedDate}T00:00:00Z`)) / 86_400_000;
+    const avg = (v: number[]) => (v.length ? Math.round((sum(v) / v.length) * 10) / 10 : 0);
+    const ages = triage.map(ageOf);
+    const ready = items.filter((c) => readinessOf(c) === 'ready');
+    const inspection = items.filter((c) => readinessOf(c) === 'awaiting_inspection');
+    const needInfo = items.filter((c) => readinessOf(c) === 'need_information');
     return {
       total: items.length,
       totalValue: sum(items.map((c) => c.estimatedNetRecovery)),
       inTriage: triage.length,
       awaitingApproval: awaiting.length,
       awaitingValue: sum(awaiting.map((c) => c.estimatedNetRecovery)),
-      avgTriageDays: ages.length ? Math.round((sum(ages) / ages.length) * 10) / 10 : 0,
+      avgTriageDays: avg(ages),
+      ready: ready.length,
+      readyValue: sum(ready.map((c) => c.estimatedNetRecovery)),
+      readyEvidenceComplete: ready.filter((c) => evidenceStatus(c).complete).length,
+      awaitingInspection: inspection.length,
+      inspectionAvgDays: avg(inspection.map(ageOf)),
+      needInformation: needInfo.length,
+      needInfoMissingEvidence: needInfo.filter((c) => !evidenceStatus(c).complete).length,
     };
+  },
+
+  /** Returned assets grouped by product (equipment class) for the current filters; highest value first. */
+  async receivedGroups(q: CaseQuery, scope: Scope): Promise<ProductGroup[]> {
+    const { items } = await caseService.list({ ...q, page: undefined, pageSize: undefined }, scope);
+    const groups = new Map<ProductClass, ProductGroup>();
+    items.forEach((c) => {
+      const g =
+        groups.get(c.productClass) ??
+        ({ key: c.productClass, label: c.category, cases: 0, units: 0, value: 0, ready: 0, awaitingInspection: 0, needInformation: 0, awaitingApproval: 0, overdue: 0 } as ProductGroup);
+      const r = readinessOf(c);
+      g.cases += 1;
+      g.units += c.quantity;
+      g.value += c.estimatedNetRecovery;
+      if (r === 'ready') g.ready += 1;
+      if (r === 'awaiting_inspection') g.awaitingInspection += 1;
+      if (r === 'need_information') g.needInformation += 1;
+      if (c.stage === 'awaiting_approval') g.awaitingApproval += 1;
+      if (c.dueInDays < 0 && c.stage !== 'handed_off') g.overdue += 1;
+      groups.set(c.productClass, g);
+    });
+    return [...groups.values()].sort((a, b) => b.value - a.value);
   },
 
   async intelligenceSummary(scope: Scope): Promise<IntelligenceSummary> {
@@ -379,6 +520,35 @@ export const productService = {
       avgRecovery: items.length ? Math.round(sum(items.map((c) => c.estimatedNetRecovery)) / items.length) : 0,
       harvestable: sum(items.map((c) => assetDetail(c).components.filter((p) => p.harvestable).length)),
       provenanceVerified: items.length ? items.filter((c) => c.evidenceCompleteness >= 90).length / items.length : 0,
+    };
+  },
+
+  /**
+   * Other units like a case in scope: the same product when at least 3 are on file, else the same
+   * equipment class. Highest est. value first, with a one-line summary.
+   */
+  async similarAssets(caseId: string, scope: Scope, limit = 8): Promise<SimilarAssets | undefined> {
+    const target = await caseService.get(caseId);
+    if (!target) return undefined;
+    const { items } = await caseService.list({}, scope);
+    const others = items.filter((c) => c.id !== caseId);
+    const sameProduct = others.filter((c) => c.productName === target.productName);
+    const basis: SimilarAssets['basis'] = sameProduct.length >= 3 ? 'product' : 'class';
+    const peers = basis === 'product' ? sameProduct : others.filter((c) => c.productClass === target.productClass);
+    const values = peers.map((c) => c.estimatedNetRecovery).sort((a, b) => a - b);
+    const mid = Math.floor(values.length / 2);
+    const medianValue = values.length ? (values.length % 2 ? values[mid] : Math.round((values[mid - 1] + values[mid]) / 2)) : 0;
+    const routeCounts = new Map<DispositionRouteId, number>();
+    peers.forEach((c) => routeCounts.set(c.recommendedRoute, (routeCounts.get(c.recommendedRoute) ?? 0) + 1));
+    const top = [...routeCounts.entries()].sort((a, b) => b[1] - a[1] || ROUTE_ORDER.indexOf(a[0]) - ROUTE_ORDER.indexOf(b[0]))[0];
+    return {
+      target,
+      basis,
+      basisLabel: basis === 'product' ? target.productName : (PRODUCT_CLASS_LABEL[target.productClass] ?? target.category),
+      total: peers.length,
+      medianValue,
+      topRoute: top ? { route: top[0], count: top[1] } : null,
+      items: [...peers].sort((a, b) => b.estimatedNetRecovery - a.estimatedNetRecovery).slice(0, limit),
     };
   },
 
@@ -427,11 +597,18 @@ export const productService = {
       const row = expectedStore.get(id);
       if (!row) throw new Error(`ASN ${id} not found`);
       if (row.bay) return row;
-      const code = SITE_CODE[row.site] ?? 'XX';
-      const used = new Set(expectedStore.all().filter((r) => r.site === row.site && r.bay).map((r) => r.bay));
-      let n = 1;
-      while (used.has(`${code}-Bay ${n}`)) n += 1;
-      return expectedStore.update(id, { bay: `${code}-Bay ${n}` });
+      return expectedStore.update(id, { bay: nextFreeBay(row.site) });
+    },
+
+    /** One open shipping notice (synchronous; used by intakeService). */
+    get: (id: string) => expectedStore.get(id),
+    /** All open shipping notices in scope (synchronous; used by the receiving plan). */
+    allInScope: (scope: Scope = {}) => scopeExpected(expectedStore.all(), scope),
+    /** Next free intake bay at a site, e.g. "W2-Bay 3". */
+    nextFreeBay,
+    /** Closes a shipping notice once its goods receipt is posted (intakeService.receive). */
+    markReceived(id: string): void {
+      expectedStore.remove(id);
     },
   },
 };

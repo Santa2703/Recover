@@ -17,7 +17,9 @@ import inboxJson from '@/data/decision/inbox.json';
 import metaJson from '@/data/meta.json';
 import type { CaseRecord, CaseStageId, RiskReasonId } from '@/models/domain.model';
 import type {
+  ApprovalRecord,
   BusinessRule,
+  CaseDecision,
   CaseContext,
   DecisionHistoryRecord,
   DecisionParams,
@@ -34,6 +36,7 @@ import type {
 } from '@/models/decision.model';
 import type { Collection } from '../mock/mockUtils';
 import { hashOf, planQueue, type EngineContext } from './engine';
+import { insightsFor } from './insights';
 
 /* ================================================================ static data */
 
@@ -48,6 +51,7 @@ const inboxTemplates = inboxJson as unknown as InboxItem[];
 export const OPEN_STAGES: ReadonlySet<CaseStageId> = new Set<CaseStageId>([
   'awaiting_inspection',
   'needs_information',
+  'ready_for_decision',
   'awaiting_approval',
   'reevaluate',
   'no_viable_route',
@@ -81,12 +85,126 @@ const state = {
   runtimeContexts: new Map<string, CaseContext>(),
   inbox: inboxTemplates.slice(0, 3) as InboxItem[],
   inboxCursor: 3,
+  /** Approval records frozen when a case is approved (decisionService.approvalRecord). */
+  approvals: new Map<string, ApprovalRecord>(),
+  /** Name of the person about to approve a case (set by the Case page just before approving). */
+  pendingApprover: new Map<string, string>(),
+  /**
+   * Hand-off events recorded in this session, by case id: when the instructions were sent and,
+   * per instruction id, the acknowledgement / completion reported by the executing system and resends.
+   * They overlay the seeded (demo clock) progress in decisionService.handoffInstructions.
+   */
+  handoffs: new Map<string, HandoffEvents>(),
+  /** Why the approver declined, with the decision that was declined (re-evaluate compares against it). */
+  declines: new Map<string, DeclineRecord>(),
+  /** The last re-evaluation of a case (what changed). */
+  reevaluations: new Map<string, ReevaluationResult>(),
+  /** A submission set aside while evidence is requested; restored when the inspection is recorded. */
+  stashedProposals: new Map<string, RouteProposal>(),
+  /** Cases escalated for sign-off above the approver's delegation limit. */
+  escalations: new Map<string, EscalationRecord>(),
 };
+
+export interface HandoffStepEvents {
+  ackAt?: string;
+  doneAt?: string;
+  resends: number;
+  lastSentAt?: string;
+}
+export interface HandoffEvents {
+  /** ISO time the instructions were sent (Send instruction); unset for cases sent before this session. */
+  sentAt?: string;
+  steps: Map<string, HandoffStepEvents>;
+}
+export interface DeclineRecord {
+  caseId: string;
+  reason: string;
+  actor: string;
+  at: string;
+  route: RouteId;
+  routeName: string;
+  net: number;
+  snapshotId: string;
+}
+export interface ReevaluationResult {
+  caseId: string;
+  at: string;
+  actor: string;
+  /** The decision compared against: the declined one, else the decision before re-evaluating. */
+  fromRoute: RouteId;
+  fromRouteName: string;
+  fromNet: number;
+  fromSnapshotId: string;
+  toRoute: RouteId;
+  toRouteName: string;
+  toNet: number;
+  toSnapshotId: string;
+  changed: boolean;
+  netDelta: number;
+  declineReason: string | null;
+  /** One plain sentence: "Recommendation unchanged: …" / "Recommendation changed from X to Y …". */
+  summary: string;
+}
+export interface EscalationRecord {
+  caseId: string;
+  to: string;
+  by: string;
+  at: string;
+  net: number;
+  limit: number;
+  taskId: string;
+}
+
+/* ================================================================ clock */
+
+const LOADED_AT = Date.now();
+
+/**
+ * The demo clock: starts at the dataset's "as of" time when the app loads and runs in real
+ * time from there, so approvals made in this session are dated just after ASOF.
+ */
+export function simNow(): string {
+  return new Date(Date.parse(ASOF) + (Date.now() - LOADED_AT)).toISOString();
+}
+
+/** "2026.11 · rules v3": policy version and published rule-set version. */
+export function modelVersion(): string {
+  return `${policy.version} · rules v${state.ruleSet.version}`;
+}
+
+/** Builds the frozen approval record for a decision. */
+export function buildApproval(c: CaseRecord, d: CaseDecision, at: string, actor: string, seeded: boolean): ApprovalRecord {
+  const mv = modelVersion();
+  const ins = insightsFor(c, d, engineContext(), mv);
+  const r = ins.routes[d.best.route];
+  return {
+    caseId: c.id,
+    ref: `APR-2026-${c.id.replace(/\D/g, '')}`,
+    at,
+    actor,
+    route: d.best.route,
+    routeName: d.best.routeName,
+    net: d.best.net,
+    p10: r.range?.p10 ?? null,
+    p90: r.range?.p90 ?? null,
+    status: r.status,
+    confidence: ins.confidence,
+    snapshotId: ins.snapshotId,
+    modelVersion: mv,
+    gates: r.gates,
+    seeded,
+  };
+}
 const listeners = new Set<Listener>();
 
 /** Bumps the decision state version and notifies subscribers (rules, overrides, history, inbox). */
 export function touch(): void {
   state.version += 1;
+  listeners.forEach((l) => l());
+}
+
+/** Notifies subscribers without re-planning (hand-off events, declines: nothing the queue plan reads). */
+export function notifyDecisions(): void {
   listeners.forEach((l) => l());
 }
 
@@ -107,7 +225,8 @@ const CHANNEL_ORDER: IntakeChannel[] = ['lease_end', 'field_return', 'trade_in',
  * contexts registered at runtime (inbox), then a deterministic fallback from the case.
  */
 export function contextFor(c: CaseRecord): CaseContext {
-  const known = channels[c.id] ?? state.runtimeContexts.get(c.id);
+  // Runtime contexts first: an inspection can update the remaining life of a seeded case.
+  const known = state.runtimeContexts.get(c.id) ?? channels[c.id];
   if (known) return known;
   const h = hashOf(c.id);
   const base: Record<CaseRecord['condition'], number> = { A: 96, B: 80, C: 62, D: 34, Scrap: 10 };
@@ -281,6 +400,11 @@ export function withDecisions(raw: Collection<CaseRecord>): Collection<CaseRecor
         state.proposals.delete(id);
         state.version += 1;
         proposalChanged = true;
+      }
+      if (closing && p.stage === 'approved') {
+        const d = currentPlan().decisions[id];
+        if (d) state.approvals.set(id, buildApproval(before, d, simNow(), state.pendingApprover.get(id) ?? 'Approver', false));
+        state.pendingApprover.delete(id);
       }
       raw.update(id, { ...frozen, ...p });
       if (closing) state.overrides.delete(id);

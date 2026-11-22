@@ -526,6 +526,21 @@ export const mcpService = {
     if (entry.orchId) await governanceService.setAgentStatus(entry.orchId, paused ? 'paused' : 'active', actor);
   },
 
+  /** Write-gated calls waiting at the gate (prepared, not yet sent), per MCP agent id. */
+  preparedByAgent(): Record<string, number> {
+    const out: Record<string, number> = {};
+    callStore.all().forEach((c) => {
+      if (c.gate === 'pending') out[c.agentId] = (out[c.agentId] ?? 0) + 1;
+    });
+    return out;
+  },
+
+  /** Write-gated tool calls that reached a system: each must carry an approval (gate approved by a named person). */
+  writeGateCheck(): { writes: number; unapproved: string[] } {
+    const sent = callStore.all().filter((c) => toolStore.get(c.toolId)?.scope === 'write_gated' && c.result === 'success');
+    return { writes: sent.length, unapproved: sent.filter((c) => c.gate !== 'approved' || !c.decidedBy).map((c) => c.id) };
+  },
+
   // ---- playground
   async runTool(req: { toolId: string; agentId: string; tenant: string; input: Record<string, unknown> }): Promise<PlaygroundRun> {
     const tool = toolStore.get(req.toolId);

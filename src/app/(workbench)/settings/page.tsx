@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Modal, Popconfirm, Switch, Tabs, message } from 'antd';
-import { Building, Warehouse, Bell, RotateCcw, Plus, Pencil, Trash2 } from 'lucide-react';
+import { Building, Warehouse, Bell, RotateCcw, Plus, Pencil, Trash2, UserRound } from 'lucide-react';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
 import { settingsService, type SettingsSnapshot, type SiteRecord } from '@/services/settingsService';
 import { userService } from '@/services/userService';
@@ -11,15 +11,17 @@ import { PageHeader, PageActions, DataTable, ProgressBar, Skeleton, ErrorState, 
 import { btnPrimary, btnSecondary, btnRowSecondary, RoleGate, ReadOnlyNotice, useTabParam } from '@/components/governance/shared';
 import { SaveOnBlur, SectionTitle, SettingRow, fieldCls, labelCls } from '@/components/governance/SettingsFields';
 import { Card } from '@/components/governance/Filters';
+import { ProfileTab } from './ProfileTab';
 
-const TAB_KEYS = ['organisation', 'sites', 'notifications'] as const;
+const TAB_KEYS = ['profile', 'organisation', 'sites', 'notifications'] as const;
 type TabKey = (typeof TAB_KEYS)[number];
+type OrgTabKey = Exclude<TabKey, 'profile'>;
 
 const EMPTY_SITE: Omit<SiteRecord, 'status'> = { id: '', name: '', location: '', capacityPct: 0, baysCount: 0, manager: '' };
 
 export default function EnterpriseSettingsPage() {
   const { isAdmin } = useAuth();
-  const [activeTab, setActiveTab] = useTabParam(TAB_KEYS, 'organisation');
+  const [activeTab, setActiveTab] = useTabParam(TAB_KEYS, 'profile');
   // Facility leads come from the user directory, so a site can only be led by a real account.
   const people = userService.all();
   const q = useServiceQuery(() => settingsService.get(), [], { subscribe: settingsService.subscribe });
@@ -162,7 +164,7 @@ export default function EnterpriseSettingsPage() {
     </Card>
   );
 
-  const content = (d: SettingsSnapshot): Record<TabKey, React.ReactNode> => ({
+  const content = (d: SettingsSnapshot): Record<OrgTabKey, React.ReactNode> => ({
     organisation: (
       <div className="space-y-6">
       <Card className="space-y-4">
@@ -343,6 +345,7 @@ export default function EnterpriseSettingsPage() {
   });
 
   const tabs: { key: TabKey; label: string; icon: React.ReactNode }[] = [
+    { key: 'profile', label: 'Profile', icon: <UserRound size={16} /> },
     { key: 'organisation', label: 'Organisation', icon: <Building size={16} /> },
     { key: 'sites', label: 'Sites', icon: <Warehouse size={16} /> },
     { key: 'notifications', label: 'Notifications', icon: <Bell size={16} /> },
@@ -354,7 +357,7 @@ export default function EnterpriseSettingsPage() {
       {modalHolder}
       <PageHeader
         title="Settings"
-        description="Organisation profile and data retention, the sites that receive returns, and notification channels. Changes save as you make them."
+        description="Your profile and notification preferences, then the organisation profile, sites and notification channels (Admin only). Changes save as you make them."
         actions={
           <PageActions
             secondary={[
@@ -370,7 +373,7 @@ export default function EnterpriseSettingsPage() {
         }
       />
 
-      {!isAdmin && <ReadOnlyNotice>Read-only. Only Admins can change platform settings.</ReadOnlyNotice>}
+      {!isAdmin && activeTab !== 'profile' && <ReadOnlyNotice>Read-only. Only Admins can change platform settings.</ReadOnlyNotice>}
 
       <Tabs
         activeKey={activeTab}
@@ -379,14 +382,16 @@ export default function EnterpriseSettingsPage() {
           key: t.key,
           label: t.label,
           icon: t.icon,
-          children: q.error ? (
+          children: t.key === 'profile' ? (
+            <ProfileTab />
+          ) : q.error ? (
             <ErrorState onRetry={q.refetch} />
           ) : q.initialLoading || !body ? (
             loadingCard
           ) : (
             // A disabled fieldset makes every native input, select and button read-only for non-Admins.
             <fieldset disabled={!isAdmin} className="m-0 p-0 border-0 min-w-0">
-              {body[t.key]}
+              {body[t.key as OrgTabKey]}
             </fieldset>
           ),
         }))}

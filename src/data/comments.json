@@ -1,0 +1,83 @@
+[
+  {
+    "id": "CMT-0001",
+    "kind": "source",
+    "refId": "sap-s4",
+    "author": "Sam Okafor",
+    "role": "Developer",
+    "at": "2026-11-18T14:12:00Z",
+    "text": "EQUI.SERGE started arriving with leading zeros after the S/4 support pack on 17 Nov. TRIM_LEADING_ZEROS() covers it; keep an eye on the drift count."
+  },
+  {
+    "id": "CMT-0002",
+    "kind": "source",
+    "refId": "sap-s4",
+    "author": "Priya Raman",
+    "role": "Planner",
+    "at": "2026-11-19T09:40:00Z",
+    "text": "Thanks. Two Customer A cases were waiting on serials from this feed; both resolved after the morning sync."
+  },
+  {
+    "id": "CMT-0003",
+    "kind": "source",
+    "refId": "manhattan-wms",
+    "author": "Luis Ortega",
+    "role": "Warehouse Manager",
+    "at": "2026-11-19T16:05:00Z",
+    "text": "Bin moves in Warehouse 1 are entered in batches at shift end, so LPN facility can lag by up to 8 hours. Not a sync fault."
+  },
+  {
+    "id": "CMT-0004",
+    "kind": "conflict",
+    "refId": "CFL-201",
+    "author": "Dev Kapoor",
+    "role": "Engineer",
+    "at": "2026-11-19T11:22:00Z",
+    "text": "Bench test on RT-1004 confirms grade B. The WMS value came from the receiving scan before inspection; Maximo should win here."
+  },
+  {
+    "id": "CMT-0005",
+    "kind": "conflict",
+    "refId": "CFL-203",
+    "author": "Sam Okafor",
+    "role": "Developer",
+    "at": "2026-11-20T07:48:00Z",
+    "text": "Escalated: the serial differs by one character (O vs 0). Asked the warehouse to rescan the label before we pick a winner."
+  },
+  {
+    "id": "CMT-0006",
+    "kind": "audit",
+    "refId": "AUD-24118",
+    "author": "Marcus Vance",
+    "role": "Approver",
+    "at": "2026-11-20T07:02:00Z",
+    "text": "Override reviewed. Responsible exit is right for this one; the customer contract forbids resale outside the EU."
+  },
+  {
+    "id": "CMT-0007",
+    "kind": "case",
+    "refId": "RT-1004",
+    "author": "Priya Raman",
+    "role": "Planner",
+    "at": "2026-11-19T10:15:00Z",
+    "text": "Customer asked for a decision before month end. Remaining-life evidence is the only thing missing."
+  },
+  {
+    "id": "CMT-0008",
+    "kind": "event",
+    "refId": "EVT-90086",
+    "author": "Sam Okafor",
+    "role": "Developer",
+    "at": "2026-11-20T08:30:00Z",
+    "text": "Plant 1090 is the new Repair centre plant code. Added to LOOKUP_PLANT_TO_WAREHOUSE in the draft; replay after publish."
+  },
+  {
+    "id": "CMT-0009",
+    "kind": "workflow",
+    "refId": "WF-103",
+    "author": "Jordan Ellis",
+    "role": "Admin",
+    "at": "2026-11-18T08:00:00Z",
+    "text": "Retry window raised to 3 attempts while SAP maintenance runs this week."
+  }
+]

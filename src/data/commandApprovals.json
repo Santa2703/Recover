@@ -81,7 +81,7 @@
     "id": "RT-1048",
     "submittedAt": "2026-11-15T15:00:00Z",
     "confidence": 80,
-    "trigger": "Net recovery above the $5k autonomous sign-off limit"
+    "trigger": "Net recovery above the $2.5k auto-approve limit (Level 2 above $5k)"
   },
   {
     "id": "RT-1051",
@@ -141,7 +141,7 @@
     "id": "RT-1074",
     "submittedAt": "2026-11-17T14:00:00Z",
     "confidence": 84,
-    "trigger": "Net recovery above the $5k autonomous sign-off limit"
+    "trigger": "Net recovery above the $2.5k auto-approve limit (Level 2 above $5k)"
   },
   {
     "id": "RT-1076",
@@ -195,7 +195,7 @@
     "id": "RT-1097",
     "submittedAt": "2026-11-14T15:00:00Z",
     "confidence": 88,
-    "trigger": "Net recovery above the $5k autonomous sign-off limit"
+    "trigger": "Net recovery above the $2.5k auto-approve limit (Level 2 above $5k)"
   },
   {
     "id": "RT-1098",

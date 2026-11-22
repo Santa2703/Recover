@@ -1,0 +1,208 @@
+{
+  "tables": [
+    {
+      "entity": "physical_asset",
+      "source": "SAP S/4HANA ERP",
+      "table": "EQUI",
+      "label": "Equipment master",
+      "columns": [
+        { "name": "EQUNR", "type": "CHAR(18)", "key": true, "description": "Equipment number", "samples": ["8821934", "8821941", "8821957", "8821960", "8821978", "8821983"] },
+        { "name": "SERGE", "type": "CHAR(30)", "key": true, "description": "Manufacturer serial number", "samples": ["SN884210", "SN884223", "SN884236", "SN884249", "SN884262", "SN884275"] },
+        { "name": "MATNR", "type": "CHAR(40)", "description": "", "samples": ["MTR-75-V24", "OC-7-PLC", "KA-300", "NB-EDGE", "HX-AXIAL", "MTR-75-V24"] },
+        { "name": "ANLNR", "type": "CHAR(12)", "description": "", "samples": ["100045", "100046", "100051", "100058", "100063", "100071"] },
+        { "name": "SWERK", "type": "CHAR(4)", "description": "", "samples": ["1000", "1000", "1010", "1090", "1000", "1010"] }
+      ]
+    },
+    {
+      "entity": "physical_asset",
+      "source": "SAP S/4HANA ERP",
+      "table": "EQUZ",
+      "label": "Equipment time segments",
+      "columns": [
+        { "name": "EQUNR", "type": "CHAR(18)", "description": "Equipment number", "samples": ["8821934", "8821941", "8821957", "8821960", "8821978", "8821983"] },
+        { "name": "WERK", "type": "CHAR(4)", "description": "Plant the equipment sits at", "samples": ["1000", "1000", "1010", "1090", "1000", "1010"] },
+        { "name": "DATBI", "type": "DATS", "description": "", "samples": ["99991231", "99991231", "20261130", "99991231", "99991231", "20261215"] }
+      ]
+    },
+    {
+      "entity": "physical_asset",
+      "source": "SAP S/4HANA ERP",
+      "table": "ANLA",
+      "label": "Asset master",
+      "columns": [
+        { "name": "ANLN1", "type": "CHAR(12)", "key": true, "description": "Main asset number", "samples": ["100045", "100046", "100051", "100058", "100063", "100071", "100080"] },
+        { "name": "AKTIV", "type": "DATS", "description": "Capitalisation date", "samples": ["20230514", "20221103", "20240120", "20230901", "20210611", "20240305"] },
+        { "name": "TXT50", "type": "CHAR(50)", "description": "", "samples": ["Drive 75 kW line 3", "PLC cabinet A", "Pump skid 2", "Edge gateway", "Fan unit", "Drive 75 kW line 1"] }
+      ]
+    },
+    {
+      "entity": "physical_asset",
+      "source": "SAP S/4HANA ERP",
+      "table": "ANLC",
+      "label": "Asset values",
+      "columns": [
+        { "name": "ANLN1", "type": "CHAR(12)", "description": "", "samples": ["100045", "100046", "100051", "100058", "100063", "100071"] },
+        { "name": "GJAHR", "type": "NUMC(4)", "description": "", "samples": ["2026", "2026", "2026", "2026", "2026", "2026"] },
+        { "name": "KANSW", "type": "CURR(13,2)", "description": "Acquisition value", "samples": ["18400.00", "6200.00", "9100.00", "3300.00", "2800.00", "18400.00"] }
+      ]
+    },
+    {
+      "entity": "physical_asset",
+      "source": "Manhattan Active WMS",
+      "table": "LPN",
+      "label": "License plates",
+      "columns": [
+        { "name": "lpn_id", "type": "varchar(20)", "key": true, "description": "License plate number", "samples": ["LPN-55120", "LPN-55121", "LPN-55130", "LPN-55142", "LPN-55150", "LPN-55163"] },
+        { "name": "serial", "type": "varchar(30)", "description": "", "samples": ["SN884210", "SN884223", "SN884236", "SN884249", "SN884262", "SN990001"] },
+        { "name": "facility", "type": "varchar(10)", "description": "Warehouse facility code", "samples": ["WH-01", "WH-01", "WH-02", "RC-01", "WH-01", "WH-02"] }
+      ]
+    },
+    {
+      "entity": "physical_asset",
+      "source": "Salesforce Service Cloud",
+      "table": "Asset",
+      "label": "Customer assets",
+      "columns": [
+        { "name": "Id", "type": "id(18)", "key": true, "description": "Salesforce record id", "samples": ["02i5g000001", "02i5g000002", "02i5g000003", "02i5g000004", "02i5g000005", "02i5g000006"] },
+        { "name": "SerialNumber", "type": "string(80)", "description": "Serial number on the customer record", "samples": ["SN884210", "SN884223", "SN884236", "SN884249", "SN-884262", "SN884275"] },
+        { "name": "AccountId", "type": "reference", "description": "", "samples": ["0015g00000A", "0015g00000B", "0015g00000C", "0015g00000A", "0015g00000B", "0015g00000C"] }
+      ]
+    },
+    {
+      "entity": "asset_condition",
+      "source": "IBM Maximo EAM",
+      "table": "ASSET",
+      "label": "Assets",
+      "columns": [
+        { "name": "ASSETNUM", "type": "UPPER(12)", "key": true, "description": "Asset number", "samples": ["MX-40211", "MX-40212", "MX-40230", "MX-40245", "MX-40251", "MX-40266"] },
+        { "name": "SERIALNUM", "type": "UPPER(64)", "description": "", "samples": ["SN884210", "SN884223", "SN884236", "SN884249", "SN884262", "SN884275"] },
+        { "name": "CONDITIONCODE", "type": "UPPER(30)", "description": "Condition code", "samples": ["GOOD", "FAIR", "GOOD", "POOR", "FAIR", "GOOD"] }
+      ]
+    },
+    {
+      "entity": "asset_condition",
+      "source": "IBM Maximo EAM",
+      "table": "INSPECTIONRESULT",
+      "label": "Inspection results",
+      "columns": [
+        { "name": "RESULTNUM", "type": "UPPER(12)", "key": true, "description": "Inspection result number", "samples": ["IR-7001", "IR-7002", "IR-7003", "IR-7004", "IR-7005", "IR-7006"] },
+        { "name": "ASSET", "type": "UPPER(12)", "description": "", "samples": ["MX-40211", "MX-40212", "MX-40230", "MX-40245", "MX-40251", "MX-40999"] },
+        { "name": "INSPDATE", "type": "DATETIME", "description": "Inspection date", "samples": ["2026-11-12", "2026-11-13", "2026-11-14", "2026-11-15", "2026-11-16", "2026-11-17"] },
+        { "name": "INSPECTOR", "type": "UPPER(30)", "description": "", "samples": ["DKAPOOR", "LORTEGA", "DKAPOOR", "DKAPOOR", "LORTEGA", "DKAPOOR"] }
+      ]
+    },
+    {
+      "entity": "asset_condition",
+      "source": "SAP S/4HANA ERP",
+      "table": "QALS",
+      "label": "Inspection lots",
+      "columns": [
+        { "name": "PRUEFLOS", "type": "NUMC(12)", "key": true, "description": "Inspection lot number", "samples": ["10000041", "10000042", "10000043", "10000044", "10000045", "10000046"] },
+        { "name": "EQUNR", "type": "CHAR(18)", "description": "", "samples": ["8821934", "8821941", "8821957", "8821960", "8821978", "8821983"] },
+        { "name": "PRSTAT", "type": "CHAR(4)", "description": "", "samples": ["A", "B", "B", "C", "A", "B"] }
+      ]
+    },
+    {
+      "entity": "inventory",
+      "source": "Manhattan Active WMS",
+      "table": "INVENTORY",
+      "label": "Inventory",
+      "columns": [
+        { "name": "ITEM_ID", "type": "varchar(40)", "description": "", "samples": ["MTR-75-V24", "OC-7-PLC", "KA-300", "NB-EDGE", "HX-AXIAL", "KA-300"] },
+        { "name": "LOCN_ID", "type": "varchar(20)", "description": "Bin location", "samples": ["Q-1-1", "Q-2-2", "Q-3-3", "Q-4-4", "Q-5-1", "Q-6-2"] },
+        { "name": "ON_HAND_QTY", "type": "integer", "description": "Quantity on hand", "samples": ["1", "2", "1", "4", "1", "3"] }
+      ]
+    },
+    {
+      "entity": "inventory",
+      "source": "Manhattan Active WMS",
+      "table": "LOCATIONS",
+      "label": "Bin locations",
+      "columns": [
+        { "name": "LOCN_ID", "type": "varchar(20)", "key": true, "description": "Bin location", "samples": ["Q-1-1", "Q-2-2", "Q-3-3", "Q-4-4", "Q-5-1", "Q-6-2", "Q-7-3"] },
+        { "name": "ZONE", "type": "varchar(10)", "description": "", "samples": ["QUAR", "QUAR", "QUAR", "PICK", "PICK", "BULK"] }
+      ]
+    },
+    {
+      "entity": "inventory",
+      "source": "SAP S/4HANA ERP",
+      "table": "MARA",
+      "label": "Material master",
+      "columns": [
+        { "name": "MATNR", "type": "CHAR(40)", "key": true, "description": "Material number", "samples": ["MTR-75-V24", "OC-7-PLC", "KA-300", "NB-EDGE", "HX-AXIAL", "PMP-200"] },
+        { "name": "MTART", "type": "CHAR(4)", "description": "", "samples": ["FERT", "FERT", "HAWA", "FERT", "HAWA", "FERT"] }
+      ]
+    },
+    {
+      "entity": "inventory",
+      "source": "SAP S/4HANA ERP",
+      "table": "MARD",
+      "label": "Storage location stock",
+      "columns": [
+        { "name": "MATNR", "type": "CHAR(40)", "description": "Material number", "samples": ["MTR-75-V24", "OC-7-PLC", "KA-300", "NB-EDGE", "HX-AXIAL", "MTR-75-V24"] },
+        { "name": "LGPBE", "type": "CHAR(10)", "description": "", "samples": ["Q-1-1", "Q-2-2", "Q-3-3", "Q-4-4", "Q-5-1", "Q-9-9"] },
+        { "name": "LABST", "type": "QUAN(13,3)", "description": "Unrestricted stock", "samples": ["1.000", "2.000", "1.000", "4.000", "1.000", "3.000"] }
+      ]
+    },
+    {
+      "entity": "maintenance_event",
+      "source": "IBM Maximo EAM",
+      "table": "WORKORDER",
+      "label": "Work orders",
+      "columns": [
+        { "name": "WONUM", "type": "UPPER(12)", "key": true, "description": "Work order number", "samples": ["WO-2026-8840", "WO-2026-8841", "WO-2026-8842", "WO-2026-8843", "WO-2026-8844", "WO-2026-8845"] },
+        { "name": "ASSETNUM", "type": "UPPER(12)", "description": "", "samples": ["MX-40211", "MX-40212", "MX-40230", "MX-40245", "MX-40251", "MX-40266"] },
+        { "name": "ACTFINISH", "type": "DATETIME", "description": "Actual finish", "samples": ["2026-10-02", "2026-10-09", "2026-10-21", "2026-11-03", "2026-11-08", "2026-11-12"] }
+      ]
+    },
+    {
+      "entity": "maintenance_event",
+      "source": "IBM Maximo EAM",
+      "table": "FAILUREREPORT",
+      "label": "Failure reports",
+      "columns": [
+        { "name": "WONUM", "type": "UPPER(12)", "description": "", "samples": ["WO-2026-8840", "WO-2026-8841", "WO-2026-8842", "WO-2026-8843", "WO-2026-8844", "WO-2026-8899"] },
+        { "name": "FAILURECODE", "type": "UPPER(8)", "description": "Failure code", "samples": ["BRG-WEAR", "OVERHEAT", "BRG-WEAR", "INSUL", "VIBR", "OVERHEAT"] }
+      ]
+    },
+    {
+      "entity": "maintenance_event",
+      "source": "IBM Maximo EAM",
+      "table": "ASSET",
+      "label": "Assets",
+      "columns": [
+        { "name": "ASSETNUM", "type": "UPPER(12)", "key": true, "description": "Asset number", "samples": ["MX-40211", "MX-40212", "MX-40230", "MX-40245", "MX-40251", "MX-40266"] },
+        { "name": "LOCATION", "type": "UPPER(12)", "description": "", "samples": ["WH1", "WH1", "WH2", "RC", "WH1", "WH2"] }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": "LNK-001",
+      "entity": "physical_asset",
+      "from": { "source": "SAP S/4HANA ERP", "table": "EQUZ", "column": "EQUNR" },
+      "to": { "source": "SAP S/4HANA ERP", "table": "EQUI", "column": "EQUNR" },
+      "confidence": 100,
+      "evidence": "Name match: exact (EQUNR = EQUNR) · 6 of 6 sample values found (100%)",
+      "origin": "published"
+    },
+    {
+      "id": "LNK-002",
+      "entity": "inventory",
+      "from": { "source": "SAP S/4HANA ERP", "table": "MARD", "column": "MATNR" },
+      "to": { "source": "SAP S/4HANA ERP", "table": "MARA", "column": "MATNR" },
+      "confidence": 100,
+      "evidence": "Name match: exact (MATNR = MATNR) · 6 of 6 sample values found (100%)",
+      "origin": "published"
+    },
+    {
+      "id": "LNK-003",
+      "entity": "maintenance_event",
+      "from": { "source": "IBM Maximo EAM", "table": "WORKORDER", "column": "ASSETNUM" },
+      "to": { "source": "IBM Maximo EAM", "table": "ASSET", "column": "ASSETNUM" },
+      "confidence": 100,
+      "evidence": "Name match: exact (ASSETNUM = ASSETNUM) · 6 of 6 sample values found (100%)",
+      "origin": "published"
+    }
+  ]
+}

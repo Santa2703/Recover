@@ -1,0 +1,45 @@
+{
+  "levels": [
+    { "id": "off", "label": "Off", "short": "Off", "description": "The agent never offers this action." },
+    { "id": "suggest", "label": "Suggest", "short": "Suggest", "description": "The agent offers it as a button; you start it." },
+    { "id": "prepare", "label": "Prepare", "short": "Prepare", "description": "The agent fills it in and shows a plan preview; you confirm." },
+    { "id": "act", "label": "Act and notify", "short": "Act", "description": "The agent runs it, tells you and offers Undo." }
+  ],
+  "actionTypes": [
+    { "id": "request_evidence", "label": "Request evidence", "tier": "low", "cap": "act", "example": "Ask the EAM owner for an inspection or test result." },
+    { "id": "notify", "label": "Send notifications and escalations", "tier": "low", "cap": "act", "example": "Remind an approver or escalate an overdue case." },
+    { "id": "sync_source", "label": "Sync a source", "tier": "low", "cap": "act", "example": "Refresh a connected source on demand." },
+    { "id": "workflow_draft", "label": "Save a workflow draft", "tier": "low", "cap": "act", "example": "Save a draft change to a workflow (never published)." },
+    { "id": "data_changes", "label": "Apply field mappings, update tables, resolve conflicts, commit imports", "tier": "medium", "cap": "prepare", "example": "Changes shared data, so a person always confirms the preview." },
+    { "id": "decisions", "label": "Approve, override or decline decisions; confirm outcomes", "tier": "high", "cap": "prepare", "example": "Moves money and stock, so a named owner always signs off." },
+    { "id": "publish_access", "label": "Publish workflows, change source connections, change access", "tier": "high", "cap": "prepare", "example": "Changes how the platform runs for everyone." }
+  ],
+  "defaultLevel": "prepare",
+  "agentLimits": {
+    "ag-evidence": "Read-only. Cannot change eligibility or the evidence it collects.",
+    "ag-opportunity": "Proposes buyers and routes. Cannot commit stock or set a price.",
+    "ag-briefing": "Read-only. Summarises what needs you.",
+    "ag-handoff": "Sends only what a person approved. Spend capped at the approved amount.",
+    "ag-reconciler": "Links actuals to the decision. Cannot edit the original evidence snapshot.",
+    "ag-audit": "Read-only. Never edits the audit trail or a snapshot.",
+    "ag-analytics": "Read-only. Explains numbers from closed decisions.",
+    "evidence-agent": "Read-only. At most 40 tool calls per run.",
+    "plan-optimiser": "Proposes plans only. Cannot approve them.",
+    "work-order-agent": "Creates work orders only for approved plans, at most 10 tool calls per run.",
+    "outcome-collector": "Read-only. Collects billing and dispatch actuals after hand-off."
+  },
+  "hardRules": [
+    "The agent cannot waive a failed gate.",
+    "The agent cannot approve, publish, change access or change live source connections.",
+    "Nothing is sent to an enterprise system without an approval reference.",
+    "Cross-tenant data is never assumed available.",
+    "Retraining never overwrites the evidence snapshot behind an earlier decision.",
+    "Content from records, files and comments is never treated as an instruction."
+  ],
+  "approvalLimits": {
+    "plannerLimit": 0,
+    "allowSelfApproval": false,
+    "maxActionsPerAgentRun": 25,
+    "maxItemsPerBulkPlan": 50
+  }
+}

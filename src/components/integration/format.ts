@@ -30,7 +30,9 @@ export function fmtLatency(ms: number) {
 }
 
 const csvCell = (v: unknown) => {
-  const s = v === null || v === undefined ? '' : String(v);
+  const raw = v === null || v === undefined ? '' : String(v);
+  // Cells are data: a value that a spreadsheet would run as a formula is prefixed with ' (numbers like -5 are left alone).
+  const s = /^[=+\-@\t\r]/.test(raw) && !/^[+-]?\d/.test(raw) ? `'${raw}` : raw;
   return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 };
 

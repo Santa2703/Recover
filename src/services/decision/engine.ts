@@ -54,7 +54,15 @@ export interface EngineContext {
   rules: BusinessRule[];
   /** Routes removed from the flow (Studio / What-if). */
   blocked?: RouteId[];
+  /** Routes withheld for a stated reason (Case page edge-case presets), e.g. "Customer requires a new unit". */
+  restricted?: Partial<Record<RouteId, string>>;
 }
+
+/**
+ * Days after the asset is ready until the route's value is realised (delivery confirmed,
+ * lease started, parts issued, certificate filed). Cycle time = lead + transfer + settle days.
+ */
+export const SETTLE_DAYS: Record<RouteId, number> = { redeploy: 2, relase: 4, resale: 5, intparts: 2, extparts: 7, material: 4, exit: 2 };
 
 /** Route evaluation order (also the ladder order for non-viable routes). */
 export const ROUTE_IDS: RouteId[] = ['redeploy', 'relase', 'resale', 'intparts', 'extparts', 'material', 'exit'];
@@ -244,17 +252,22 @@ function timingFor(ctx: EngineContext, c: CaseRecord, route: RouteId, demand: De
   const transferDays = transfer ? ctx.policy.transferDays : 0;
   const ready = addDays(ctx.asOf, leadDays + transferDays);
   const need = neededBy !== undefined ? neededBy : demand ? (demand.kind === 'buyer_bid' ? demand.validTo : demand.neededBy) : null;
-  return { leadDays, transferDays, transfer, ready, neededBy: need, bufferDays: need ? daysBetween(ready, need) : null };
+  const cycleDays = leadDays + transferDays + SETTLE_DAYS[route];
+  return { leadDays, transferDays, transfer, ready, neededBy: need, bufferDays: need ? daysBetween(ready, need) : null, cycleDays };
 }
 
 function lateReason(d: Demand, t: RouteTiming): string {
   return `${d.id} needed by ${fmtDay(t.neededBy ?? t.ready)}; ready ${fmtDay(t.ready)}`;
 }
 
+/** Holder value that marks a demand record as cancelled (Case page "Demand cancelled" preset). */
+export const CANCELLED = '__cancelled__';
+
 function takenReason(ids: string[], avail: Availability): string {
   const id = ids[0];
   const who = avail.holder?.get(id);
-  return who ? `${id} goes to ${who} where it adds more` : `${id} is already committed to another case`;
+  if (who === CANCELLED) return `${id} is cancelled`;
+  return who ?`${id} goes to ${who} where it adds more` : `${id} is already committed to another case`;
 }
 
 function finish(c: CaseRecord, route: RouteId, d: Draft, p: DecisionParams, ctx: EngineContext): RouteValue {
@@ -617,6 +630,8 @@ export function valueRoute(c: CaseRecord, route: RouteId, params: Partial<Decisi
   const p = resolveParams(ctx.policy, params);
   const cc = ctx.contextFor(c);
   if (ctx.blocked?.includes(route)) return finish(c, route, notViable(ctx, c, route, 'Route removed from the decision flow'), p, ctx);
+  const why = ctx.restricted?.[route];
+  if (why) return finish(c, route, notViable(ctx, c, route, why), p, ctx);
   const excl = ctx.rules.find((r) => r.action === 'exclude' && r.route === route && ruleMatches(r, c, cc));
   if (excl) return finish(c, route, notViable(ctx, c, route, `Business rule ${excl.id}: ${excl.description}`), p, ctx);
   const idx = demandIndex(ctx.demands, p.leaseDemand);
@@ -665,9 +680,12 @@ function choose(sorted: RouteValue[], c: CaseRecord, cc: CaseContext, ctx: Engin
   return { best: top, rulesApplied: excluded };
 }
 
+/** Per-route parameter overrides on top of the case parameters (edge-case presets applied to one route). */
+export type RouteParams = Partial<Record<RouteId, Partial<DecisionParams>>>;
+
 /** Values every route and picks the best under the rules. */
-function evaluate(c: CaseRecord, p: DecisionParams, ctx: EngineContext, avail: Availability) {
-  const all = sortRoutes(ROUTE_IDS.map((r) => valueRoute(c, r, p, ctx, avail)));
+function evaluate(c: CaseRecord, p: DecisionParams, ctx: EngineContext, avail: Availability, routeParams?: RouteParams) {
+  const all = sortRoutes(ROUTE_IDS.map((r) => valueRoute(c, r, routeParams?.[r] ? { ...p, ...routeParams[r] } : p, ctx, avail)));
   const { best, rulesApplied } = choose(all, c, ctx.contextFor(c), ctx);
   return { all, best, rulesApplied };
 }
@@ -698,6 +716,10 @@ export interface DecideOptions {
   rules?: BusinessRule[];
   /** Routes removed from the flow. */
   blocked?: RouteId[];
+  /** Routes withheld with a stated reason. */
+  restricted?: Partial<Record<RouteId, string>>;
+  /** Parameter overrides for single routes. */
+  routeParams?: RouteParams;
   /** Resources still free; omit to decide the case alone. */
   avail?: Availability;
   /** Standalone availability used for the standard route (defaults to `avail`). */
@@ -710,10 +732,10 @@ export interface DecideOptions {
  * the intake channel's standard route.
  */
 export function decideCase(c: CaseRecord, ctx0: EngineContext, opts: DecideOptions = {}): CaseDecision {
-  const ctx: EngineContext = { ...ctx0, rules: opts.rules ?? ctx0.rules, blocked: opts.blocked ?? ctx0.blocked };
+  const ctx: EngineContext = { ...ctx0, rules: opts.rules ?? ctx0.rules, blocked: opts.blocked ?? ctx0.blocked, restricted: opts.restricted ?? ctx0.restricted };
   const p = resolveParams(ctx.policy, opts.params);
   const avail = opts.avail ?? NO_AVAIL;
-  const { all, best: chosen, rulesApplied } = evaluate(c, p, ctx, avail);
+  const { all, best: chosen, rulesApplied } = evaluate(c, p, ctx, avail, opts.routeParams);
   const ov = opts.override ?? null;
   const best = ov ? (all.find((r) => r.route === ov.route) ?? chosen) : chosen;
   const stdRoute = standardRoute(c, ctx, p, opts.standardAvail ?? avail);

@@ -4,10 +4,11 @@ import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button, Input, message, Modal, Tooltip } from 'antd';
-import { CheckCircle, Clock, DollarSign, ShieldCheck } from 'lucide-react';
+import { CheckCircle, Clock, DollarSign, Megaphone, ShieldCheck } from 'lucide-react';
 import { useAuth } from '@/store/authContext';
 import { useServiceQuery } from '@/hooks/useServiceQuery';
-import { commandService, type ApprovalRow, type ApprovalTier } from '@/services/commandService';
+import { commandService, tierLabels, type ApprovalRow, type ApprovalTier } from '@/services/commandService';
+import { caseLifecycleService, type Actor } from '@/services/caseLifecycleService';
 import { DataTable, ErrorState, KpiSkeletonRow, MetricCard, StatusBadge, type DataColumn } from '@/components/ui';
 import { CommandFilters, CommandSelect, RoutePill, SectionCard } from '@/components/command/CommandUi';
 import { downloadCsv, fmtMoney, fmtUsd, formatDay } from '@/components/command/commandUtils';
@@ -28,13 +29,18 @@ type TierFilter = ApprovalTier | 'all';
  */
 export function ApprovalsTab({ onShowHandedOff }: { onShowHandedOff?: () => void }) {
   const router = useRouter();
-  const { scope, isApprover, currentRole } = useAuth();
+  const { scope, currentRole, user } = useAuth();
+  const actor: Actor = { id: user.id, name: user.name, role: currentRole };
+  // Roles that sign off (each within its own limit; caseLifecycleService.approvalPolicy enforces it).
+  const isApprover = currentRole === 'Approver' || currentRole === 'Admin' || currentRole === 'Executive';
+  const policyOf = (r: ApprovalRow) => caseLifecycleService.approvalPolicy(r.id, actor);
+  const tierText = tierLabels();
   const [search, setSearch] = useState('');
   const [tier, setTier] = useState<TierFilter>('all');
   const [page, setPage] = useState(1);
   const [signing, setSigning] = useState<ApprovalRow | null>(null);
   const [comment, setComment] = useState('');
-  const [busy, setBusy] = useState<null | 'approve' | 'decline' | 'evidence'>(null);
+  const [busy, setBusy] = useState<null | 'approve' | 'decline' | 'evidence' | 'escalate'>(null);
 
   const q = useServiceQuery(() => commandService.approvals({ search, tier }, scope), [search, tier, scope.tenant, scope.site], {
     subscribe: commandService.subscribe,
@@ -63,13 +69,13 @@ export function ApprovalsTab({ onShowHandedOff }: { onShowHandedOff?: () => void
     setComment('');
   };
 
-  const act = async (kind: 'approve' | 'decline' | 'evidence') => {
+  const act = async (kind: 'approve' | 'decline' | 'evidence' | 'escalate') => {
     if (!signing) return;
     const c = signing;
     setBusy(kind);
     try {
       if (kind === 'approve') {
-        await commandService.approve(c.id, comment.trim());
+        await caseLifecycleService.approve(c.id, actor, comment.trim());
         // The toast is rendered outside the app tree, so it switches tabs through a callback instead of a <Link>.
         const key = `approved-${c.id}`;
         message.success({
@@ -93,15 +99,18 @@ export function ApprovalsTab({ onShowHandedOff }: { onShowHandedOff?: () => void
           ),
         });
       } else if (kind === 'decline') {
-        await commandService.decline(c.id, comment.trim());
-        message.success(`${c.id} declined and sent back for re-evaluation.`);
+        await caseLifecycleService.decline(c.id, actor, comment.trim());
+        message.success(`${c.id} declined and sent back to the Planner for re-evaluation.`);
+      } else if (kind === 'escalate') {
+        await caseLifecycleService.escalateToExecutive(c.id, actor, comment.trim());
+        message.success(`${c.id} escalated to the Executive for sign-off.`);
       } else {
-        await commandService.requestEvidence(c.id);
-        message.success(`Evidence requested for ${c.id}. The planner has been asked for more information.`);
+        await caseLifecycleService.requestEvidence(c.id, actor, comment.trim());
+        message.success(`Evidence requested for ${c.id}. The Engineer has a task to record the inspection result.`);
       }
       close();
-    } catch {
-      message.error('That did not work. Nothing was changed.');
+    } catch (e) {
+      message.error(e instanceof Error ? e.message : 'That did not work. Nothing was changed.');
     } finally {
       setBusy(null);
     }
@@ -150,6 +159,11 @@ export function ApprovalsTab({ onShowHandedOff }: { onShowHandedOff?: () => void
           {r.proposal && (
             <StatusBadge tone="info" icon={false}>
               Proposed
+            </StatusBadge>
+          )}
+          {caseLifecycleService.escalation(r.id) && (
+            <StatusBadge tone="warning" icon={false}>
+              Escalated
             </StatusBadge>
           )}
         </div>
@@ -247,7 +261,7 @@ export function ApprovalsTab({ onShowHandedOff }: { onShowHandedOff?: () => void
 
       {!isApprover && (
         <div role="note" className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5 text-xs text-[#475569]">
-          You are viewing as <strong className="text-[#141416]">{currentRole}</strong>. Only the Approver and Admin roles can sign off; open a case to see its decision.
+          You are viewing as <strong className="text-[#141416]">{currentRole}</strong>. Approvers sign off within their delegation limit, the Executive above it, Admin without limit; open a case to see its decision.
         </div>
       )}
 
@@ -279,9 +293,9 @@ export function ApprovalsTab({ onShowHandedOff }: { onShowHandedOff?: () => void
           }}
           options={[
             { value: 'all', label: 'All Authority Tiers' },
-            { value: 'Level 1', label: 'Level 1 (<$5k)' },
-            { value: 'Level 2', label: 'Level 2 ($5k–$25k)' },
-            { value: 'Executive', label: 'Executive (>$25k)' },
+            { value: 'Level 1', label: tierText['Level 1'] },
+            { value: 'Level 2', label: tierText['Level 2'] },
+            { value: 'Executive', label: tierText.Executive },
           ]}
         />
       </CommandFilters>
@@ -323,28 +337,36 @@ export function ApprovalsTab({ onShowHandedOff }: { onShowHandedOff?: () => void
         }
         open={!!signing}
         onCancel={close}
-        footer={[
-          <Button key="evidence" onClick={() => act('evidence')} loading={busy === 'evidence'} disabled={!!busy && busy !== 'evidence'}>
-            Request evidence
-          </Button>,
-          // A disabled button fires no mouse events, so the tooltip hangs on a wrapper.
-          <Tooltip key="decline" title={comment.trim() ? undefined : 'Add an approver rationale to decline'}>
-            <span className="ml-2 inline-flex">
-              <Button danger onClick={() => act('decline')} loading={busy === 'decline'} disabled={!comment.trim() || (!!busy && busy !== 'decline')}>
-                Decline
+        footer={(() => {
+          const p = signing ? policyOf(signing) : null;
+          const yellow = { backgroundColor: '#FFD600', color: '#141416', borderColor: '#FFD600', fontWeight: 700 };
+          return [
+            <Button key="evidence" onClick={() => act('evidence')} loading={busy === 'evidence'} disabled={!!busy && busy !== 'evidence'}>
+              Request evidence
+            </Button>,
+            // A disabled button fires no mouse events, so the tooltip hangs on a wrapper.
+            <Tooltip key="decline" title={comment.trim() ? undefined : 'Add an approver rationale to decline'}>
+              <span className="ml-2 inline-flex">
+                <Button danger onClick={() => act('decline')} loading={busy === 'decline'} disabled={!comment.trim() || (!!busy && busy !== 'decline')}>
+                  Decline
+                </Button>
+              </span>
+            </Tooltip>,
+            p?.canEscalate ? (
+              <Button key="escalate" icon={<Megaphone size={14} />} onClick={() => act('escalate')} loading={busy === 'escalate'} disabled={!!busy && busy !== 'escalate'} style={{ ...yellow, marginLeft: 8 }}>
+                Escalate to Executive
               </Button>
-            </span>
-          </Tooltip>,
-          <Button
-            key="approve"
-            onClick={() => act('approve')}
-            loading={busy === 'approve'}
-            disabled={!!busy && busy !== 'approve'}
-            style={{ backgroundColor: '#FFD600', color: '#141416', borderColor: '#FFD600', fontWeight: 700 }}
-          >
-            Confirm & Authorize
-          </Button>,
-        ]}
+            ) : (
+              <Tooltip key="approve" title={p && !p.allowed ? p.reason : undefined}>
+                <span className="ml-2 inline-flex">
+                  <Button onClick={() => act('approve')} loading={busy === 'approve'} disabled={!p?.allowed || (!!busy && busy !== 'approve')} style={p?.allowed ? yellow : undefined}>
+                    Confirm & Authorize
+                  </Button>
+                </span>
+              </Tooltip>
+            ),
+          ];
+        })()}
       >
         {signing && (
           <div className="space-y-3 py-2 text-xs text-[#334155]">
@@ -361,10 +383,24 @@ export function ApprovalsTab({ onShowHandedOff }: { onShowHandedOff?: () => void
                 {signing.proposal.note ? ` · ${signing.proposal.note}` : ''}
               </div>
             )}
+            {(() => {
+              const p = policyOf(signing);
+              if (p.allowed) return null;
+              return (
+                <div role="alert" className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[#92400E]">
+                  <strong>{p.reason}.</strong>{' '}
+                  {p.escalation
+                    ? `Escalated to the ${p.escalation.to} by ${p.escalation.by}; waiting for their sign-off.`
+                    : p.canEscalate
+                      ? 'Escalating creates a sign-off task for the Executive and writes it to the audit log.'
+                      : ''}
+                </div>
+              );
+            })()}
             <dl className="m-0 grid grid-cols-1 gap-x-4 gap-y-1.5 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 sm:grid-cols-2">
               {(
                 [
-                  ['Authority tier', signing.tier],
+                  ['Authority tier', tierText[signing.tier]],
                   ['AI confidence', `${signing.confidence}%`],
                   ['Trigger', signing.trigger],
                   ['Submitted', `${signing.submittedBy}, ${formatDay(signing.submittedAt, true)}`],
