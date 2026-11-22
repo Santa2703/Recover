@@ -683,6 +683,28 @@ export default function CaseDecisionWorkbenchPage({
       () => caseLifecycleService.resend(record.id, i.id, actor),
       `${i.doc} resent to ${i.system} (same instruction, no duplicate)`,
     );
+  // Demo: plays the executing systems from the header, so a case never sits at stage 8 with no way on.
+  const advanceStep = () =>
+    run(
+      "advance",
+      async () => {
+        const r = await caseLifecycleService.advance(record.id, actor);
+        if (r.delivered) message.info(`${record.id} delivered: the outcome is in Finance's Outcomes to confirm.`, 6);
+      },
+      "Simulated: next hand-off step moved on",
+    );
+  const completeHandoff = () =>
+    run(
+      "advance",
+      async () => {
+        // Each open step: acknowledgement, then done. Bounded so a bad state can't loop.
+        for (let n = 0; n < 40; n++) {
+          const r = await caseLifecycleService.advance(record.id, actor);
+          if (r.delivered) return;
+        }
+      },
+      `Simulated: every hand-off step for ${record.id} done. Delivered, outcome sent to Finance`,
+    );
   const confirmOutcome = () => router.push(`/command/actions?tab=outcomes&case=${record.id}`);
   const trackHandoff = () => setTab("execution");
   const saveScenario = () => {
@@ -771,6 +793,29 @@ export default function CaseDecisionWorkbenchPage({
       };
     }
     if (outcomeRow?.status === "reconciled") return undefined;
+    // In hand-off (stage 6–8): the next move belongs to the executing systems.
+    const nextStep = handoff.find((i) => i.status === "sent" || i.status === "acknowledged");
+    if (handoffState && handoffState !== "staged" && handoffState !== "delivered" && nextStep) {
+      const left = handoff.filter((i) => i.status !== "done").length;
+      if (SIMULATOR_ROLES.includes(currentRole)) {
+        return {
+          key: "complete-handoff",
+          label: busy === "advance" ? "Simulating…" : `Complete hand-off (${left} step${left === 1 ? "" : "s"})`,
+          icon: <Cpu />,
+          onClick: completeHandoff,
+          disabled: busy !== null,
+          tip: "Demo: plays the executing systems, acknowledging and completing every open step. In production these events come from the systems themselves.",
+        };
+      }
+      return {
+        key: "waiting-system",
+        label: `Waiting on ${nextStep.system}`,
+        icon: <Cpu />,
+        onClick: trackHandoff,
+        disabled: true,
+        tip: `Next: ${nextStep.instruction} (${nextStep.owner}), ${nextStep.status === "sent" ? "waiting for acknowledgement" : "acknowledged, in progress"}${nextStep.overdue ? `, ${nextStep.overdueHours} working h overdue` : ""}. ${left} of ${handoff.length} steps open. The systems report progress; see the Execution & Hand-off tab.`,
+      };
+    }
     return { key: "track", label: "Track hand-off", icon: <Send />, onClick: trackHandoff };
   };
   if (closed) {
@@ -933,6 +978,15 @@ export default function CaseDecisionWorkbenchPage({
             icon: <FileDown size={14} />,
             onClick: openPack,
           },
+        ]
+      : []),
+    // In hand-off: step-by-step control and the step list, kept out of the header row.
+    ...(closed && handoffState && handoffState !== "staged" && handoffState !== "delivered"
+      ? [
+          ...(SIMULATOR_ROLES.includes(currentRole)
+            ? [{ key: "advance-one", label: "Simulate next step only", icon: <Cpu size={14} />, onClick: advanceStep, disabled: busy !== null }]
+            : []),
+          { key: "view-steps", label: "View hand-off steps", icon: <Send size={14} />, onClick: trackHandoff },
         ]
       : []),
     {
